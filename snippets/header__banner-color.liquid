@@ -1,0 +1,6 @@
+{% if section.settings.show_banner %}
+  {%- if template.name == 'index' -%}
+    {% assign section_color = section.settings.banner_overlay_text_color %}
+  {% endif %} 
+{% endif %}
+{% capture header_underline_link %}header-border-link color--{{ section_color }}-text hv--div--border-bottom--{{ section_color }}-text color--header-active{% endcapture %}

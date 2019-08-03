@@ -1,0 +1,33 @@
+{%- assign section_color = section.settings.color_scheme -%}
+{%- include 'global-variables' -%}
+<section class="page {{ global__section_with_padding_class }} color--{{ section_color }}-text bg--{{ section_color }}-background">
+  <div class="max-site-width px2 lg--up--px3">
+  {% if template.suffix == 'contact' %}
+    {% include 'page__contact-template' %}
+  {% else %}
+    {% include 'page__template' %}
+  {% endif %}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Pages",
+  "settings": [
+    {
+      "type":      "header",
+      "content":   "Color"
+    },
+    {
+       "type": "select",
+       "id": "color_scheme",
+       "label": "Color scheme",
+       "options": [
+          { "value": "primary", "label": "Primary"},
+          { "value": "secondary ", "label": "Secondary"},
+          { "value": "tertiary", "label": "Tertiary"}
+       ]
+    }
+  ]
+}
+{% endschema %}

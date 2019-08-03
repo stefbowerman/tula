@@ -1,0 +1,58 @@
+<div class="max-site-width lg--up--px3 content-inside-menu mt2 footer">
+  <div class="grid px2 lg--up--px0 ">
+    <div class="grid__item mb3 md--up--one-whole lg--up--five-sevenths h_center border--top pt3">
+      <div class="grid">
+        {% if section.settings.secondary_menu  != blank %}
+        {% assign link_list = section.settings.secondary_menu %}
+        <div class="grid__item font-size--ml md--up--one-whole lg--up--one-whole mb2 lg-up--mb0">
+          <div class="grid">
+            <div class="grid__item">
+              <ul class="{{ global__basic_font_size }} list--reset p0 m0 mxn1 mtn1 flex justify--center flex--wrap">
+                {% for link in linklists[link_list].links %}
+                <li class="secondary_menu--li">
+                  <a href="{{ link.url }}" class="secondary_menu--link footer__nav-link font-size--ml p1 inline-block mobile-nav__link color--{{ section_color }}-text">
+                    {{ link.title }}
+                  </a>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% if section.settings.rich_text_content %}
+        <div class="grid__item font-size--ml md--up--one-whole lg--up--one-whole mb1 lg-up--mb0">
+          <div class="three-quarters lg--up--three-quarters richtext h_center">
+            <p>
+              {{ section.settings.rich_text_content }}
+            </p>
+          </div>
+        </div>
+        {% endif %}
+        {% if section.settings.social_icons %}
+        <div class="grid__item font-size--ml md--up--one-whole lg--up--one-whole mb2 lg-up--mb0">
+          <div class="grid__item social_icons">
+            {%- assign social_accounts = 'Facebook, Twitter, Pinterest, Instagram, Snapchat, Tumblr, YouTube, Vimeo, RSS,' | split: ', ' -%}
+            <ul class="list--reset p0 m0 mxn1 text-align--center">
+              {% for social in social_accounts %}
+              {%- assign social_handle = social | handleize -%}
+              {% capture social_link %}social_{{ social_handle }}_link{% endcapture %}
+              {% capture social_icon %}icon-{{ social_handle }}{% endcapture %}
+
+              {% if settings[social_link] != blank %}
+              <li class="inline-block">
+                <a class="color--{{ section_color }}-text px1 font-size--xxs mb1 block" href="{{ settings[social_link] }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: social }}">
+                  {% include social_icon %}
+                  <span class="icon-fallback-text">{{ social }}</span>
+                </a>
+              </li>
+              {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>

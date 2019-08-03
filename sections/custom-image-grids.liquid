@@ -1,0 +1,113 @@
+<div class="section-wrapper image-with-overlay max-site-width px2 lg--up--px31 mt3">
+  <div class="grid">
+    {% if section.settings.section_heading != blank %}
+    <div class="section-heading text-center">
+      <h2>{{section.settings.section_heading}}</h2>
+    </div>
+    {% endif %}
+    {% if section.blocks != blank %}
+    {% for block in section.blocks %}
+    {% if block.type == 'image' %}
+    {% if block.settings.image !=blank %}
+    <a href="{{block.settings.image_url}}" >
+      <div class="grid__item md--one-quarter lg--up--grid__item lg--up--{{section.settings.grid_width}}">
+        <div class="image-text ">{{block.settings.image_text}}</div>
+        <img src="{{block.settings.image | img_url:'1500x'}}"/>
+      </div>
+    </a>
+    {% endif %}
+    {% else %}
+    {% if block.settings.video_url != blank %}
+    <div class="grid__item md--one-quarter lg--up--grid__item lg--up--{{section.settings.grid_width}}">
+      <div class="video-text">{{block.settings.image_text}}</div>
+      {{block.settings.video_url}}
+    </div>
+    {% endif %}
+    {% endif %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% schema %}
+{
+"name": "Image and Video Grids",
+"class":"video-image-grids",
+"settings": [
+{
+"id": "section_heading",
+"type": "text",
+"label": "Heading"
+},
+{
+"type": "select",
+"id": "grid_width",
+"options": [
+{ "value": "one-whole", "label": "1"},
+{ "value": "one-half", "label": "2"},
+{ "value": "one-quarter", "label": "4"},
+{ "value": "one-sixth", "label": "6"},
+{ "value": "one-eighth", "label": "8"}  
+],
+"label": "No. of grids"
+}
+],
+"blocks": [
+{
+"type": "image", 
+"name": "Image Grids",
+"settings": [
+{
+"id": "image",
+"type": "image_picker",
+"label": "Add images/Video"
+},
+{
+"id": "image_text",
+"type": "html",
+"label": "Image text"
+},
+{
+"id": "image_url",
+"type": "url",
+"label": "Image Url"
+}
+]
+},
+
+{
+"type": "video", 
+"name": "Video Grids",
+"settings": [
+{
+"type": "select",
+"id": "grid_width",
+"options": [
+{ "value": "one-whole", "label": "1"},
+{ "value": "one-half", "label": "2"},
+{ "value": "one-quarter", "label": "4"},
+{ "value": "one-sixth", "label": "6"},
+{ "value": "one-eighth", "label": "8"}  
+],
+"label": "No. of grids"
+},
+{
+"id": "image_text",
+"type": "html",
+"label": "Video text"
+},
+{
+"id": "video_url",
+"type": "html",
+"label": "Embedded url"
+}
+]
+}
+]
+}
+{% endschema %}
+
+{% stylesheet %}
+{% endstylesheet %}
+
+{% javascript %}
+{% endjavascript %}

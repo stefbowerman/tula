@@ -1,0 +1,78 @@
+{%- assign section_color = section.settings.color_scheme -%}
+{%- include 'global-variables' -%}
+
+{%- assign tags_enabled = section.settings.enable_tag_filter -%}
+{%- assign sorting_enabled = section.settings.enable_sort_filter -%}
+{%- assign posts_per_row_mobile = section.settings.posts_per_row_mobile -%}
+{%- assign posts_per_row_desktop = section.settings.posts_per_row_desktop -%}
+
+<section class="collection {{ global__section_with_padding_class }} color--{{ section_color }}-text bg--{{ section_color }}-background" data-section-type="collection" data-section-id="{{ section.id }}" data-fade-in="{{ fade_in }}">
+  <div class="max-site-width px2 md--up--px31 sm--pl1 sm--pr1">
+
+    {% assign layout = '' %}
+    {% if template contains 'grid' %}
+    {% assign layout = 'grid' %}
+    {% endif %}
+
+    {% paginate collection.products by section.settings.no_posts %}
+
+    {% include 'collection__header' %}
+
+    <div class="grid mt3 md--up--mt2 sm--mln1">
+
+      {% if tags_enabled %}
+      {% assign expanded = false %}
+      {% assign count = 0 %}
+      {% for tag in collection.all_tags %}
+      {% if current_tags contains tag and count > 10 %}
+      {% assign expanded = true %}
+      {% endif %}
+      {% assign count = count | plus: 1 %}
+      {% endfor %}
+      <div class="collection__sticky-tags grid__item sm--pl1 md--up--one-fifth {% unless expanded %}md--up--sticky{% endunless %} top--0 {{ global__basic_font_size }} {% if sorting_enabled == false %}md--dn--hide{% endif %}">
+        <div class="md--up--one-whole md--up--self--end">
+          <h1 class="f--heading  font-size--xxl line-height-6 wd--font-size--xxl m0 pb1">
+            <span class="">{{ collection.title }}</span>
+          </h1>
+          {% if collection.description != blank %}
+          <div class="m0 f--main font-size--l ko font-size--m line-height--4 ko line-height--3 three-quarters">
+            {{ collection.description }}
+          </div>
+          {% endif %}
+        </div>
+        <a class="md--up--hide p1 inline-block mxn1 mb1 pointer color--{{ section_color }}-text" data-tag-filter-mobile-trigger>
+          <div class="inline-block">
+            {{ 'collections.general.filter' | t }}
+            <span class="font-size--xxxxs inline-block align--middle">
+              <span class="chevron-down">{% include 'svg' | icon: 'icon-chevron-down' %}</span>
+              <span class="chevron-up hide">{% include 'svg' | icon: 'icon-chevron-up' %}</span>
+            </span>
+          </div>
+        </a>
+        <ul class="list--reset m0 mtn1 pb3 md--up--pb0 md--up--pt3 md--dn--hide {{ global__basic_font_size }} {% if section.settings.capitalize_tags %}capitalize{% endif %}" data-tag-list>
+          {% include 'collection__tag-items' %}
+        </ul>
+      </div>
+      {% endif %}
+
+      <div class="grid__item collection-right-one-whole sm--pl1 pt1 {% if section.settings.enable_tag_filter %}md--up--four-fifths{% endif %}">
+        {% if collection.all_products_count > 0 %}
+        {% if layout == 'grid' %}
+        {% include 'collection__grid-products' %}
+        {% else %}
+        {% include 'collection__list-products' %}
+        {% endif %}
+        {% else %}
+        <p class="mt2">{{ 'collections.general.no_matches' | t }}</p>
+        {% endif %}
+
+        {% if paginate.pages > 1 %}
+        {% include 'pagination' %}
+        {% endif %}
+      </div>
+    </div>
+
+    {% endpaginate %}
+
+  </div>
+</section>

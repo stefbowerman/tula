@@ -1,0 +1,391 @@
+{%- assign section_color = section.settings.color_scheme -%}
+{%- include 'global-variables' -%}
+
+{%- assign text_color_overlay = section.settings.section_color_overlay -%}
+{%- assign content_position = section.settings.content_position -%}
+{%- assign text_align = section.settings.text_align -%}
+{%- assign hover_color = '' -%}
+{%- assign hover_color_overlay = '' -%}
+
+{%- if text_color != 'main' -%}
+{%- assign hover_color = 'main' -%}
+{%- else -%}
+{%- assign hover_color = 'primary' -%}
+{%- endif -%}
+
+{%- if text_color_overlay != 'main' -%}
+{%- assign hover_color_overlay = 'main' -%} 
+{%- else -%}
+{%- assign hover_color_overlay = 'primary' -%}
+{%- endif -%}
+
+{% if section.blocks.size > 0 %}
+<section class="md--py0 {% if section.blocks.size == 6 %} six_video_image--blocks {% elsif section.blocks.size == 8 %} eight_video_image--blocks {% endif %} image-with-text {{ global__section_with_padding_class }} color--{{ section_color }}-text md--up--color--{{ text_color_overlay }}-text bg--{{ section_color }}-background" data-section-type="newsletter" data-section-id="{{ section.id }} sm--pb0 sm--pt1">
+  <div class="max-site-width px2 lg--up--px31  sm--px1">
+    <div class="grid sm--mln1">
+      {% for block in section.blocks %}
+      <div class="mb2 {% if section.blocks.size == 4 %} sm--one-half md--one-half {% endif %} {% if section.blocks.size == 2 %} md--dn--one-half  {% endif %} {% if section.blocks.size == 8 %} sm--one-third {% endif %} md--mb2  sm--mb1 grid__item md--up--{{block.settings.grid_width}} sm--pl1 {% if section.blocks.size == 6 %} md--one-third sm--one-third {% endif %}">
+        <div class="image-with-text__container relative">
+          <div class="image-with-text__image">
+            {% if block.type == 'image' %}
+            {% if block.settings.feature_image %}
+            {% capture img_id %}FeatureImage-{{ block.settings.feature_image.id }}{% endcapture %}
+            {% capture wrapper_id %}FeatureImageWrapper-{{ block.settings.feature_image.id }}{% endcapture %}
+            {%- assign img_url = block.settings.feature_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+            <div id="{{ wrapper_id }}" class="resp-img-wrapper js">
+              <div style="padding-top:{{ 1 | divided_by: block.settings.feature_image.aspect_ratio | times: 100}}%;">
+                <img id="{{ img_id }}"
+                     class="resp-img feature-image__img-content lazyload"
+                     data-src="{{ img_url }}"
+                     data-widths="[540, 720, 900, 1080, 1296, 1512, 1728, 1944, 2048, 4472]"
+                     data-aspectratio="{{ feature_image.aspect_ratio }}"
+                     data-sizes="auto"
+                     alt="{{ feature_image.alt | escape }}">
+                <img id="{{ img_id }}"
+                     class="resp-img-placeholder"
+                     src="{{ feature_image | img_url: '1x1' }}"
+                     width="{{ feature_image.width }}"
+                     height="{{ feature_image.height }}"
+                     alt="{{ feature_image.alt | escape }}">
+              </div>
+            </div>
+            <noscript>
+              <img src="{{ block.settings.feature_image | img_url: 'large' }}" alt="{{ feature_image.alt | escape }}" class="feature-image__img-content">
+            </noscript>
+            {% else %}
+            <div class="image-with-text__placeholder full {{ placeholder_bg }} p1 md--up--p3">
+              <div class="image-with-text__placeholder-svg">
+                {{ 'lifestyle-1' | placeholder_svg_tag }}
+              </div>
+            </div>
+            {% endif %}
+            {% elsif block.type == 'video' %}
+            {% if block.settings.feature_image %}
+            {% capture img_id %}FeatureImage-{{ block.settings.feature_image.id }}{% endcapture %}
+            {% capture wrapper_id %}FeatureImageWrapper-{{ block.settings.feature_image.id }}{% endcapture %}
+            {%- assign img_url = block.settings.feature_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+            <div id="{{ wrapper_id }}" class="resp-img-wrapper js">
+              {{ block.settings.feature_image }}
+            </div>
+            {% else %}
+            <div class="image-with-text__placeholder full {{ placeholder_bg }} p1 md--up--p3">
+              <div class="image-with-text__placeholder-svg">
+                {{ 'lifestyle-1' | placeholder_svg_tag }}
+              </div>
+            </div>
+            {% endif %}
+            {% endif %}
+          </div>
+          {% if block.type == 'image'  or  block.type == 'video' %}
+          <div class="image-with-text__content md--up--absolute md--up--full md--up--top--0 md--up--left--0 md--up--p2 wd--p51 z1 sm--text-align--center  sm--absolute sm--full sm--top--0 sm--left--0 sm--p1">
+            {% assign content_position = content_position | split: ' ' %}
+            <div class="md--up--table md--up--full">
+              <div class="md--up--table-cell md--up--{{ content_position[0] }} md--up--{{ content_position[1] }}">
+                <div class="inline-block md--up--{{ text_align }} sm--one-whole">
+                  <div class="inline-content-section">
+                    {% if block.settings.heading != blank %}
+                    <h2 class=" sm--font-size--ml {% if block.settings.grid_width == 'one-eighth' or block.settings.grid_width == 'one-sixth' %}font-size--xl line-height--4 wd--font-size--xl wd--line-height--4{% else %}{{ global__heading_font_size }}{% endif %} m0">{{ block.settings.heading }}</h2>
+                    {% endif %}
+                    {% if block.settings.text != blank %}
+                    <div class="richtext  sm--font-size--xs  mt2 {% if block.settings.grid_width == 'one-eighth' or block.settings.grid_width == 'one-sixth' %}font-size--xl line-height--4 wd--font-size--xl wd--line-height--4{% else %}{{ global__heading_font_size }}{% endif %}">
+                      {{ block.settings.text }}
+                    </div>
+                    {% endif %}
+
+                    {% if block.settings.cta_text != blank and block.settings.cta_url != blank %}
+                    <a class="mt1 inline-block {{ global__link_underline }}  {{ global__hover_underline }} md--up--color--{{ text_color_overlay }}-text md--up--border-bottom--{{ text_color_overlay }}-text md--up--hv--{{ hover_color_overlay }}-primary md--up--hv--border-bottom--{{ hover_color_overlay }}-primary md--up--inline-block {% if block.settings.grid_width == 'one-eighth' or block.settings.grid_width == 'one-sixth' %}font-size--xl line-height--4 wd--font-size--xl wd--line-height--4{% else %}{{ global__heading_font_size }}{% endif %}" href="{{ block.settings.cta_url }}" target="_blank" >
+                      {{ block.settings.cta_text }}
+                    </a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div> 
+            </div>
+          </div>
+        </div>
+        {% else %}
+        <div class="cascade_section lg--up--absolute lg--up--full lg--up--top--0 lg--up--left--0 lg--up--p2 wd--p5 z1">
+          {% assign content_position = content_position | split: ' ' %}
+          <div class="lg--up--table lg--up--full">
+            <div class="lg--up--table-cell lg--up--{{ content_position[0] }} lg--up--{{ content_position[1] }}">
+              <div class="inline-block lg--up--{{ text_align }}">
+                <div class="inline-content-section">
+                  {% if block.settings.heading != blank %}
+                  <h2 class="{{ global__heading_font_size }} m0">{{ block.settings.heading }}</h2>
+                  {% endif %}
+                  {% if block.settings.text != blank %}
+                  <div class="richtext mt2 {{ global__heading_font_size }}">
+                    {{ block.settings.text }}
+                  </div>
+                  {% endif %}
+
+                  {% if block.settings.cta_text != blank and block.settings.cta_url != blank %}
+                  <a class="mt1 inline-block {{ global__link_underline }}  {{ global__hover_underline }} lg--up--color--{{ text_color_overlay }}-text lg--up--border-bottom--{{ text_color_overlay }}-text lg--up--hv--{{ hover_color_overlay }}-primary lg--up--hv--border-bottom--{{ hover_color_overlay }}-primary lg--up--inline-block {{ global__heading_font_size }}" href="{{ block.settings.cta_url }}" target="_blank" >
+                    {{ block.settings.cta_text }}
+                  </a>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{% schema %}
+{
+"name": "Image/Video Content",
+"settings": [
+{
+"type":      "header",
+"content":   "Text overlay"
+},
+{
+"type": "select",
+"id": "content_position",
+"label": "Content position",
+"options": [
+{
+"value": "text-align--left align--top",
+"label": "Top Left"
+},
+{
+"value": "text-align--center align--top",
+"label": "Top Center"
+},
+{
+"value": "text-align--right align--top",
+"label": "Top Right"
+},
+{
+"value": "text-align--left align--middle",
+"label": "Middle Left"
+},
+{
+"value": "text-align--center align--middle",
+"label": "Middle Center"
+},
+{
+"value": "text-align--right align--middle",
+"label": "Middle Right"
+},
+{
+"value": "text-align--left align--bottom",
+"label": "Bottom Left"
+},
+{
+"value": "text-align--center align--bottom",
+"label": "Bottom Center"
+},
+{
+"value": "text-align--right align--bottom",
+"label": "Bottom Right"
+}
+],
+"default":   "text-align--left align--middle"
+},
+{
+"type": "select",
+"id": "text_align",
+"label": "Text alignment",
+"options": [
+{
+"value": "text-align--left",
+"label": "Left"
+},
+{
+"value": "text-align--center",
+"label": "Center"
+},
+{
+"value": "text-align--right",
+"label": "Right"
+}
+],
+"default":   "text-align--left"
+},
+{
+"type": "select",
+"id": "section_color_overlay",
+"label": "Text color",
+"options": [
+{ "value": "primary", "label": "Primary text"},
+{ "value": "secondary", "label": "Secondary text"},
+{ "value": "tertiary", "label": "Tertiary text"},
+{ "value": "white", "label": "White"}
+]
+},
+{
+"type":      "header",
+"content":   "Colors"
+},
+{
+"type": "select",
+"id": "color_scheme",
+"label": "Color scheme",
+"options": [
+{ "value": "primary", "label": "Primary"},
+{ "value": "secondary ", "label": "Secondary"},
+{ "value": "tertiary", "label": "Tertiary"}
+]
+}
+],
+"blocks": [ 
+{
+"type": "image", 
+"name": "Image Grids",
+"settings": [
+{
+"type": "image_picker",
+"id": "feature_image",
+"label": "Image"
+},
+{
+"type": "text",
+"id": "heading",
+"label": "Heading",
+"default": "Lorem ipsum"
+},
+{
+"type": "richtext",
+"id": "text",
+"label": "Text"
+},
+{
+"type":      "header",
+"content":   "Call to action"
+},
+{
+"type": "url",
+"id": "cta_url",
+"label": "Link"
+},
+{
+"type": "text",
+"id": "cta_text",
+"label": "Button text",
+"default": "Shop Now"
+},
+{
+"type":      "header",
+"content":   "No. of grids"
+},
+{
+"type": "select",
+"id": "grid_width",
+"options": [
+{ "value": "one-whole", "label": "1"},
+{ "value": "one-half", "label": "2"},
+{ "value": "one-quarter", "label": "4"},
+{ "value": "one-sixth", "label": "6"},
+{ "value": "one-eighth", "label": "8"}  
+],
+"label": "No. of grids"
+}
+]
+},
+{
+"type": "video", 
+"name": "Video Grids",
+"settings": [
+{
+"type": "html",
+"id": "feature_image",
+"label": "Embed video code"
+},
+{
+"type": "text",
+"id": "heading",
+"label": "Heading",
+"default": "Lorem ipsum"
+},
+{
+"type": "richtext",
+"id": "text",
+"label": "Text"
+},
+{
+"type":      "header",
+"content":   "Call to action"
+},
+{
+"type": "url",
+"id": "cta_url",
+"label": "Link"
+},
+{
+"type": "text",
+"id": "cta_text",
+"label": "Button text",
+"default": "Shop Now"
+},
+{
+"type":      "header",
+"content":   "No. of grids"
+},
+{
+"type": "select",
+"id": "grid_width",
+"options": [
+{ "value": "one-whole", "label": "1"},
+{ "value": "one-half", "label": "2"},
+{ "value": "one-quarter", "label": "4"},
+{ "value": "one-sixth", "label": "6"},
+{ "value": "one-eighth", "label": "8"}  
+],
+"label": "No. of grids"
+}
+]
+},
+{
+"type": "cascade", 
+"name": "Cascade section",
+"settings": [
+{
+"type": "text",
+"id": "heading",
+"label": "Heading",
+"default": "Lorem ipsum"
+},
+{
+"type": "html",
+"id": "text",
+"label": "Content"
+},
+{
+"type":      "header",
+"content":   "Call to action"
+},
+{
+"type": "url",
+"id": "cta_url",
+"label": "Link"
+},
+{
+"type": "text",
+"id": "cta_text",
+"label": "Button text",
+"default": "Shop Now"
+},
+{
+"type": "select",
+"id": "grid_width",
+"options": [
+{ "value": "one-whole", "label": "1"},
+{ "value": "one-half", "label": "2"},
+{ "value": "one-quarter", "label": "4"},
+{ "value": "one-sixth", "label": "6"},
+{ "value": "one-eighth", "label": "8"}  
+],
+"label": "No. of grids"
+}
+]
+}
+]
+}
+{% endschema %}

@@ -1,0 +1,61 @@
+{%- assign section_color = section.settings.color_scheme -%}
+{%- include 'global-variables' -%}
+
+{% if section.settings.show_announcement %}
+  {% capture class %}block full--w bg--{{ section.settings.announcement_color }}-background color--{{ section.settings.announcement_color }}-text px2 py1  font-size--sm text-align--center {% endcapture %}
+  {% if section.settings.home_page_only == false or template.name == 'index' %}
+    {% if section.settings.link == blank %}
+      <div class="announcement-bar {{ class }}">
+    {% else %}
+      <a href="{{ section.settings.link }}" class="announcement-bar announcement-bar--link  {{ class }} hv--{{ section.settings.announcement_color }}-accent">
+    {% endif %}
+      <p class="m0 announcement-bar__message">{{ section.settings.text | escape }}</p>
+    {% if section.settings.link == blank %}
+      </div>
+    {% else %}
+      </a>
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+{% schema %}
+{
+  "name": "Announcement bar",
+  "class": "announcement",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_announcement",
+      "label": "Show announcement",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "home_page_only",
+      "label": "Home page only",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Text",
+      "default": "Announce something here"
+    },
+    {
+        "type": "select",
+        "id": "announcement_color",
+        "options": [
+          { "value": "primary", "label": "Primary"},
+          { "value": "secondary ", "label": "Secondary"},
+          { "value": "tertiary", "label": "Tertiary"}
+        ],
+        "label": "Announcement color combination"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    }
+  ]
+}
+{% endschema %}

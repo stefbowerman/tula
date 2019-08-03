@@ -1,0 +1,110 @@
+
+
+<div id="global-header">
+   
+      <div class="main-nav">
+        <div class="grid grid-no-gutter">
+          <div class="col-10-20 mobile-nav-header">            
+            <div class="open">
+              <div class="wrapper">                
+                <div class="menu">
+                  <ul>
+                     {% for link in linklists[section.settings.main_linklist].links %}
+                    <li><a href="{{link.url}}">{{link.title}}</a></li>
+                  	{% endfor %}  
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="desktop-nav-header">
+            <div class="logo-image-left logo">              
+              <div class="arrow">
+              <div class="arrow-container">
+                <ul>
+                 {% for link in linklists[section.settings.main_linklist].links  %} 
+
+                    {% if section.settings.image_menu1 != blank and forloop.first %}
+                    <li class="blue ">                
+                      <img src="{{ section.settings.image_menu1 | img_url:'original' }}" />                
+                    </li>
+                    {% endif %}
+
+                    {% if section.settings.image_menu2 != blank and forloop.index == 2 %}
+                    <li class="green ">                
+                      <img src="{{ section.settings.image_menu2 | img_url:'original' }}" />                
+                    </li>
+                    {% endif %}
+
+                    {% if section.settings.image_menu3 != blank and forloop.index == 3 %}
+                    <li class="yellow ">                
+                      <img src="{{ section.settings.image_menu3 | img_url:'original' }}" />                
+                    </li>
+                    {% endif %}
+
+                    {% if section.settings.image_menu4 != blank and forloop.index == 4 %}
+                    <li class="green-blue ">                
+                      <img src="{{ section.settings.image_menu4 | img_url:'original' }}" />                
+                    </li>
+                    {% endif %}
+                  
+                    {% endfor %}
+                </ul>
+<!--                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 281.2 612 229.5" enable-background="new 0 281.2 612 229.5" xml:space="preserve" class="large-logo"><g><polygon class="svg-logo" fill="#FFE100" points="612,462.9 612,510.8 306,329.1 0,510.8 0,462.9 306,281.2"/></g></svg> -->
+                </div>
+              </div>
+            </div>
+
+            <div class="menu-right col-no-gutter menu" data-behavior="toggle-nav-height">
+              <ul class="t--header-navigation site-nav list--reset m0 p0 font-size--xll no-wrap inline-block">
+                {% for link in linklists[section.settings.main_linklist].links %}
+                   {%- assign child_handle = link.title | handleize -%}
+                
+                <li class="nav__item inline-block  {% if forloop.first %}blue {% elsif forloop.index == 2 %}green {% elsif forloop.index == 3 %}yellow {% elsif forloop.index == 4 %}green-blue {% elsif forloop.index == 5 %}yellow-green{% else %}light-blue {% endif %}">
+                  <a data-col="{% if forloop.first %}blue{% elsif forloop.index == 2 %}green{% elsif forloop.index == 3 %}yellow{% elsif forloop.index == 4 %}green-blue{% elsif forloop.index == 5 %}yellow-green{% else %}light-blue{% endif %}" href="{{link.url}}">{{link.title}}</a>
+                   {% if link.links != blank %}
+                  {% for childchildlink in  menus[child_handle].links  %}
+                  {% if forloop.first  %}     
+                  <div class="nav-content">
+                    <div class="sub-content-container">
+                     	                
+                      <div class="sub-content sub-menu-link links blue col-one">                        
+                        {% endif %}
+                        
+                        {% if forloop.first  %}                         
+                        <ul class="left-ul">
+                          {% endif %}
+                          
+                          {% if forloop.index < 5 %}
+                        <li><a href="{{childchildlink.url}}">{{childchildlink.title}}</a></li>
+                          {% endif %}
+                          
+                        {% if  forloop.index == 5  %}</ul><ul class="right-ul">{% endif %}
+                        
+                    	{% if forloop.index > 4 %}
+                         <li><a href="{{childchildlink.url}}">{{childchildlink.title}}</a></li>
+                        {% endif %}
+                       
+                        {% if forloop.last  %}
+                        </ul>
+                      </div>
+                      
+                    </div>
+                  </div>{% endif %}
+                  {% endfor %}
+                  {% endif %}
+                </li>
+					
+                	{% endfor %}
+                
+              </ul>
+              <div class="nav-content-container"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>
+
+<style>
+ 
+</style>

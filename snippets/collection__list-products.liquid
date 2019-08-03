@@ -1,0 +1,25 @@
+<div class="collection-cascade" data-collection-cascade>
+  <div class="items1">
+    <div class="item-sizer"></div>
+    <div class="column-sizer"></div>
+    <div class="grid sm--mln1">
+      {% assign col_count_desktop = 1 %}
+      {% for product in collection.products %}
+      {% assign block_width_mobile = 'full' %}
+      {% assign block_width_desktop = 'half' %}
+      {% capture mobile_count %}{% cycle '1', '2' %}{% endcapture %}
+
+      <div class="collection-listing grid__item sm--pl1 sm--one-half sm--text-align--center md--up--one-quarter mb2  item1 item--large-gap1 item--desktop--half1 item--mobile--full1 {% if forloop.first %}item--first{% endif %}  {% if last_col %}item--last{% endif %}  {% if fade_in %}fade-in{% endif %}">
+        <div class="item__inner {% if mobile_count == '1' %}md--dn--pr0{% else %}md--dn--pl0{% endif %} {% if col_count_desktop == 2 or col_count_desktop == 3 %}md--up--one-whole md--up--mx--auto{% endif %}">
+          {% include 'product-grid-item', text_color: section.settings.section_color %}
+        </div>
+      </div>
+
+      {% assign col_count_desktop = col_count_desktop | plus: 1 %}
+      {% if col_count_desktop == 5 %}
+      {% assign col_count_desktop = 1 %}
+      {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</div>
