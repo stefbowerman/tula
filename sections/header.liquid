@@ -68,7 +68,7 @@ Add class to body to fix section padding for first section
         <div class="relative1 mob-close">
           <a class="header__close fixed md--dn--p2 lg-up--full--w text-align--right top--0 md--dn--text-align--center md--dn--left--0 right--0 p4 font-size--m pointer color--active-text hv--active-accent" data-close-header tabindex="0">
             <div class="bar1"></div>
-                  <div class="bar3"></div>
+            <div class="bar3"></div>
           </a>
         </div>
       </div>
@@ -114,42 +114,9 @@ Add class to body to fix section padding for first section
         </div>
       </div>
       <div class="header__shifter full--w"></div>
-      <div class="py3 header-table-wrapper sm--py3 md--py2">
+      <div class="header-table-wrapper">
         <div class="header-table flex md--dn--items--center items--start justify--between full--w px2 max-site-width lg--up--px31  lg--up--relative sm--px30">
-          <div class="header-table__center align--middle text-align--left flex--grow--1  md--dn--flex--1-basis-0 lg--up--flex--grow--0 lg--justify--center lg--items--center">
-            {% capture image_size %}{{ section.settings.logo_max_width }}{% endcapture %}
-            {% if template.name == 'index' %}
-
-            <h1 class="header__logo m0  {% if section.settings.logo != blank %}font-size--0{% endif %}" itemscope itemtype="http://schema.org/Organization" style="max-width:{{ image_size }}px;">
-              {% else %}
-              <div class="header__logo {% unless section.settings.logo != blank %}h1{% else %}font-size--0{% endunless %} m0 " itemscope itemtype="http://schema.org/Organization" style="max-width:{{ image_size }}px;">
-                {% endif %}
-                <a href="/" itemprop="url" class="font-size--xl color--{{ section_color }}-text  f--heading  site-logo{% if section.settings.logo != blank %} site-header__logo-image{% endif %}">
-                  {% if section.settings.logo != blank %}
-
-                  <img class="desktop_logo sm--hide" src="{{ section.settings.logo | img_url: 'master' }}"
-                       srcset="{{ section.settings.logo | img_url: 'master' }} 1x, {{ section.settings.logo | img_url: image_size, scale: 1 }} 1x"
-                       alt="{{ section.settings.logo.alt | default: shop.name }}"
-                       itemprop="logo">
-
-                  <img class="mobile_logo md--up--hide" src="{{ section.settings.m_logo | img_url: 'master' }}"
-                       srcset="{{ section.settings.m_logo | img_url: 'master' }} 1x, {{ section.settings.m_logo | img_url: image_size, scale: 1 }} 1x"
-                       alt="{{ section.settings.m_logo.alt | default: shop.name }}"
-                       itemprop="logo">
-
-                  
-                  
-                  {% else %}
-                  {{ shop.name }}
-                  {% endif %}
-                </a>
-                {% if template.name == 'index' %}
-                </h1>
-              {% else %}
-              </div>
-            {% endif %}
-          </div>
-          <div class="header-table__bookend align--middle text-align--center md--dn--text-align--right lg--up--hide md--dn--flex--1-basis-0">
+          <div class="header-table__bookend align--middle text-align--center md--dn--text-align--left lg--up--hide md--dn--flex--1-basis-0">
             <div class="cart-icon">
               <a href="/cart" id="CartLink" class="t--header-navigation header__link {{ header_underline_link }} font-size--xl bg--transparent inline-block pointer m0 px2" {% if settings.ajax_cart_method == "modal" %}data-active-header-trigger data-active-target="cart" {% endif %}  tabindex="0"  data-top-level-item  aria-haspopup="true">
                 <div class="header__link-wrapper">
@@ -182,7 +149,7 @@ Add class to body to fix section padding for first section
             </div>
             {% include 'no-js__mobile-menu' %}
           </div>
-          <div class="nav__container align--middle text-align--center md--dn--hide lg--up--flex--1 overflow--hidden">
+          <div class="nav__container align--middle md--dn--hide lg--up--flex--1 __overflow--hidden__">
             {% comment %}
             <div class="cart-icon">
               <a href="/cart" id="CartLink" class="t--header-navigation header__link {{ header_underline_link }} font-size--m bg--transparent inline-block pointer m0 px2" {% if settings.ajax_cart_method == "modal" %}data-active-header-trigger data-active-target="cart" {% endif %}  tabindex="0"  data-top-level-item  aria-haspopup="true">
@@ -289,6 +256,41 @@ Add class to body to fix section padding for first section
             </div>
 
           </div>
+
+          <div class="header-table__center align--middle text-align--right flex--grow--1  md--dn--flex--1-basis-0 lg--up--flex--grow--0 lg--justify--center lg--items--center">
+            {% capture image_size %}{{ section.settings.logo_max_width }}{% endcapture %}
+            {% if template.name == 'index' %}
+              <h1 class="header__logo m0  {% if section.settings.logo != blank %}font-size--0{% endif %}" itemscope itemtype="http://schema.org/Organization" style="max-width:{{ image_size }}px;">
+            {% else %}
+              <div class="header__logo {% unless section.settings.logo != blank %}h1{% else %}font-size--0{% endunless %} m0 " itemscope itemtype="http://schema.org/Organization" style="max-width:{{ image_size }}px;">
+            {% endif %}
+            
+              <a href="/" itemprop="url" class="font-size--xl color--{{ section_color }}-text  f--heading  site-logo{% if section.settings.logo != blank %} site-header__logo-image{% endif %}">
+                {% if section.settings.logo != blank %}
+
+                <img class="desktop_logo sm--hide" src="{{ section.settings.logo | img_url: 'master' }}"
+                     srcset="{{ section.settings.logo | img_url: 'master' }} 1x, {{ section.settings.logo | img_url: image_size, scale: 1 }} 1x"
+                     alt="{{ section.settings.logo.alt | default: shop.name }}"
+                     itemprop="logo">
+
+                <img class="mobile_logo md--up--hide" src="{{ section.settings.m_logo | img_url: 'master' }}"
+                     srcset="{{ section.settings.m_logo | img_url: 'master' }} 1x, {{ section.settings.m_logo | img_url: image_size, scale: 1 }} 1x"
+                     alt="{{ section.settings.m_logo.alt | default: shop.name }}"
+                     itemprop="logo">
+
+                
+                
+                {% else %}
+                {{ shop.name }}
+                {% endif %}
+              </a>
+            {% if template.name == 'index' %}
+              </h1>
+            {% else %}
+              </div>
+            {% endif %}
+          </div>
+
           {% comment %}
           <div class="header__meta header-table__bookend align--middle text-align--right  md--dn--flex--1-basis-0 lg--up--justify--end no-wrap">
             <div class=" sm--mx0">
