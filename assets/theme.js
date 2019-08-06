@@ -3424,6 +3424,101 @@ theme.Blog = (function() {
 })();
 
 /**
+ * Blog Library section Script
+ * ------------------------------------------------------------------------------
+ *
+ * @namespace Blog
+ */
+
+theme.BlogLibrary = (function() {
+  var selectors = {
+    alphaGrid: '[data-alpha-grid]',
+    alphaGridItem: '.grid__item[data-alpha]',
+    letterLinks: '[data-letter]'
+  };
+
+  var classes = {
+    linkActive: 'is-active'
+  };
+
+  /**
+   * Blog Libraru section constructor. Runs on page load as well as Theme Editor
+   * `section:load` events.
+   * @param {string} container - selector for the section container DOM element
+   */
+  function BlogLibrary(container) {
+    this.$container = $(container);
+    this.$alphaGridItems = $(selectors.alphaGridItem, this.$container);
+    this.$alphaGrid = $(selectors.alphaGrid, this.$container);
+    this.$letterLinks = $(selectors.letterLinks, this.$container);
+
+    this.currentlyFilteredByLetter = null;
+
+    // Do Sorting
+    this.$alphaGridItems.detach();
+
+    this.$alphaGridItems.sort(function(a, b) {
+      var aAlph = $(a).data('alpha').toString();
+      var bAlph = $(b).data('alpha').toString();
+      if(aAlph > bAlph) {
+        return 1;
+      }
+      else if(aAlph < bAlph) {
+        return -1;
+      }
+      else {
+        return 0;
+      }
+    });
+
+    this.$alphaGrid.append(this.$alphaGridItems);
+
+    // Events
+    this.$letterLinks.on('click', this.onLetterLinkClick.bind(this))
+  }
+
+  BlogLibrary.prototype = $.extend({}, BlogLibrary.prototype, {
+    onLetterLinkClick: function(e) {
+      e.preventDefault();
+
+      var $link = $(e.currentTarget)
+
+      var l = $link.data('letter');
+
+      if(l === 'all') {
+        this.filterByLetter();
+      }
+      else {
+        this.filterByLetter(l);
+      }
+
+      this.$letterLinks.removeClass(classes.linkActive);
+      $link.addClass(classes.linkActive);
+    },
+
+    filterByLetter: function(letter) {
+      this.$alphaGrid.fadeOut(200, function() {
+        if(typeof letter === "undefined") {
+          this.$alphaGridItems.show();
+        }
+        else {
+          this.$alphaGridItems.hide();
+          this.$alphaGridItems.filter(function() {
+            return $(this).data('alpha').slice(0, 1) == letter;
+          }).show();
+        }
+
+        this.$alphaGrid.fadeIn(200)
+      }.bind(this))
+
+      this.currentlyFilteredByLetter = letter;
+    }
+  });
+
+  return BlogLibrary;
+})();
+
+/**
  * Flickity  section Script
  * ------------------------------------------------------------------------------
  *
@@ -3584,6 +3679,7 @@ $(document).ready(function() {
   sections.register("collection", theme.Collection);
   sections.register("blog", theme.Blog);
   sections.register("flickity-only", theme.flickityOnly);
+  sections.register("blog-library", theme.BlogLibrary);
 
   // Common a11y fixes
   slate.a11y.pageLinkFocus($(window.location.hash));

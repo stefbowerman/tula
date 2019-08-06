@@ -1,0 +1,78 @@
+{%- assign section_color = 'primary' -%}
+{%- include 'global-variables' -%}
+
+{%- assign show_author = false -%}
+{%- assign show_date = false  -%}
+{%- assign show_excerpt = false  -%}
+{%- assign show_tags = false  -%}
+{%- assign show_link = false  -%}
+{%- assign posts_per_row_desktop = 'one-quarter' -%}
+
+{%- assign layout = 'grid' -%}
+
+{% assign first_letters = '' %}
+
+{% paginate blog.articles by 500 %}
+
+  {% capture grid_html %}
+    {% comment %}{% include 'blog__grid' %}{% endcomment %}
+    <div class="grid grid--uniform sm--grid--half-gutter mtn3 lg--up--mtn4" data-alpha-grid>
+      {% for article in blog.articles %}
+        <div class="product-grid-item grid__item sm--one-whole md--up--{{ posts_per_row_desktop }} mt3 lg--up--mt4" data-alpha="{{ article.title | handle }}">
+          {% assign blog_page = true %}
+          {% include 'article-grid-item' %}
+        </div>
+
+        {% assign first_letter = article.title | downcase | slice: 0 %}
+        {% assign first_letters = first_letters | append: first_letter | append: ' ' %}
+      {% endfor %}
+    </div>  
+  {% endcapture %}
+
+  <section class="blog {{ global__section_with_padding_class }} color--{{ section_color }}-meta bg--{{ section_color }}-background" data-section-type="blog-library" data-section-id="{{ section.id }}" data-fade-in="{{ fade_in }}">
+    <div class="max-site-width px2 lg--up--px3">
+
+      {% assign first_letters_array = first_letters | split: ' ' | uniq | sort %}
+
+      {% comment %}{% include 'blog__header' %}{% endcomment %}
+      <header role="banner">
+        <div class="lg--up--flex">
+          <div class="lg--up--self--end">
+            <h1 class="f--heading font-size--xxl line-height-6 wd--font-size--xxxl m0 pb1">
+              <span class="">{{ blog.title }}</span>
+            </h1>
+
+            <div class="mt3 lg--up--mt0 lg--up--flex">
+              <div class="f--heading font-size--xxl">
+                {% if first_letters_array.size > 1 %}
+                  <a href="#" class="library-filter-link" data-letter="all">All</a>
+                {% endif %}
+                {% for letter in first_letters_array %}
+                  <a href="#" class="library-filter-link" data-letter="{{ letter }}">{{ letter }}</a>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </header>
+
+
+      <div class="grid mt3 lg--up--mt4">
+        <div class="grid__item pt1">
+          {{ grid_html }}
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+{% endpaginate %}
+
+
+{% schema %}
+  {
+    "name": "Blog pages",
+    "class": "blog-template",
+    "settings": []
+  }
+{% endschema %}

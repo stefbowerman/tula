@@ -3,6 +3,7 @@
   var $window = $(window);
   var $doc = $(document);
   var $body = $(document.body);
+  var $siteHeader = $('.site-header');
   var $header = $('.main-nav');
   var $headerTable = $('.header-table');
   var $navContentContainer = $('.nav-content-container');
@@ -32,8 +33,8 @@
       var throttledResize = _.throttle(Aldrich.resizeHandler, 50);
       $window.resize(throttledResize);
       $window.load(Aldrich.resizeHandler);
-      var throttledScroll = _.throttle(Aldrich.scrollHandler, 50);
-      $window.scroll(Aldrich.scrollHandler);
+      // var throttledScroll = _.throttle(Aldrich.scrollHandler, 50);
+      // $window.scroll(Aldrich.scrollHandler);
 
       if (location.hash.length) {
         $doc.imagesLoaded( function() {
@@ -93,7 +94,9 @@
       $('[data-behavior="toggle-nav-height"]').hoverIntent({
         over: function() {
           $headerTable.addClass('active-header');
-          setTimeout(Aldrich.openMainNav, 50);
+          setTimeout(function() {
+            Aldrich.openMainNav()
+          }, 50);
         },
         out: function() {
           $headerTable.removeClass('active-header');
@@ -201,33 +204,17 @@
       });
     },
 
-    scrollHandler: function() {
-      Aldrich.client.scrollPosition = $window.scrollTop();
+    // scrollHandler: function() {
+    //   Aldrich.client.scrollPosition = $window.scrollTop();
 
-      if (Aldrich.client.scrollPosition > 27) {
-        $('.site-header').addClass('fixed-nav');
-        $body.addClass('fixed-nav');
-      } else {
-        $body.removeClass('fixed-nav');
-        $('.site-header').removeClass('fixed-nav');
-      }
-
-      if($('.main-nav .arrow').hasClass('open')) {
-        if(!$('html.no-touch').length) {
-         // Aldrich.closeMainNav();
-        }
-      }
-    },
-
-    getScrollDirection: function() {
-      var previousScrollPosition = Aldrich.client.scrollPosition;
-      Aldrich.client.scrollPosition = $window.scrollTop();
-      if (Aldrich.client.scrollPosition > previousScrollPosition) {
-        return 'down';
-      } else {
-       return 'up';
-      }
-    },
+    //   if (Aldrich.client.scrollPosition > 42) {
+    //     $siteHeader.addClass('fixed-nav');
+    //     $body.addClass('fixed-nav');
+    //   } else {
+    //     $body.removeClass('fixed-nav');
+    //     $siteHeader.removeClass('fixed-nav');
+    //   }
+    // },
 
     disableMapScroll: function() {
       if ($('#live-map').length) {

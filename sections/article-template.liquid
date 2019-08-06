@@ -44,35 +44,38 @@
 
     <div class="grid">
       <div class="grid__item lg--up--one-third lg--up--text-align--right lg--up--sticky lg--up--top--0 py1">
-        <div class="lg--up--pl3 wd--pt3 lg--up--inline-block lg--up--text-align--left">
-          <div class="lg--up--hide pb2">
-          {% unless article.image == blank %}
-            {% capture img_id %}ProductImage-{{ article.image.id }}{% endcapture %}
-            {% capture wrapper_id %}ProductImageWrapper-{{ article.image.id }}{% endcapture %}
-            {%- assign img_url = article.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
-            <div id="{{ wrapper_id }}" class="resp-img-wrapper js">
-              <div style="padding-top:{{ 1 | divided_by: article.image.aspect_ratio | times: 100}}%;">
-                <img id="{{ img_id }}"
-                  class="resp-img lazyload"
-                  data-src="{{ img_url }}"
-                  data-widths="[180, 360, 470, 600, 750, 940, 1080, 1296, 1512, 1728, 2048]"
-                  data-aspectratio="{{ article.image.aspect_ratio }}"
-                  data-sizes="auto"
-                  alt="{{ article.image.alt | escape }}">
-                <img id="{{ img_id }}"
-                  class="resp-img-placeholder"
-                  src="{{ article.image | img_url: '1x1' }}"
-                  width="{{ article.image.width }}"
-                  height="{{ article.image.height }}"
-                  alt="{{ article.image.alt | escape }}">
+        <div class="lg--up--pl3 wd--pt3">
+          <div class="pb2">
+            {% unless article.image == blank %}
+              {% capture img_id %}ProductImage-{{ article.image.id }}{% endcapture %}
+              {% capture wrapper_id %}ProductImageWrapper-{{ article.image.id }}{% endcapture %}
+              {%- assign img_url = article.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+              <div id="{{ wrapper_id }}" class="resp-img-wrapper js">
+                <div style="padding-top:{{ 1 | divided_by: article.image.aspect_ratio | times: 100}}%;">
+                  <img id="{{ img_id }}"
+                    class="resp-img lazyload"
+                    data-src="{{ img_url }}"
+                    data-widths="[180, 360, 470, 600, 750, 940, 1080, 1296, 1512, 1728, 2048]"
+                    data-aspectratio="{{ article.image.aspect_ratio }}"
+                    data-sizes="auto"
+                    alt="{{ article.image.alt | escape }}">
+                  <img id="{{ img_id }}"
+                    class="resp-img-placeholder"
+                    src="{{ article.image | img_url: '1x1' }}"
+                    width="{{ article.image.width }}"
+                    height="{{ article.image.height }}"
+                    alt="{{ article.image.alt | escape }}">
+                </div>
               </div>
-            </div>
-            <noscript>
-              <img src="{{ article.image.src | img_url: 'large' }}" alt="{{ article.image.alt | escape }}" class="product__img">
-            </noscript>
-          {% endunless %}
+              <noscript>
+                <img src="{{ article.image.src | img_url: 'large' }}" alt="{{ article.image.alt | escape }}" class="product__img">
+              </noscript>
+            {% endunless %}
           </div>
-
+        </div>
+      </div>
+      <div class="grid__item lg--up--two-thirds">
+        <div class="lg--up--px5">
           <h2 class="{{ global__heading_font_size }} m0 mb2">{{ article.title }}</h2>
 
           {% capture date %}{{ article.published_at | time_tag: format: 'month_day_year' }}{% endcapture %}
@@ -94,51 +97,19 @@
           {% endif %}
 
           {% if show_tags %}
-          {% if article.tags.size > 0 %}
-            <ul class=" list--reset  {{ global__basic_font_size }}">
-              {% if article.tags.size > 0 %}
-                {% for tag in article.tags %}
-                  <li class="inline-block">
-                    <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="color--{{ section_color }}-text hv--{{ section_color }}-accent">#{{ tag }}</a>
-                    {% unless forloop.last %}&nbsp;{% endunless %}
-                  </li>
-                {% endfor %}
-              {% endif %}
-            </ul>
+            {% if article.tags.size > 0 %}
+              <ul class=" list--reset  {{ global__basic_font_size }}">
+                {% if article.tags.size > 0 %}
+                  {% for tag in article.tags %}
+                    <li class="inline-block">
+                      <a href="{{ blog.url }}/tagged/{{ tag | handle }}" class="color--{{ section_color }}-text hv--{{ section_color }}-accent">#{{ tag }}</a>
+                      {% unless forloop.last %}&nbsp;{% endunless %}
+                    </li>
+                  {% endfor %}
+                {% endif %}
+              </ul>
+            {% endif %}
           {% endif %}
-          {% endif %}
-        </div>
-      </div>
-      <div class="grid__item lg--up--two-thirds">
-        <div class="lg--up--px4">
-          <div class="md--dn--hide">
-            {% unless article.image == blank %}
-              {% capture img_id %}ProductImage-{{ article.image.id }}{% endcapture %}
-              {% capture wrapper_id %}ProductImageWrapper-{{ article.image.id }}{% endcapture %}
-              {%- assign img_url = article.image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
-              <div id="{{ wrapper_id }}" class="resp-img-wrapper js">
-                <div style="padding-top:{{ 1 | divided_by: article.image.aspect_ratio | times: 100}}%;">
-                  <img id="{{ img_id }}"
-                    class="resp-img lazyload"
-                    src="{{ article.image | img_url: '100x' }}"
-                    data-src="{{ img_url }}"
-                    data-widths="[180, 360, 470, 600, 750, 940, 1080, 1296, 1512, 1728, 2048]"
-                    data-aspectratio="{{ article.image.aspect_ratio }}"
-                    data-sizes="auto"
-                    alt="{{ article.image.alt | escape }}">
-                  <img id="{{ img_id }}"
-                    class="resp-img-placeholder"
-                    src="{{ article.image | img_url: '1x1' }}"
-                    width="{{ article.image.width }}"
-                    height="{{ article.image.height }}"
-                    alt="{{ article.image.alt | escape }}">
-                </div>
-              </div>
-              <noscript>
-                <img src="{{ article.image.src | img_url: 'large' }}" alt="{{ article.image.alt | escape }}" class="product__img">
-              </noscript>
-            {% endunless %}
-          </div>
 
           <div class="rte lg--up--three-quarters {% if article.image %}mt3{% endif %}  {{ global__basic_font_size }}">
             {{ article.content }}

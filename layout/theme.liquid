@@ -106,66 +106,68 @@
   
   
 {{ 'underscore-min.js' | asset_url | script_tag }}
-  {{ 'jquery.hoverIntent.js' | asset_url | script_tag }}
+{{ 'jquery.hoverIntent.js' | asset_url | script_tag }}
 {{ 'main-menu.js' | asset_url | script_tag }}
     
+<script>
+  $(function() {
+    var $window = $(window);
+    var $body = $(document.body);
+    var $header = $('header');
+    var $mainContent = $('#MainContent');
 
-  
-  <script>
-      $('.grid-masonry').masonry({
+    $('.grid-masonry').masonry({
         itemSelector: '.grid-item',
         columnWidth: '.grid-sizer',
         percentPosition: true
       });
-    
-    $('.product_slider').slick({
-    dots: true,
-  	infinite: true,  
-  	slidesToShow: 1,
-  	slidesToScroll: 1,
-    arrows: true 
-    
-    })
-    
-    
-   $('.menu-right .site-nav li.nav__item > a').click(function(e){
-     e.preventDefault();
-     if($(this).hasClass('color--header-active') == false ){
+      
+      $('.product_slider').slick({
+        dots: true,
+        infinite: true,  
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        arrows: true
+      });
+      
+     $('.menu-right .site-nav li.nav__item > a').click(function(e){
+       e.preventDefault();
+       if($(this).hasClass('color--header-active') == false ){
+         
+       $('.header-table').addClass('active-header');
+     // alert('test');
+      var x =  $(this).closest('li').attr('data-handle');
+      console.log('=='+x);
+        $('.logo-image-left ul li').hide();
+        $('.logo-image-left ul li.'+x).show();
        
-     $('.header-table').addClass('active-header');
-   // alert('test');
-  	var x =  $(this).closest('li').attr('data-handle');
-    console.log('=='+x);
-    	$('.logo-image-left ul li').hide();
-    	$('.logo-image-left ul li.'+x).show();
-     
-     $('.menu-right ul.site-nav li').each(function(){       
-       $(this).find('a').removeClass('color--header-active');       
-     });
-     
-    $(this).addClass('color--header-active'); 
-    //====================
-    $('.menu-right  .sub-menu-link').hide();
-    $('.menu-right  .sub-menu-link.'+x).show();
-     }else{
-     $(".sub-menu-link").hide();
-      	$('.logoimg2 li').hide();
-      $('.menu-right ul.site-nav li').each(function(){       
-       $(this).find('a').removeClass('color--header-active'); 
-        
-     });
-      $('.header-table').removeClass('active-header');
-     }
-  });
-    
-//     $(".menu-right").mouseleave(function(){
-//     	$('.menu-right  .sub-menu-link').hide();
-//       $('.logo-image-left ul li').hide();
-//   });
-    
-    
-	var highest1 = -Infinity;
-    
+       $('.menu-right ul.site-nav li').each(function(){       
+         $(this).find('a').removeClass('color--header-active');       
+       });
+       
+      $(this).addClass('color--header-active'); 
+      //====================
+      $('.menu-right  .sub-menu-link').hide();
+      $('.menu-right  .sub-menu-link.'+x).show();
+       }else{
+       $(".sub-menu-link").hide();
+          $('.logoimg2 li').hide();
+        $('.menu-right ul.site-nav li').each(function(){       
+         $(this).find('a').removeClass('color--header-active'); 
+          
+       });
+        $('.header-table').removeClass('active-header');
+       }
+    });
+      
+  //     $(".menu-right").mouseleave(function(){
+  //      $('.menu-right  .sub-menu-link').hide();
+  //       $('.logo-image-left ul li').hide();
+  //   });
+      
+      
+    var highest1 = -Infinity;
+      
     $('.grid-masonry .image-grid').each(function(){
         var ht1 = $(this).find('.feature-image__img-content').height();
         highest1 = Math.max(highest1, parseFloat(ht1));
@@ -174,59 +176,48 @@
       $('.grid-masonry .video-grid').find('iframe').css('height',highest1+'px');
     //===============
     $(window).resize(function(){
-    var highest = -Infinity;    
-    $('.grid-masonry .image-grid').each(function(){
+      var highest = -Infinity;    
+      $('.grid-masonry .image-grid').each(function(){
         var ht = $(this).find('.feature-image__img-content').height();
         highest = Math.max(highest, parseFloat(ht));
       });
     
       $('.grid-masonry .video-grid').find('iframe').css('height',highest+'px');
     });
-   
-    
-    $(window).scroll(function(){
-      if ($(window).scrollTop() >= 50) {
-        $('body').addClass('add-sticky'); 
-        var header_height = $('.header-table-wrapper').height();  
-      	header_height = header_height +45;
-    	$('#MainContent').css('padding-top',header_height+'px');
+     
+      
+    $window.scroll(function(){
+      var header_height = $('.header-table-wrapper').height();
+          header_height += 42;
+
+      if ($window.scrollTop() > 42) {
+        $header.addClass('fixed-nav'); 
+        $mainContent.css('padding-top', header_height + 'px');
       }
       else {
-        $('body').removeClass('add-sticky'); 
-		
-    	$('#MainContent').css('padding-top','');
-
+        $header.removeClass('fixed-nav'); 
+        $mainContent.css('padding-top','');
       }
     });
-    
+      
     //=====================
-   $(document).on('click', function (e) {
-    if ($(e.target).closest(".logo-image-left, .menu-right").length === 0) {
-        $(".sub-menu-link").hide();
-      	$('.logoimg2 li').hide();
-      $('.menu-right ul.site-nav li').each(function(){       
-       $(this).find('a').removeClass('color--header-active'); 
-        
-     });
-      $('.header-table').removeClass('active-header');
-    }
-});
-//     $(document).ready(function(){ 
-//     var header_height = $('.header-table-wrapper').height();  
-//       header_height = header_height +45;
-//     $('#MainContent').css('padding-top',header_height+'px');
-//     });
-    
-  </script>
-  
-  <script>
-  
-  if($(window).width() > 1024 ){
-    $(function($) {
-      Aldrich.initialize();
-     // AldrichHome.initialize();
+    $(document).on('click', function (e) {
+      if ($(e.target).closest(".logo-image-left, .menu-right").length === 0) {
+          $(".sub-menu-link").hide();
+          $('.logoimg2 li').hide();
+        $('.menu-right ul.site-nav li').each(function(){       
+         $(this).find('a').removeClass('color--header-active'); 
+          
+       });
+        $('.header-table').removeClass('active-header');
+      }
     });
-  }
-  </script>
+
+    if($window.width() > 1024 ){
+      Aldrich.initialize();
+    }
+  });
+</script>
+  
 </body>
 </html>
