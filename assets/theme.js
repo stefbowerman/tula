@@ -1624,11 +1624,13 @@ theme.Header = (function() {
         if(offset <= announcementHeight) {
           var top = '-' + $('.announcement-bar').outerHeight() + 'px';
           $header.css('top', top);
-          $header.addClass('lg--up--fixed');
+          // $header.addClass('lg--up--fixed');
+          $header.addClass('fixed');
         } else {
           var top = '-' + $('.announcement-bar').outerHeight() + 'px';
           $header.css('top', '');
-          $header.removeClass('lg--up--fixed');
+          // $header.removeClass('lg--up--fixed');
+          $header.removeClass('fixed');
         }
       });  
     }
@@ -3483,14 +3485,7 @@ theme.BlogLibrary = (function() {
 
       var $link = $(e.currentTarget)
 
-      var l = $link.data('letter');
-
-      if(l === 'all') {
-        this.filterByLetter();
-      }
-      else {
-        this.filterByLetter(l);
-      }
+      this.filterByLetter($link.data('letter'));
 
       this.$letterLinks.removeClass(classes.linkActive);
       $link.addClass(classes.linkActive);

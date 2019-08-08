@@ -40,18 +40,20 @@ Add class to body to fix section padding for first section
 {%- endif -%}
 {% endif %}
 
+{% assign sticky_header = true %}
+
 {% if template.name == 'index'  %}
-{%- if section.settings.sticky_header %}
+{%- if sticky_header %}
 {% capture sticky_data %}data-sticky-header="true" {% if section.settings.show_announcement %}{% if section.settings.home_page_only == false or template.name == 'index' %}data-announcement="true"{% endif %}{% endif %}{% endcapture %}
 {% endif %}
-{% if section.settings.show_banner and section.settings.sticky_header and section.settings.show_announcement %}
+{% if section.settings.show_banner and sticky_header and section.settings.show_announcement %}
 {% capture sticky_header_banner %}data-sticky-header-with-banner-and-announcement="true"{% endcapture %}
 {% endif %} 
-{% if section.settings.show_banner and section.settings.sticky_header and section.settings.show_announcement == false %}
+{% if section.settings.show_banner and sticky_header and section.settings.show_announcement == false %}
 {% capture sticky_header_banner %}data-sticky-header-with-banner-and-no-announcement="true"{% endcapture %}
 {% endif %} 
 {% else %}
-{%- if section.settings.sticky_header %}
+{%- if sticky_header %}
 {% capture sticky_data %}data-sticky-header="true" {% if section.settings.show_announcement %}{% if section.settings.home_page_only == false or template.name == 'index' %}data-announcement="true"{% endif %}{% endif %}{% endcapture %}
 {% endif %}
 {% endif %}
@@ -62,7 +64,7 @@ Add class to body to fix section padding for first section
 <!--   <div class="header-placeholder full--w hide" data-header-placeholder></div> -->
   {% endunless %}
 
-  <header class="site-header {% if section.settings.show_banner and template.name == 'index'  %}{%- if section.settings.sticky_header and section.settings.show_announcement == false %}lg--up--fixed{% else %}absolute1{% endif %} top--0 left--0{% endif %} full--w {% if section.settings.show_announcement %}{% if section.settings.home_page_only == false or template.name == 'index' %}has-announcement{% endif %}{% endif %}" data-site-header>
+  <header class="site-header {% if section.settings.show_banner and template.name == 'index'  %}{%- if sticky_header and section.settings.show_announcement == false %}lg--up--fixed{% else %}absolute1{% endif %} top--0 left--0{% endif %} full--w {% if section.settings.show_announcement %}{% if section.settings.home_page_only == false or template.name == 'index' %}has-announcement{% endif %}{% endif %}" data-site-header>
     <div class="header__main">
       <div class="max-site-width px2 lg--up--px31">
         <div class="relative1 mob-close">
@@ -407,13 +409,7 @@ Add class to body to fix section padding for first section
 "type": "image_picker",
 "id": "m_logo",
 "label": "Mobile Logo image"
-},/*
-{
-"type": "checkbox",
-"id": "sticky_header",
-"label": "Sticky header on desktop",
-"default": false
-}, */
+},
 {
 "type": "header",
 "content": "Navigation"

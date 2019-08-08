@@ -107,6 +107,9 @@
       $('.menu li').hoverIntent({
         over: function() {
           Aldrich.swapMainNaveContent(this);
+        },
+        out: function() {
+          //
         }
       });
 
