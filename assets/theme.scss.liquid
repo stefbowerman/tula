@@ -4086,10 +4086,10 @@ Mobile Navigation
 }
 
 .mobile-navigation-container {
-  top: 140px;
+  top: 132px;
   transition: all 0.2s cubic-bezier(0.46, 0.01, 0.32, 1);
   width: 200vw;
-  height: calc(100vh - 140px);
+  height: calc(100vh - 132px);
   background-color: $color-primary-background;
 
   &.shift {
@@ -6026,13 +6026,18 @@ ul.left-ul {
 
   .site-header.active {
     .site-header__menu-btn{display:none}
-    .header__close{position: absolute;
+    .header__close{
+      position: absolute;
       left: 26px;
       right: auto;
       width: auto;
-      top: 98px; transform:translateY(-50%); -webkit-transform:translateY(-50%);
+      top: 85px;
+      transform:translateY(-50%);
+      -webkit-transform:translateY(-50%);
       padding: 0;
-      height: auto; z-index:99999} 
+      height: auto;
+      z-index:99999
+    }
   }
 
   .header__close .bar3 {

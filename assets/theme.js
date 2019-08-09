@@ -1594,10 +1594,10 @@ theme.Header = (function() {
       this.$container.parents('div').addClass('sticky-header-container');
       $('body').addClass('sticky-header');
 
-      if (this.$container.attr("data-announcement")) {
-        var top = '-' + $('.announcement-bar').outerHeight() + 'px';
-        this.$container.parents('div').css('top', top);
-      }
+      // if (this.$container.attr("data-announcement")) {
+      //   var top = '-' + $('.announcement-bar').outerHeight() + 'px';
+      //   this.$container.parents('div').css('top', top);
+      // }
     }
 
     //set headerPlaceholder height
