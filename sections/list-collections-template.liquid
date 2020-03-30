@@ -25,41 +25,39 @@
 
 {% assign text_position = section.settings.text_position %}
 
-<section class="cascade {{ global__section_with_padding_class }} color--{{ section_color }}-text bg--{{ section_color }}-background" data-section-type="cascade" data-section-id="{{ section.id }}" data-fade-in="{{ fade_in }}">
-  <div class="max-site-width px2 lg--up--px3">
-    <div class="cascading-content">
-      <div class="items">
-        <div class="item-sizer"></div>
-        <div class="column-sizer"></div>
+<section class="cascade {{ global__section_with_padding_class }} color--{{ section_color }}-text bg--{{ section_color }}-background" data-section-type="collection" data-section-id="{{ section.id }}" data-fade-in="{{ fade_in }}">
+  <div class="max-site-width px2 md--up--px31 sm--pl1 sm--pr1">
+    <div class="grid mt3 md--up--mt2 sm--mln1">
+      <div class="grid__item collection-right-one-whole sm--pl1 pt1">
+        <div class="grid grid--uniform sm--grid--half-gutter mtn3 lg--up--mtn4">
+          {% assign col_count_desktop = 1 %}
+          {% assign index = 1 %}
 
-        {% assign col_count_desktop = 1 %}
-        {% assign index = 1 %}
-
-        {% if section.blocks.size == 0 %}
-          {% for collection in collections %}
-            {% unless collection.handle == 'frontpage' %}
-              {% assign title = collection.title %}
-              {% assign show_cta = section.settings.show_cta %}
-              {% assign cta_text = 'collections.general.list_link' | t %}
-              {% assign heading_class = heading_fontsize__mobile_full %}
-              {% assign local_color = section.settings.overlay_color %}
-              {% include 'list-collections__loop' %}
-            {% endunless %}
-          {% endfor %}
-        {% else %}
-          {% for block in section.blocks %}
-            {% if block.settings.collection and block.settings.collection != '' %}
-              {% assign collection = collections[block.settings.collection] %}
-              {% assign title = collection.title %}
-              {% assign show_cta = block.settings.show_collection_link %}
-              {% assign cta_text = block.settings.cta_text %}
-              {% assign heading_class = heading_fontsize__mobile_full %}
-              {% assign local_color = block.settings.text_color %}
-              {% include 'list-collections__loop' %}
-            {% endif %}
-          {% endfor %}
-        {% endif %}
-
+          {% if section.blocks.size == 0 %}
+            {% for collection in collections %}
+              {% unless collection.handle == 'frontpage' %}
+                {% assign title = collection.title %}
+                {% assign show_cta = section.settings.show_cta %}
+                {% assign cta_text = 'collections.general.list_link' | t %}
+                {% assign heading_class = heading_fontsize__mobile_full %}
+                {% assign local_color = section.settings.overlay_color %}
+                {% include 'list-collections__loop' %}
+              {% endunless %}
+            {% endfor %}
+          {% else %}
+            {% for block in section.blocks %}
+              {% if block.settings.collection and block.settings.collection != '' %}
+                {% assign collection = collections[block.settings.collection] %}
+                {% assign title = collection.title %}
+                {% assign show_cta = block.settings.show_collection_link %}
+                {% assign cta_text = block.settings.cta_text %}
+                {% assign heading_class = heading_fontsize__mobile_full %}
+                {% assign local_color = block.settings.text_color %}
+                {% include 'list-collections__loop' %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>

@@ -1,5 +1,6 @@
 {%- include 'global-variables' -%}
 {%- assign section_color = 'primary' -%}
+{% assign heading_class = 'f--heading font-size--xxl line-height--7 pm--font-size--xxxxl pm--line-height--11 wd--font-size--xxxxxxl wd--line-height--13' %}
 
 {% paginate search.results by 12 %}
 
@@ -7,9 +8,8 @@
   <section class="{{ global__section_with_padding_class }} color--{{ section_color }}-text bg--{{ section_color }}-background">
     <div class="max-site-width px2 lg--up--px3">
       <div class="grid">
-
-        <div class="grid__item lg--up--one-quarter pb3">
-          <h1 class="{{ global__heading_size }}">
+        <div class="grid__item seven-eighths md--up--grid__item sm--one-whole wd--two-thirds">
+          <h1 class="{{ heading_class }}">
             {% if search.performed %}
               {% if search.results_count == 0 %}
                 {{ 'general.search.no_results_html' | t: terms: search.terms }}
@@ -20,6 +20,10 @@
               {{ 'general.search.title' | t }}
             {% endif %}
           </h1>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="grid__item lg--up--one-quarter pb3">
           <form action="/search" method="get" class="input-group search lg--up--mt3" role="search">
             <label for="search" class="hide">{{ 'general.search.submit' | t }}</label>
             <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" class="py1 bg--transparent search__input input-group-field border--none border-bottom--primary-text font-size--m" aria-label="{{ 'general.search.placeholder' | t }}" data-search-input>

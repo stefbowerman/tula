@@ -100,7 +100,7 @@
   },
   "cart": {
     "general": {
-      "title": "Shopping Cart",
+      "title": "Shopping Bag",
       "remove": "Remove",
       "note": "Special instructions for seller",
       "subtotal": "Subtotal",
@@ -272,7 +272,7 @@
   },
   "layout": {
     "cart": {
-      "title": "Cart",
+      "title": "Shopping Bag",
       "items_count": {
         "one": "item",
         "other": "items"
