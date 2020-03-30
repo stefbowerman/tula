@@ -75,28 +75,88 @@ Add class to body to fix section padding for first section
         </div>
       </div>
 
-      {% if section.settings.show_announcement %}
-      {% capture class %}block full--w bg--{{ section.settings.announcement_color }}-background color--{{ section.settings.announcement_color }}-text px30  py1  font-size--m text-align--left {% endcapture %}
-      <div class="announcement-bar announcement-bar--link  {{ class }} hv--{{ section.settings.announcement_color }}-accent">
-        <div class="grid">
-          {% if section.settings.home_page_only == false or template.name == 'index' %}
-          {% if section.settings.link == blank %}
-          <div class="announcement-bar grid__item md--up--one-half">
-            {% else %}
-            <a href="{{ section.settings.link }}" class="grid__item md--up--one-half font-size--m">
-              {% endif %}
-              <p class="m0 announcement-bar__message">{{ section.settings.text | escape }}</p>
-              {% if section.settings.link == blank %}
+      {% capture announcement_bar_class %}
+        block full--w bg--{{ section.settings.announcement_color }}-background color--{{ section.settings.announcement_color }}-text px30  py1  font-size--m text-align--left hv--{{ section.settings.announcement_color }}-accent
+      {% endcapture %}
+      
+      <div class="announcement-bar announcement-bar--link {{ announcement_bar_class }}">
+        <div class="announcement-bar__content">
+          {% if section.settings.show_announcement %}
+            {% if section.settings.home_page_only == false or template.name == 'index' %}
+              <div class="announcement-bar__item announcement-bar__item--message">
+                {% if section.settings.link == blank %}
+                  {{ section.settings.text | escape }}
+                {% else %}
+                  <a href="{{ section.settings.link }}">{{ section.settings.text | escape }}</a>
+                {% endif %}
               </div>
-            {% else %}
-            </a>
+            {% endif %}
           {% endif %}
+
+          {% capture ticker_items %}
+            {% for block in section.blocks %}
+              {% if block.type == 'ticker_item' %}
+                {% if block.settings.link != blank %}
+                  <a href="{{ block.settings.link }}" class="ticker__item">{{ block.settings.title }}</a>
+                {% else %}
+                  <span class="ticker__item">{{ block.settings.title }}</span>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endcapture %}
+          {% if ticker_items != blank %}
+            <div class="announcement-bar__item announcement-bar__item--ticker">
+              <div class="ticker" data-ticker>
+                <div class="ticker-content">
+                  {{ ticker_items }}
+                </div>
+              </div>
+            </div>
           {% endif %}
+
+          <div class="announcement-bar__item announcement-bar__item--menu">
+            <ul class="top-nav flex justify--left flex--wrap">
+              {% for link in linklists[section.settings.top_linklist].links %}
+                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endfor %}
+              <li class="cart-icon">
+                <a href="/cart" id="CartLink" {% if settings.ajax_cart_method == "modal" %}data-active-header-trigger data-active-target="cart" {% endif %}  tabindex="0"  data-top-level-item  aria-haspopup="true">
+                  {% if section.settings.show_cart_icon %}
+                    <span class="cart__icon">{% include 'svg' | icon: 'icon-cart' %}</span>
+                  {% else %}
+                    {{ 'layout.cart.title' | t }}
+                  {% endif %}
+                  {% unless section.settings.show_cart_icon %}({% endunless %}<span id="CartCount">{{ cart.item_count }}</span>{% unless section.settings.show_cart_icon %}){% endunless %}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+
+
+
+
+        <div class="grid" style="display: none !important">
+          {% if section.settings.show_announcement %}     
+            {% if section.settings.home_page_only == false or template.name == 'index' %}
+              {% if section.settings.link == blank %}
+                <div class="announcement-bar grid__item md--up--one-half">
+              {% else %}
+                <a href="{{ section.settings.link }}" class="grid__item md--up--one-half font-size--m">
+              {% endif %}
+                <p class="m0 announcement-bar__message">{{ section.settings.text | escape }}</p>
+              {% if section.settings.link == blank %}
+                </div>
+              {% else %}
+                </a>
+              {% endif %}
+            {% endif %}
           {% endif %}
           <div class="grid__item md--up--one-half">
             <ul class="top-nav md--hide right-right-link flex justify--left flex--wrap  list--reset">
               {% for link in linklists[section.settings.top_linklist].links %}
-              <li><a href="{{link.url}}" class="px2  font-size--m md--dn--px1">{{link.title}}</a></li>
+                <li><a href="{{link.url}}" class="px2  font-size--m md--dn--px1">{{link.title}}</a></li>
               {% endfor %}
               <li class="cart-icon">
                 <a href="/cart" id="CartLink" class="t--header-navigation header__link {{ header_underline_link }} font-size--m bg--transparent inline-block pointer m0 px2" {% if settings.ajax_cart_method == "modal" %}data-active-header-trigger data-active-target="cart" {% endif %}  tabindex="0"  data-top-level-item  aria-haspopup="true">
@@ -111,10 +171,12 @@ Add class to body to fix section padding for first section
                 </a>
               </li>
             </ul>
-
           </div>
-        </div>
-      </div>
+        </div><!-- END .grid -->
+      </div><!-- END .announcement-bar -->
+
+
+
       <div class="header__shifter full--w"></div>
       <div class="header-table-wrapper">
         <div class="header-table flex md--dn--items--center items--start justify--between full--w px2 max-site-width lg--up--px31  lg--up--relative sm--px30">
@@ -132,22 +194,13 @@ Add class to body to fix section padding for first section
               </a>
             </div>
             <div class="js">
-              {% if section.settings.show_menu_icon %}
-              <button type="button" class="t--header-navigation site-header__menu-btn btn border--none font-size--ml bg--transparent" aria-controls="MobileNav" aria-expanded="false" data-active-header-trigger data-active-target="navigation">
-                <div class="left" onclick="myFunction(this)">
-                  <div class="bar1"></div>
-                  <div class="bar2"></div>
-                  <div class="bar3"></div>
-                </div>
-              </button>
-              {% else %}
               <a class="hamburgericon t--header-navigation {{ header_underline_link }} font-size--ml bg--transparent inline-block pointer" aria-controls="MobileNav" aria-expanded="false" data-active-header-trigger data-active-target="navigation"  tabindex="0">
                 <div class="header__link-wrapper">
-                  <img src="https://cdn.shopify.com/s/files/1/0006/7357/9066/t/11/assets/hamburger_icon.png?18805" alt="" style="max-width: 32px;height: 22px;">
+                  <img src="{{ 'hamburger_icon.png' | asset_url }}" alt="" style="max-width: 32px; height: 22px;" />
+                  {% comment %}<img src="https://cdn.shopify.com/s/files/1/0006/7357/9066/t/11/assets/hamburger_icon.png?18805" alt="" style="max-width: 32px;height: 22px;">{% endcomment %}
                   {% comment %}{{ 'general.navigation.menu' | t }}{% endcomment %}
                 </div>
               </a>
-              {% endif %}
             </div>
             {% include 'no-js__mobile-menu' %}
           </div>
@@ -318,15 +371,6 @@ Add class to body to fix section padding for first section
               </div>
               {% endif %}
 
-              {% if section.settings.show_search %}
-              <a href="/search"  class="t--header-navigation header__link {{ header_underline_link }} font-size--ml bg--transparent inline-block pointer align--middle px2 md--dn--hide" data-active-header-trigger data-active-target="search" data-search-button tabindex="0"  data-top-level-item  aria-haspopup="true" data-search-button>
-                <div class="header__link-wrapper">
-                  {{ 'general.search.submit' | t }}
-                </div>
-              </a>
-              {% endif %}
-
-
             </div>
           </div>
           {% endcomment %}
@@ -338,6 +382,11 @@ Add class to body to fix section padding for first section
     <div class="header__active-overlay" data-header-overlay></div>
 
   </header>
+
+{% comment %}
+
+  Section settings for this code below...
+
 
   {%- assign section_color = 'secondary' -%}
   {% include 'header__banner-color' %}
@@ -379,196 +428,209 @@ Add class to body to fix section padding for first section
   {% endif %}
   {% endif %}
 
-</div>
-{% comment %}
-<script>
+
+
+{
+      "type":"header",
+      "content":"Banner"
+    },
+    {
+      "type":"checkbox",
+      "id":"show_banner",
+      "label":"Show banner",
+      "default":false
+    },
+    {
+      "type":"image_picker",
+      "id":"banner",
+      "label":"Image",
+      "info":"1400x800px recommended "
+    },
+    {
+      "type":"select",
+      "id":"banner_image_style",
+      "label":"Image style:",
+      "options":[
+        {
+          "value":"full_screen",
+          "label":"Full Screen"
+        },
+        {
+          "value":"fit_content",
+          "label":"Content"
+        }
+      ],
+      "info":"Use \\'Content\\' style if you want to avoid image cropping."
+    },
+    {
+      "type":"select",
+      "id":"banner_overlay_text_color",
+      "label":"Text color",
+      "info":"Override header text color for the home page when banner image is enabled.",
+      "options":[
+        {
+          "value":"primary",
+          "label":"Primary text"
+        },
+        {
+          "value":"secondary",
+          "label":"Secondary text"
+        },
+        {
+          "value":"tertiary",
+          "label":"Tertiary text"
+        },
+        {
+          "value":"white",
+          "label":"White"
+        },
+        {
+          "value":"black",
+          "label":"Black"
+        }
+      ]
+    }
+
 {% endcomment %}
+</div>
+
+
 {% schema %}
 {
-"name": "Header",
-"settings": [
-{
-"type": "checkbox",
-"id": "show_cart_icon",
-"label": "Show cart icon",
-"info": "If disabled text will be shown instead of icon"
-},
-{
-"type": "image_picker",
-"id": "logo",
-"label": "Logo image"
-},
-
-{
-"type": "text",
-"id": "logo_max_width",
-"label": "Custom logo width",
-"default": "210"
-},
-{
-"type": "image_picker",
-"id": "m_logo",
-"label": "Mobile Logo image"
-},
-{
-"type": "header",
-"content": "Navigation"
-},
-{
-"type": "link_list",
-"id": "top_linklist",
-"label": "Top Menu"
-},
-{
-"type": "link_list",
-"id": "main_linklist",
-"label": "Menu",
-"default": "main-menu"
-},
-{
-"type": "link_list",
-"id": "mobile_secondary_linklist",
-"label": "Mobile Menu secondary"
-},
-{
-"type": "image_picker",
-"id": "image_menu1",
-"label": "Secondary Logo Plants"
-},
-{
-"type": "image_picker",
-"id": "image_menu2",
-"label": "Secondary Logo Education"
-},
-{
-"type": "image_picker",
-"id": "image_menu3",
-"label": "Secondary Logo Design"
-},
-{
-"type": "image_picker",
-"id": "image_menu4",
-"label": "Secondary Logo Take Action"
-},
-
-
-
-{
-"type": "checkbox",
-"id": "show_all_navigation_links",
-"label": "Enable links to drop-down link headings"
-},/*
-{
-"type": "checkbox",
-"id": "show_search",
-"label": "Show search"
-},
-  
-{
-"type": "header",
-"content": "Mobile menu"
-},
-{
-"type": "checkbox",
-"id": "show_menu_icon",
-"label": "Show menu icon",
-"info": "If disabled text will be shown instead of icon"
-},
-{
-"type": "link_list",
-"id": "secondary_linklist",
-"label": "Secondary menu"
-}, 
-{
-"type": "checkbox",
-"id": "show_search_sidebar",
-"label": "Show search"
-},
- */
-{
-"type": "header",
-"content": "Announcement bar"
-},
-{
-"type": "checkbox",
-"id": "show_announcement",
-"label": "Show announcement",
-"default": false
-},
-{
-"type": "checkbox",
-"id": "home_page_only",
-"label": "Home page only",
-"default": true
-},
-{
-"type": "text",
-"id": "text",
-"label": "Text",
-"default": "Announce something here"
-},
-{
-"type": "select",
-"id": "announcement_color",
-"options": [
-{ "value": "primary", "label": "Primary"},
-{ "value": "secondary ", "label": "Secondary"},
-{ "value": "tertiary", "label": "Tertiary"}
-],
-"label": "Announcement color combination"
-},
-{
-"type": "url",
-"id": "link",
-"label": "Link"
-}
-  /*
-{
-"type": "header",
-"content": "Banner"
-},
-{
-"type": "checkbox",
-"id": "show_banner",
-"label": "Show banner",
-"default": false
-},
-{
-"type": "image_picker",
-"id": "banner",
-"label": "Image",
-"info": "1400x800px recommended "
-},
-{
-"type": "select",
-"id": "banner_image_style",
-"label": "Image style:",
-"options": [
-{
-"value": "full_screen",
-"label": "Full Screen"
-},
-{
-"value": "fit_content",
-"label": "Content"
-}
-],
-"info": "Use \'Content\' style if you want to avoid image cropping."
-},
-{
-"type": "select",
-"id": "banner_overlay_text_color",
-"label": "Text color",
-"info": "Override header text color for the home page when banner image is enabled.",
-"options": [
-{ "value": "primary", "label": "Primary text"},
-{ "value": "secondary", "label": "Secondary text"},
-{ "value": "tertiary", "label": "Tertiary text"},
-{ "value": "white", "label": "White"},
-{ "value": "black", "label": "Black"}
-]
-}
-*/
-]
+  "name":"Header",
+  "settings": [
+    {
+      "type":"checkbox",
+      "id":"show_cart_icon",
+      "label":"Show cart icon",
+      "info":"If disabled text will be shown instead of icon"
+    },
+    {
+      "type":"image_picker",
+      "id":"logo",
+      "label":"Logo image"
+    },
+    {
+      "type":"text",
+      "id":"logo_max_width",
+      "label":"Custom logo width",
+      "default":"210"
+    },
+    {
+      "type":"image_picker",
+      "id":"m_logo",
+      "label":"Mobile Logo image"
+    },
+    {
+      "type":"header",
+      "content":"Navigation"
+    },
+    {
+      "type":"link_list",
+      "id":"top_linklist",
+      "label":"Top Menu"
+    },
+    {
+      "type":"link_list",
+      "id":"main_linklist",
+      "label":"Menu",
+      "default":"main-menu"
+    },
+    {
+      "type":"link_list",
+      "id":"mobile_secondary_linklist",
+      "label":"Mobile Menu secondary"
+    },
+    {
+      "type":"image_picker",
+      "id":"image_menu1",
+      "label":"Secondary Logo Plants"
+    },
+    {
+      "type":"image_picker",
+      "id":"image_menu2",
+      "label":"Secondary Logo Education"
+    },
+    {
+      "type":"image_picker",
+      "id":"image_menu3",
+      "label":"Secondary Logo Design"
+    },
+    {
+      "type":"image_picker",
+      "id":"image_menu4",
+      "label":"Secondary Logo Take Action"
+    },
+    {
+      "type":"checkbox",
+      "id":"show_all_navigation_links",
+      "label":"Enable links to drop-down link headings"
+    },
+    {
+      "type":"header",
+      "content":"Announcement bar"
+    },
+    {
+      "type":"checkbox",
+      "id":"show_announcement",
+      "label":"Show announcement",
+      "default":false
+    },
+    {
+      "type":"checkbox",
+      "id":"home_page_only",
+      "label":"Home page only",
+      "default":true
+    },
+    {
+      "type":"text",
+      "id":"text",
+      "label":"Text",
+      "default":"Announce something here"
+    },
+    {
+      "type":"select",
+      "id":"announcement_color",
+      "options":[
+        {
+          "value":"primary",
+          "label":"Primary"
+        },
+        {
+          "value":"secondary ",
+          "label":"Secondary"
+        },
+        {
+          "value":"tertiary",
+          "label":"Tertiary"
+        }
+      ],
+      "label":"Announcement color combination"
+    },
+    {
+      "type":"url",
+      "id":"link",
+      "label":"Link"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ticker_item",
+      "name": "Ticker Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Text",
+          "default": "Ticker Item Text"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}

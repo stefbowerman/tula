@@ -4837,7 +4837,6 @@ Header Active (Modal)
     opacity: 1;
   }
 
-  .announcement-bar,
   .header__logo {
     /*     height: 0;
     padding: 0;
@@ -5857,22 +5856,138 @@ footer{
 
 }  
 
-.announcement-bar { letter-spacing: .5px;
-  a,
-  &.hv--tertiary-accent:hover a{color:inherit;}
-  .top-nav  a:hover{color:{{settings.color_hover}};}
-  .header__link-wrapper{padding:0; border:0;}
-  .hv--div--border-bottom--primary-text:hover>div {
-    /*     border-bottom: 0px solid #871848; */
+.announcement-bar {
+  letter-spacing: .5px;
+
+  // a:hover,
+  // &.hv--tertiary-accent:hover a {
+  //   color: inherit;
+  // }
+  // .top-nav  a:hover{color:{{settings.color_hover}};}
+
+  a {
+    color: white;
+    -webkit-transition: color 0.2s ease-in-out;
+    -moz-transition: color 0.2s ease-in-out;
+    -o-transition: color 0.2s ease-in-out;
+    transition: color 0.2s ease-in-out;
+
+    &:hover {
+      color: {{ settings.color_hover }};
+    }
+  }
+
+  // .header__link-wrapper{padding:0; border:0;}
+  // .hv--div--border-bottom--primary-text:hover>div {
+  //   /*     border-bottom: 0px solid #871848; */
+  // }
+}
+
+.announcement-bar__content {
+  display: flex;
+  justify-content: space-between;
+}
+
+.announcement-bar__item {
+  padding: 0 20px;
+
+  &:first-child {
+    padding-left: 0;
+  }
+  &:last-child {
+    padding-right: 0;
+  }
+
+  &.announcement-bar__item--ticker {
+    flex: 1;
+    overflow: hidden;
+  }
+
+  @include media-query($small) {
+    text-align: center;
+
+    &.announcement-bar__item--ticker,
+    &.announcement-bar__item--menu {
+      display: none;
+    }
+    &.announcement-bar__item--message {
+      flex: 1;
+      padding: 0;
+    }
+  }
+
+  .ticker {
+    position: relative;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 500ms ease-out;
+
+    &.is-init {
+      opacity: 1
+    }
+
+    &:before,
+    &:after {
+      content: '';
+      position: absolute;
+      z-index: 1;
+      pointer-events: none;
+      top: 0;
+      bottom: 0;
+      width: 200px;
+      max-width: 25%;
+    }
+
+    &:before {
+      left: 0;
+    }
+
+    &:after {
+      right: 0;
+    }
+  }
+
+  .ticker__item {
+    padding: 0 8px;
+  }
+
+  .bg--tertiary-background & .ticker {
+    &:before {
+      background-image: linear-gradient(90deg, $color-tertiary-background, transparentize($white, 1) 50%);
+    }
+    &:after {
+      background-image: linear-gradient(-90deg, $color-tertiary-background, transparentize($white, 1) 50%);
+    }
   }
 }
+
+
 .site-nav li a.color--header-active{}
+
 .top-nav {
   margin: 0;
-  max-width: 630px;
-  float: right;
-  width: 100%;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 0 $space-1;
+
+    &:first-child {
+      padding-left: 0;
+    }
+
+    &:last-child {
+      padding-right: 0;
+    }
+  }
+
+  @include media-query($medium-up) {
+    li {
+      padding: 0 $space-2;
+    }
+  }
 }
+
 a#CartLink{font-weight:normal;
   @media(min-width:1025px){padding-right: 0;}
 }
@@ -6100,7 +6215,7 @@ ul.left-ul {
   // .header-table, .header-table.active-header{height:auto; border:0; position:relative}
   a.site-header__logo-image{max-width: 40px;}
   .top-nav{display:none;}
-  .announcement-bar {text-align:center}
+  // .announcement-bar {text-align:center}
 
   .site-header__menu-btn {float: right; padding:0;margin-top: 0;}
   body:not(.banner-image) .shopify-section:first-child section.bg--primary-background {
@@ -6173,9 +6288,6 @@ header.fixed-nav {
 //     transform: translateY(0);
 //   }
 // }
-.announcement-bar {-ms-transition: all 0.4s;
-  -webkit-transition: all 0.4s;
-  transition: all 0.4s;}
 /* .add-sticky header .announcement-bar{height:1px; padding-top:0;padding-bottom:0; visibility:hidden} */
 .hide-hamburger{display:none;}
 
@@ -6373,10 +6485,10 @@ main#MainContent .icon-wrapper svg.icon.icon-search{
 
 }
 
-.cart-icon .header__link-wrapper { color:inherit  }
-@media(max-width:1024px) {  
-  .cart-icon .header__link-wrapper { color:$color-primary-meta !important }
-}
+// .cart-icon .header__link-wrapper { color:inherit  }
+// @media(max-width:1024px) {  
+//   .cart-icon .header__link-wrapper { color:$color-primary-meta !important }
+// }
 
 .template-search {
 
