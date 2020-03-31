@@ -78,12 +78,30 @@ Add class to body to fix section padding for first section
       {% capture announcement_bar_class %}
         block full--w bg--{{ section.settings.announcement_color }}-background color--{{ section.settings.announcement_color }}-text px30  py1  font-size--m text-align--left hv--{{ section.settings.announcement_color }}-accent
       {% endcapture %}
+
+      {% capture announcement_bar_ticker_items %}
+        {% for block in section.blocks %}
+          {% if block.type == 'ticker_item' %}
+            {% if block.settings.link != blank %}
+              <a href="{{ block.settings.link }}" class="ticker__item">{{ block.settings.title }}</a>
+            {% else %}
+              <span class="ticker__item">{{ block.settings.title }}</span>
+            {% endif %}
+          {% endif %}
+        {% endfor %}      
+      {% endcapture %}
+
+      {% comment %} Show the announcement message on mobile unless there's a ticker, then show that instead {% endcomment %}
+      {% assign show_announcement_message_on_mobile = true %}
+      {% if announcement_bar_ticker_items != blank %}
+        {% assign show_announcement_message_on_mobile = false %}
+      {% endif %}
       
       <div class="announcement-bar announcement-bar--link {{ announcement_bar_class }}">
         <div class="announcement-bar__content">
           {% if section.settings.show_announcement %}
             {% if section.settings.home_page_only == false or template.name == 'index' %}
-              <div class="announcement-bar__item announcement-bar__item--message">
+              <div class="announcement-bar__item announcement-bar__item--message {% unless show_announcement_message_on_mobile %}md--dn--hide{% endunless %}">
                 {% if section.settings.link == blank %}
                   {{ section.settings.text | escape }}
                 {% else %}
@@ -93,22 +111,11 @@ Add class to body to fix section padding for first section
             {% endif %}
           {% endif %}
 
-          {% capture ticker_items %}
-            {% for block in section.blocks %}
-              {% if block.type == 'ticker_item' %}
-                {% if block.settings.link != blank %}
-                  <a href="{{ block.settings.link }}" class="ticker__item">{{ block.settings.title }}</a>
-                {% else %}
-                  <span class="ticker__item">{{ block.settings.title }}</span>
-                {% endif %}
-              {% endif %}
-            {% endfor %}
-          {% endcapture %}
-          {% if ticker_items != blank %}
+          {% if announcement_bar_ticker_items != blank %}
             <div class="announcement-bar__item announcement-bar__item--ticker">
               <div class="ticker" data-ticker>
                 <div class="ticker-content">
-                  {{ ticker_items }}
+                  {{ announcement_bar_ticker_items }}
                 </div>
               </div>
             </div>

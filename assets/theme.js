@@ -2720,8 +2720,10 @@ theme.Instagram = (function() {
         url: url,
         type: "get",
         dataType: "jsonp",
-        success: function(data) {
-          var username = data.data[0].user.username;
+        success: function(resp) {
+          var data = resp.data;
+          var username = data[0].user.username;
+
           if (_showTitle) {
             _this.$container.find(".instagram-title").html(username);
           }
@@ -2731,15 +2733,18 @@ theme.Instagram = (function() {
             _this.$container.find(".instagram-link").attr("href", url);
           }
 
-          for (var i = 0; i < count; i++) {
-            var thumb = data.data[i].images.thumbnail;
-            var lowres = data.data[i].images.low_resolution;
-            var highres = data.data[i].images.standard_resolution;
-            var permalink = data.data[i].link;
+          var limit = data.length < count ? data.length : count;
+
+          for (var i = 0; i < limit; i++) {
+            var d = data[i]
+            var thumb = d.images.thumbnail;
+            var lowres = d.images.low_resolution;
+            var highres = d.images.standard_resolution;
+            var permalink = d.link;
             var gramItem = $(_postsHolder).find(".gram-item-blank");
             var caption = "";
-            if (data.data[i].caption) {
-              caption = data.data[i].caption.text;
+            if (d.caption) {
+              caption = d.caption.text;
               caption = theme.text_truncate(caption);
             }
             gramItem = gramItem.clone();
