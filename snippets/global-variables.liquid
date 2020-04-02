@@ -5,10 +5,16 @@
 {%- assign heading_fontsize__mobile_full = global__heading_font_size -%}
 {%- assign heading_fontsize__mobile_half = 'f--heading font-size--xl line-height--5 pm--font-size--xxxl pm--line-height--8 wd--font-size--xxxxl wd--line-height--11' -%}
 
+{% comment %}
 {%- capture global__link_underline -%}f--accent inline-block link-underline color--{{ section_color }}-text border-bottom--{{ section_color }}-text{%- endcapture -%}
+{% endcomment %}
+{%- assign global__link_underline = '' -%}
 {%- assign global__homepage_more_link = 'mt2 lg--up--mt3 inline-block' -%}
 
+{% comment %}
 {%- capture global__hover_underline -%}hv--{{ section_color }}-accent hv--border-bottom--{{ section_color }}-accent{%- endcapture -%}
+{% endcomment %}
+{%- assign global__hover_underline = '' -%}
 {%- capture global__hover_bg -%}hv-bg--{{ section_color }}-accent hv--{{ section_color }}-accent--overlay{%- endcapture -%}
 {%- capture global__hover_border -%}hv--border--{{ section_color }}-accent hv--{{ section_color }}-accent{%- endcapture -%}
 {%- capture global__hover_bg_border -%}hv-bg--{{ section_color }}-accent hv--border--{{ section_color }}-accent hv--{{ section_color }}-accent--overlay{%- endcapture -%}

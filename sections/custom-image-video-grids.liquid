@@ -9,82 +9,83 @@
 {%- assign hover_color_overlay = '' -%}
 
 {%- if text_color != 'main' -%}
-{%- assign hover_color = 'main' -%}
+  {%- assign hover_color = 'main' -%}
 {%- else -%}
-{%- assign hover_color = 'primary' -%}
+  {%- assign hover_color = 'primary' -%}
 {%- endif -%}
 
 {%- if text_color_overlay != 'main' -%}
-{%- assign hover_color_overlay = 'main' -%}
+  {%- assign hover_color_overlay = 'main' -%}
 {%- else -%}
-{%- assign hover_color_overlay = 'primary' -%}
+  {%- assign hover_color_overlay = 'primary' -%}
 {%- endif -%}
 
 {% if section.blocks.size > 0 %}
-<section class="grid-gallery test {% if section.settings.grid_width ==  'one-quarter' %} four_video_image--blocks {% elsif section.settings.grid_width == 'one-half' %} two_video_image--blocks {% elsif section.settings.grid_width == 'one-sixth' %} sixth_video_image--blocks {% elsif section.settings.grid_width == 'one-eighth' %} eighth_video_image--blocks {% endif %} {% if section.settings.show_on_desktop and section.settings.show_on_mobile %}{% elsif section.settings.show_on_desktop %} sm--hide {% elsif section.settings.show_on_mobile %} md--up--hide {% endif %} md--py0 {% if section.blocks.size == 6 %} six_video_image--blocks {% elsif section.blocks.size == 8 %} eight_video_image--blocks {% endif %} image-with-text {{ global__section_with_padding_class }} color--{{ section_color }}-text md--up--color--{{ text_color_overlay }}-text bg--{{ section_color }}-background sm--pb0 sm--pt1" data-section-type="newsletter" data-section-id="{{ section.id }}">
+<section class="grid-gallery test {% if section.settings.grid_width ==  'one-quarter' %} four_video_image--blocks {% elsif section.settings.grid_width == 'one-half' %} two_video_image--blocks {% elsif section.settings.grid_width == 'one-sixth' %} sixth_video_image--blocks {% elsif section.settings.grid_width == 'one-eighth' %} eighth_video_image--blocks {% endif %} {% if section.settings.show_on_desktop and section.settings.show_on_mobile %}{% elsif section.settings.show_on_desktop %} sm--hide {% elsif section.settings.show_on_mobile %} md--up--hide {% endif %} md--py0 {% if section.blocks.size == 6 %} six_video_image--blocks {% elsif section.blocks.size == 8 %} eight_video_image--blocks {% endif %} image-with-text {{ global__section_with_padding_class }} color--{{ text_color_overlay }}-text bg--{{ section_color }}-background sm--pb0 sm--pt1" data-section-id="{{ section.id }}">
   <div class="max-site-width px2 lg--up--px31 sm--px1 grid-wrap">
     <div class="grid grid-masonry sm--mln1">
 
       <div class="grid-sizer grid-sizer-{{ section.id }}"></div>
+
       {% for block in section.blocks %}
       <div class="grid__item {% if section.settings.grid_width ==  'one-whole' or  section.settings.grid_width ==  'one-half' %}{% else %} grid-item {% endif %}{{ block.settings.select_width }} {{ block.settings.select_height }} {% if section.blocks.size == 4 %} sm--one-half md--one-half {% endif %} {% if section.blocks.size == 2 %} md--dn--one-half  {% endif %}  {% if section.blocks.size == 8 %} sm--one-whole   md--one-quarter {% endif %} mb2  sm--mb1 grid__item lg--up--{{section.settings.grid_width}} sm--pl1 custom-img-video-grid {% if section.blocks.size == 6 %} md--one-whole sm--one-whole {% endif %}">
         <div class="image-with-text__container relative">
           {% if block.settings.cta_url != blank %}
-          <a {% if block.settings.enable_new_tab %} target="_blank"{% endif %}href="{{ block.settings.cta_url }}">
+            <a {% if block.settings.enable_new_tab %} target="_blank"{% endif %}href="{{ block.settings.cta_url }}">
+          {% endif %}
+          <div class="image-with-text__image {% if block.type == 'video' %}video-with--text {% endif %}">
+            {% if block.type == 'image' %}
+              {% if block.settings.feature_image %}
+                {% capture img_id %}FeatureImage-{{ block.settings.feature_image.id }}{% endcapture %}
+                {% capture wrapper_id %}FeatureImageWrapper-{{ block.settings.feature_image.id }}{% endcapture %}
+                {%- assign img_url = block.settings.feature_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                <div id="{{ wrapper_id }}" class="resp-img-wrapper js homepage-image_wrap">
+                  <div style="padding-top:{{ 1 | divided_by: block.settings.feature_image.aspect_ratio | times: 100}}%;">
+                    <img id="{{ img_id }}"
+                         class="resp-img feature-image__img-content lazyload"
+                         data-src="{{ img_url }}"
+                         data-widths="[540, 720, 900, 1080, 1296, 1512, 1728, 1944, 2048, 4472]"
+                         data-aspectratio="{{ feature_image.aspect_ratio }}"
+                         data-sizes="auto"
+                         alt="{{ feature_image.alt | escape }}">
+                    <img id="{{ img_id }}"
+                         class="resp-img-placeholder"
+                         src="{{ feature_image | img_url: '1x1' }}"
+                         width="{{ feature_image.width }}"
+                         height="{{ feature_image.height }}"
+                         alt="{{ feature_image.alt | escape }}">
+                  </div>
+                </div>
+                <noscript>
+                  <img src="{{ block.settings.feature_image | img_url: 'large' }}" alt="{{ feature_image.alt | escape }}" class="feature-image__img-content">
+                </noscript>
+              {% else %}
+                <div class="image-with-text__placeholder full homepage-video_wrap {{ placeholder_bg }} p1 md--up--p3">
+                  <div class="image-with-text__placeholder-svg">
+                    {{ 'lifestyle-1' | placeholder_svg_tag }}
+                  </div>
+                </div>
+              {% endif %}
+            {% else %}
+              {% if block.settings.feature_image %}
+                {% capture img_id %}FeatureImage-{{ block.settings.feature_image.id }}{% endcapture %}
+                {% capture wrapper_id %}FeatureImageWrapper-{{ block.settings.feature_image.id }}{% endcapture %}
+                {%- assign img_url = block.settings.feature_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+                <div id="{{ wrapper_id }}" class="resp-img-wrapper js">
+                  {{ block.settings.feature_image }}
+                </div>
+              {% else %}
+                <div class="image-with-text__placeholder full {{ placeholder_bg }} p1 md--up--p3">
+                  <div class="image-with-text__placeholder-svg">
+                    {{ 'lifestyle-1' | placeholder_svg_tag }}
+                  </div>
+                </div>
+              {% endif %}
             {% endif %}
-            <div class="image-with-text__image {% if block.type == 'video' %}video-with--text {% endif %}">
-              {% if block.type == 'image' %}
-              {% if block.settings.feature_image %}
-              {% capture img_id %}FeatureImage-{{ block.settings.feature_image.id }}{% endcapture %}
-              {% capture wrapper_id %}FeatureImageWrapper-{{ block.settings.feature_image.id }}{% endcapture %}
-              {%- assign img_url = block.settings.feature_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
-              <div id="{{ wrapper_id }}" class="resp-img-wrapper js homepage-image_wrap">
-                <div style="padding-top:{{ 1 | divided_by: block.settings.feature_image.aspect_ratio | times: 100}}%;">
-                  <img id="{{ img_id }}"
-                       class="resp-img feature-image__img-content lazyload"
-                       data-src="{{ img_url }}"
-                       data-widths="[540, 720, 900, 1080, 1296, 1512, 1728, 1944, 2048, 4472]"
-                       data-aspectratio="{{ feature_image.aspect_ratio }}"
-                       data-sizes="auto"
-                       alt="{{ feature_image.alt | escape }}">
-                  <img id="{{ img_id }}"
-                       class="resp-img-placeholder"
-                       src="{{ feature_image | img_url: '1x1' }}"
-                       width="{{ feature_image.width }}"
-                       height="{{ feature_image.height }}"
-                       alt="{{ feature_image.alt | escape }}">
-                </div>
-              </div>
-              <noscript>
-                <img src="{{ block.settings.feature_image | img_url: 'large' }}" alt="{{ feature_image.alt | escape }}" class="feature-image__img-content">
-              </noscript>
-              {% else %}
-              <div class="image-with-text__placeholder full homepage-video_wrap {{ placeholder_bg }} p1 md--up--p3">
-                <div class="image-with-text__placeholder-svg">
-                  {{ 'lifestyle-1' | placeholder_svg_tag }}
-                </div>
-              </div>
-              {% endif %}
-              {% else %}
-              {% if block.settings.feature_image %}
-              {% capture img_id %}FeatureImage-{{ block.settings.feature_image.id }}{% endcapture %}
-              {% capture wrapper_id %}FeatureImageWrapper-{{ block.settings.feature_image.id }}{% endcapture %}
-              {%- assign img_url = block.settings.feature_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
-              <div id="{{ wrapper_id }}" class="resp-img-wrapper js">
-                {{ block.settings.feature_image }}
-              </div>
-              {% else %}
-              <div class="image-with-text__placeholder full {{ placeholder_bg }} p1 md--up--p3">
-                <div class="image-with-text__placeholder-svg">
-                  {{ 'lifestyle-1' | placeholder_svg_tag }}
-                </div>
-              </div>
-              {% endif %}
-              {% endif %}
-            </div>
+          </div>
             
-            {% if block.settings.text != blank or  block.settings.heading != blank or  block.settings.heading != blank  or  block.settings.cta_url  != blank %}
-            <div class=" {% if block.type == 'video' %}video-with--text {% endif %} image-with-text__content lg--up--absolute lg--up--full lg--up--top--0 lg--up--left--0 lg--up--p2 wd--p51 z1 md--absolute md--full md--top--0 md--left--0 md--p1 sm--absolute sm--full sm--top--0 sm--left--0 sm--p1">
+          {% if block.settings.text != blank or  block.settings.heading != blank or  block.settings.heading != blank  or  block.settings.cta_url  != blank %}
+            <div class=" {% if block.type == 'video' %}video-with--text {% endif %} image-with-text__content lg--up--absolute lg--up--full lg--up--top--0 lg--up--left--0 lg--up--p2 wd--p51 z1 md--absolute md--full md--top--0 md--left--0 md--p1 sm--absolute sm--full sm--top--0 sm--left--0 sm--p1 color--{{ text_color_overlay }}-text">
               <div class="md--up--table md--dn--table md--up--full">
                 <div class="md--up--table-cell md--dn--table-cell md--up--{{ content_position[0] }} md--dn--{{ content_position[0] }} md--up--{{ content_position[1] }} md--dn--{{ content_position[1] }}">
                   <div class="inline-block sm--one-whole md--up--{{ text_align }}">
@@ -99,18 +100,18 @@
                       {% endif %}
 
                       {% if block.settings.cta_text != blank and block.settings.cta_url != blank %}
-                      <a class="mt1 inline-block {{ global__link_underline }}  {{ global__hover_underline }} md--up--color--{{ text_color_overlay }}-text md--up--border-bottom--{{ text_color_overlay }}-text md--up--hv--{{ hover_color_overlay }}-primary md--up--hv--border-bottom--{{ hover_color_overlay }}-primary md--up--inline-block {% if section.settings.grid_width == 'one-eighth' or section.settings.grid_width == 'one-sixth' %}font-size--x line-height--4 wd--font-size--xl wd--line-height--4{% else %}{{ global__heading_font_size }}{% endif %}" href="{{ block.settings.cta_url }}" {% if block.settings.enable_new_tab %}target="_blank" {%  endif %}>
+                      <span class="mt1 inline-block {{ global__link_underline }}  {{ global__hover_underline }}  md--up--hv--{{ hover_color_overlay }}-primary  md--up--inline-block {% if section.settings.grid_width == 'one-eighth' or section.settings.grid_width == 'one-sixth' %}font-size--x line-height--4 wd--font-size--xl wd--line-height--4{% else %}{{ global__heading_font_size }}{% endif %}">
                         {{ block.settings.cta_text }}
-                      </a>
+                      </span>
                       {% endif %}
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            {% endif %}
-            {% if block.settings.cta_url != blank %}
-          </a>
+          {% endif %}
+          {% if block.settings.cta_url != blank %}
+            </a>
           {% endif %}
         </div>
       </div>

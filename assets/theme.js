@@ -1052,20 +1052,26 @@ slate.Sections.prototype = $.extend({}, slate.Sections.prototype, {
     this.instances.push(instance);
   },
 
+  _getInstanceForEvent(evt) {
+    var id = (evt.detail && evt.detail.sectionId || evt.originalEvent.detail.sectionId);
+    
+    return slate.utils.findInstance(this.instances, 'id', id);
+  },
+
   _onSectionLoad: function(evt) {
     var container = $('[data-section-id]', evt.target)[0];
     if (container) {
       this._createInstance(container);
     }
 
-    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+    var instance = this._getInstanceForEvent(evt);
     if (instance && typeof instance.onSectionLoad === 'function') {
       instance.onSectionLoad(evt);
     }
   },
 
   _onSectionUnload: function(evt) {
-    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+    var instance = this._getInstanceForEvent(evt);
 
     if (!instance) {
       return;
@@ -1079,7 +1085,7 @@ slate.Sections.prototype = $.extend({}, slate.Sections.prototype, {
   },
 
   _onSelect: function(evt) {
-    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+    var instance = this._getInstanceForEvent(evt);
 
     if (instance && typeof instance.onSelect === 'function') {
       instance.onSelect(evt);
@@ -1087,7 +1093,7 @@ slate.Sections.prototype = $.extend({}, slate.Sections.prototype, {
   },
 
   _onDeselect: function(evt) {
-    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+    var instance = this._getInstanceForEvent(evt);
 
     if (instance && typeof instance.onDeselect === 'function') {
       instance.onDeselect(evt);
@@ -1095,7 +1101,7 @@ slate.Sections.prototype = $.extend({}, slate.Sections.prototype, {
   },
 
   _onReorder: function(evt) {
-    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+    var instance = this._getInstanceForEvent(evt);
 
     if (instance && typeof instance.onReorder === 'function') {
       instance.onReorder(evt);
@@ -1103,7 +1109,7 @@ slate.Sections.prototype = $.extend({}, slate.Sections.prototype, {
   },
 
   _onBlockSelect: function(evt) {
-    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+    var instance = this._getInstanceForEvent(evt);
 
     if (instance && typeof instance.onBlockSelect === 'function') {
       instance.onBlockSelect(evt);
@@ -1111,7 +1117,7 @@ slate.Sections.prototype = $.extend({}, slate.Sections.prototype, {
   },
 
   _onBlockDeselect: function(evt) {
-    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+    var instance = this._getInstanceForEvent(evt);
 
     if (instance && typeof instance.onBlockDeselect === 'function') {
       instance.onBlockDeselect(evt);
@@ -1683,14 +1689,7 @@ theme.Header = (function() {
     if (Marquee3k) {
       Marquee3k.init({
         selector: 'ticker'
-      });
-
-      // These handlers assume there is only one marquee on the site
-      // which there is...for now
-      this.$announcementBar.on({
-        mouseenter: function() { Marquee3k.pauseAll(); },
-        mouseleave: function() { Marquee3k.playAll(); }
-      });      
+      });   
     }
   }
 

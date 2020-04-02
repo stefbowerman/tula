@@ -15,8 +15,8 @@
         </div>
       </div>
       <div class="desktop-nav-header">
-        <div class="menu-left col-no-gutter menu" data-behavior="toggle-nav-height">
-          <ul class="t--header-navigation site-nav list--reset m0 p0 font-size--xll no-wrap inline-block">
+        <div class="menu-left col-no-gutter menu">
+          <ul class="t--header-navigation site-nav list--reset m0 p0 font-size--xll no-wrap inline-block" data-behavior="toggle-nav-height">
             {% for link in linklists[section.settings.main_linklist].links %}
               {% assign child_handle = link.title | handleize %}
               {% assign outer_index = forloop.index %}
