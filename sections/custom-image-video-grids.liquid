@@ -67,13 +67,10 @@
                 </div>
               {% endif %}
             {% else %}
+
+              {% comment %} We're working with an embed - excuse the setting name, I didn't come up with that.. {% endcomment %}
               {% if block.settings.feature_image %}
-                {% capture img_id %}FeatureImage-{{ block.settings.feature_image.id }}{% endcapture %}
-                {% capture wrapper_id %}FeatureImageWrapper-{{ block.settings.feature_image.id }}{% endcapture %}
-                {%- assign img_url = block.settings.feature_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
-                <div id="{{ wrapper_id }}" class="resp-img-wrapper js">
-                  {{ block.settings.feature_image }}
-                </div>
+                {% include 'responsive-embed', embed_code: block.settings.feature_image %}
               {% else %}
                 <div class="image-with-text__placeholder full {{ placeholder_bg }} p1 md--up--p3">
                   <div class="image-with-text__placeholder-svg">

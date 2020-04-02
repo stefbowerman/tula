@@ -204,9 +204,7 @@
                             </noscript>
                           {% endif %}
                         {% else %}
-                          <div class="resp-img-wrapper js">
-                            {{ embed }}
-                          </div>
+                          {% include 'responsive-embed', embed_code: embed %}
                         {% endif %}
                       </div>
 

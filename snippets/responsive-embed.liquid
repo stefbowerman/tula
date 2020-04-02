@@ -1,0 +1,55 @@
+<!-- /snippets/responsive-embed.liquid -->
+{% comment %}
+
+  This snippet is used to create a responsive container for an embed code.
+  It parses the embed code to look for height and width parameters.
+
+  If those are set, it will create a frame for the embed at that aspect ratio.
+  Otherwise, it will just fall back to a basic embed.
+
+  Usage:
+
+  {% include 'responsive-embed',
+              embed_code: { string } - required
+  %}
+
+{% endcomment %}
+
+{% if embed_code != blank %}
+
+  {% comment %} Let's try to find the height and width of the embed (if set) {% endcomment %}
+  {% assign embed_height = 0 %}
+  {% assign embed_width = 0 %}
+  {% assign code_split_for_height = embed_code | split: 'height="' %}
+  {% assign code_split_for_width = embed_code | split: 'width="' %}
+
+  {% for piece in code_split_for_height %}
+    {% assign height = piece | split: '"' | first %}
+    {% assign height = height | plus: 0.0000 %} {% comment %} Coerce to number - need the decimals to ensure we have a float instead of int {% endcomment %}
+    {% if height > 0 %}
+      {% assign embed_height = height %}
+    {% endif %}
+  {% endfor %}
+
+  {% for piece in code_split_for_width %}
+    {% assign width = piece | split: '"' | first %}
+    {% assign width = width | plus: 0.0000 %} {% comment %} Coerce to number - need the decimals to ensure we have a float instead of int {% endcomment %}
+    {% if width > 0 %}
+      {% assign embed_width = width %}
+    {% endif %}
+  {% endfor %}
+  {% comment %} END finding height + width {% endcomment %}
+
+  {% if height > 0 and width > 0 %}
+    {% comment %} We can create a responsive embed {% endcomment %}
+    {% assign padding_bottom = height | divided_by: width | times: 100 %}
+    <div class="responsive-embed" style="padding-bottom: {{ padding_bottom | append: '%'}}">
+      {{ embed_code }}
+    </div>
+  {% else %}
+    <div class="resp-img-wrapper js">
+      {{ embed_code }}
+    </div>                
+  {% endif %}
+  
+{% endif %}
