@@ -174,7 +174,7 @@
 
               {% if image != blank or embed != blank %}
 
-                <div class="{{ grid_item_classes | strip | strip_new_lines }}">
+                <div class="{{ grid_item_classes | strip | strip_newlines }}">
                   <div class="image-with-text__container relative">
                     {% if cta_url != blank %}
                       <a href="{{ cta_url }}" {% if enable_new_tab %}target="_blank"{% endif %}>

@@ -5202,13 +5202,15 @@ Header
 }
 
 .header__logo {
-  margin-left: auto;
+  position: absolute;
+  right: $space-30;
   display: flex;
   align-items: center;
   justify-content: flex-end;
 
   @include media-query($large-up) {
     height: 100px;
+    right: $space-1*3;
   }
 }
 
@@ -6302,11 +6304,9 @@ header.fixed-nav {
 
   .submenu-image {
     position: absolute;
-    right: $gutter;
+    right:  0;
     top: $gutter;
     height: 191px;
-    pointer-events: none;
-    transform: translateX(150px);
 
     img {
       height: 100%;

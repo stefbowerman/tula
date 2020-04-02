@@ -319,16 +319,36 @@
 
           </div>
 
-          <div class="header-table__center align--middle text-align--right flex--grow--1  md--dn--flex--1-basis-0 lg--up--flex--grow--0 lg--justify--center lg--items--center">
-            {% capture image_size %}{{ section.settings.logo_max_width }}{% endcapture %}
-            {% if template.name == 'index' %}
-              <h1 class="header__logo m0  {% if section.settings.logo != blank %}font-size--0{% endif %}" itemscope itemtype="http://schema.org/Organization" style="max-width:{{ image_size }}px;">
-            {% else %}
-              <div class="header__logo {% unless section.settings.logo != blank %}h1{% else %}font-size--0{% endunless %} m0 " itemscope itemtype="http://schema.org/Organization" style="max-width:{{ image_size }}px;">
+          {% assign image_size = section.settings.logo_max_width %}
+          {% assign has_logo = false %}
+          {% if section.settings.logo != blank %}
+            {% assign has_logo = true %}
+          {% endif %}
+
+          {% capture logo_attributes %}
+            class="header__logo m0 {% if has_logo %}font-size--0{% endif %}" itemscope itemtype="http://schema.org/Organization"
+            {% if has_logo %}
+              style="max-width:{{ image_size }}px;"
             {% endif %}
-            
-              <a href="/" itemprop="url" class="font-size--xl color--{{ section_color }}-text  f--heading  site-logo{% if section.settings.logo != blank %} site-header__logo-image{% endif %}">
-                {% if section.settings.logo != blank %}
+          {% endcapture %}
+
+          {% capture logo_link_classes %}
+            site-logo
+            {% if has_logo %}
+              site-header__logo-image
+            {% else %}
+              font-size--xl color--{{ section_color }}-text f--heading
+            {% endif %}
+          {% endcapture %}
+
+          {% if template.name == 'index' %}
+            <h1 {{ logo_attributes }}>
+          {% else %}
+            <div {{ logo_attributes }}>
+          {% endif %}
+          
+            <a href="/" itemprop="url" class="{{ logo_link_classes | strip | strip_newlines }}">
+              {% if has_logo %}
 
                 <img class="desktop_logo sm--hide" src="{{ section.settings.logo | img_url: 'master' }}"
                      srcset="{{ section.settings.logo | img_url: 'master' }} 1x, {{ section.settings.logo | img_url: image_size, scale: 1 }} 1x"
@@ -340,18 +360,15 @@
                      alt="{{ section.settings.m_logo.alt | default: shop.name }}"
                      itemprop="logo">
 
-                
-                
-                {% else %}
+              {% else %}
                 {{ shop.name }}
-                {% endif %}
-              </a>
-            {% if template.name == 'index' %}
-              </h1>
-            {% else %}
-              </div>
-            {% endif %}
-          </div>
+              {% endif %}
+            </a>
+          {% if template.name == 'index' %}
+            </h1>
+          {% else %}
+            </div>
+          {% endif %}
 
           {% comment %}
           <div class="header__meta header-table__bookend align--middle text-align--right  md--dn--flex--1-basis-0 lg--up--justify--end no-wrap">
@@ -392,7 +409,7 @@
 
 {% comment %}
 
-  Section settings for this code below...
+  Section settings for the following code are shown after within the same comment block...
 
 
   {%- assign section_color = 'secondary' -%}
