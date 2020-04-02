@@ -17,7 +17,10 @@
 
 {% if embed_code != blank %}
 
-  {% comment %} Let's try to find the height and width of the embed (if set) {% endcomment %}
+  {% comment %}
+    Let's try to find the height and width of the embed (if set)
+    Only works if the numbers are pure, no units
+  {% endcomment %}
   {% assign embed_height = 0 %}
   {% assign embed_width = 0 %}
   {% assign code_split_for_height = embed_code | split: 'height="' %}
@@ -25,6 +28,12 @@
 
   {% for piece in code_split_for_height %}
     {% assign height = piece | split: '"' | first %}
+    
+    {% comment %} Break early, we can't deal with units {% endcomment %}
+    {% if height contains 'px' or height contains '%' %}
+      {% break %}
+    {% endif %}
+
     {% assign height = height | plus: 0.0000 %} {% comment %} Coerce to number - need the decimals to ensure we have a float instead of int {% endcomment %}
     {% if height > 0 %}
       {% assign embed_height = height %}
@@ -33,6 +42,12 @@
 
   {% for piece in code_split_for_width %}
     {% assign width = piece | split: '"' | first %}
+
+    {% comment %} Break early, we can't deal with units {% endcomment %}
+    {% if width contains 'px' or width contains '%' %}
+      {% break %}
+    {% endif %}
+
     {% assign width = width | plus: 0.0000 %} {% comment %} Coerce to number - need the decimals to ensure we have a float instead of int {% endcomment %}
     {% if width > 0 %}
       {% assign embed_width = width %}
@@ -40,9 +55,9 @@
   {% endfor %}
   {% comment %} END finding height + width {% endcomment %}
 
-  {% if height > 0 and width > 0 %}
+  {% if embed_height > 0 and embed_width > 0 %}
     {% comment %} We can create a responsive embed {% endcomment %}
-    {% assign padding_bottom = height | divided_by: width | times: 100 %}
+    {% assign padding_bottom = embed_height | divided_by: embed_width | times: 100 %}
     <div class="responsive-embed" style="padding-bottom: {{ padding_bottom | append: '%'}}">
       {{ embed_code }}
     </div>
