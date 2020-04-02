@@ -4,40 +4,40 @@
 
 {% include 'header__banner-color' %}
 
-<style>
-  {%- if section.settings.logo != blank -%}
-  .site-header__logo-image {
-    max-width: {{ section.settings.logo_max_width }}px;
-  }
-  {%- endif -%}
-
-
-</style>
+{%- if section.settings.logo != blank -%}
+  <style>
+    .site-header__logo-image {
+      max-width: {{ section.settings.logo_max_width }}px;
+    }
+  </style>
+{%- endif -%}
 
 {%- assign feature_image_placeholder = false -%}
 {% if section.settings.show_banner %}
-{%- if  template.name == 'index' -%}    
-{% comment %}
-Add class to body to fix section padding for first section
-{% endcomment %}
-<script>
-  document.body.classList.add("banner-image");
-</script>
-{% if section.settings.banner %}
-{%- assign feature_image = section.settings.banner -%}
-{%- assign padding = '100vh' -%}
-{%- if section.settings.banner_image_style == 'fit_content' %}
-{%- capture padding -%}{{ 1 | divided_by: feature_image.aspect_ratio | times: 100 }}%{%- endcapture -%}
-{%- endif -%}
-{% else %}
-{%- assign feature_image_placeholder = true -%}
-{%- assign padding = '100vh' -%}
-{%- if section.settings.banner_image_style == 'fit_content' %}
-{%- capture padding -%}38.55%{%- endcapture -%}
-{%- endif -%}
-{% endif %}
-<div style="padding-top:{{ padding }};"></div>
-{%- endif -%}
+  {%- if template.name == 'index' -%}    
+
+    {% comment %}
+    Add class to body to fix section padding for first section
+    {% endcomment %}
+    <script>
+      document.body.classList.add("banner-image");
+    </script>
+    {% if section.settings.banner %}
+      {%- assign feature_image = section.settings.banner -%}
+      {%- assign padding = '100vh' -%}
+      {%- if section.settings.banner_image_style == 'fit_content' %}
+        {%- capture padding -%}{{ 1 | divided_by: feature_image.aspect_ratio | times: 100 }}%{%- endcapture -%}
+      {%- endif -%}
+    {% else %}
+      {%- assign feature_image_placeholder = true -%}
+      {%- assign padding = '100vh' -%}
+      {%- if section.settings.banner_image_style == 'fit_content' %}
+        {%- capture padding -%}38.55%{%- endcapture -%}
+      {%- endif -%}
+    {% endif %}
+
+    <div style="padding-top:{{ padding }};"></div>
+  {%- endif -%}
 {% endif %}
 
 {% assign sticky_header = true %}
@@ -549,29 +549,129 @@ Add class to body to fix section padding for first section
       "label":"Mobile Menu secondary"
     },
     {
-      "type":"image_picker",
-      "id":"image_menu1",
-      "label":"Secondary Logo Plants"
+      "type":"checkbox",
+      "id":"show_all_navigation_links",
+      "label":"Enable links to drop-down link headings"
+    },
+    {
+      "type": "header",
+      "content": "Dropdown 1"
     },
     {
       "type":"image_picker",
-      "id":"image_menu2",
-      "label":"Secondary Logo Education"
+      "id":"image_menu1",
+      "label":"Image"
+    },
+    {
+      "type": "text",
+      "id": "image_menu1_title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "image_menu1_color",
+      "label": "Title color",
+      "options": [
+        { "value": "primary", "label": "Primary"},
+        { "value": "secondary", "label": "Secondary"},
+        { "value": "tertiary", "label": "Tertiary"},
+        { "value": "white", "label": "White"}
+      ]
+    },
+    {
+      "type":"url",
+      "id":"image_menu1_link",
+      "label":"Link"
+    },
+    {
+      "type": "header",
+      "content": "Dropdown 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_menu2",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "image_menu2_title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "image_menu2_color",
+      "label": "Title color",
+      "options": [
+        { "value": "primary", "label": "Primary"},
+        { "value": "secondary", "label": "Secondary"},
+        { "value": "tertiary", "label": "Tertiary"},
+        { "value": "white", "label": "White"}
+      ]
+    },
+    {
+      "type":"url",
+      "id":"image_menu2_link",
+      "label":"Link"
+    },
+    {
+      "type": "header",
+      "content": "Dropdown 3"
     },
     {
       "type":"image_picker",
       "id":"image_menu3",
-      "label":"Secondary Logo Design"
+      "label":"Image"
+    },
+    {
+      "type": "text",
+      "id": "image_menu3_title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "image_menu3_color",
+      "label": "Title color",
+      "options": [
+        { "value": "primary", "label": "Primary"},
+        { "value": "secondary", "label": "Secondary"},
+        { "value": "tertiary", "label": "Tertiary"},
+        { "value": "white", "label": "White"}
+      ]
+    },
+    {
+      "type":"url",
+      "id":"image_menu3_link",
+      "label":"Link"
+    },
+    {
+      "type": "header",
+      "content": "Dropdown 4"
     },
     {
       "type":"image_picker",
       "id":"image_menu4",
-      "label":"Secondary Logo Take Action"
+      "label": "Image"
     },
     {
-      "type":"checkbox",
-      "id":"show_all_navigation_links",
-      "label":"Enable links to drop-down link headings"
+      "type": "text",
+      "id": "image_menu4_title",
+      "label": "Title"
+    },
+    {
+      "type": "select",
+      "id": "image_menu4_color",
+      "label": "Title color",
+      "options": [
+        { "value": "primary", "label": "Primary"},
+        { "value": "secondary", "label": "Secondary"},
+        { "value": "tertiary", "label": "Tertiary"},
+        { "value": "white", "label": "White"}
+      ]
+    },
+    {
+      "type":"url",
+      "id":"image_menu4_link",
+      "label":"Link"
     },
     {
       "type":"header",

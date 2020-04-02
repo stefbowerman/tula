@@ -15,21 +15,43 @@
         </div>
       </div>
       <div class="desktop-nav-header">
-        <div class="menu-left col-no-gutter menu">
-          <ul class="t--header-navigation site-nav list--reset m0 p0 font-size--xll no-wrap inline-block" data-behavior="toggle-nav-height">
+        <div class="menu-left col-no-gutter menu" data-behavior="toggle-nav-height">
+          <ul class="t--header-navigation site-nav list--reset m0 p0 font-size--xll no-wrap inline-block">
             {% for link in linklists[section.settings.main_linklist].links %}
               {% assign child_handle = link.title | handleize %}
               {% assign outer_index = forloop.index %}
               {% assign submenu_image_setting_handle = 'image_menu' | append: outer_index %}
-              <li class="nav__item inline-block">
-                <a href="{{link.url}}" >{{link.title}}</a>
-                {% if link.links != blank %}
+              {% assign submenu_image_title_setting_handle = 'image_menu' | append: outer_index | append: '_title' %}
+              {% assign submenu_image_color_setting_handle = 'image_menu' | append: outer_index | append: '_color' %}
+              {% assign submenu_image_link_setting_handle = 'image_menu' | append: outer_index | append: '_link' %}
 
+              {% assign submenu_image = section.settings[submenu_image_setting_handle] %}
+              {% assign submenu_image_title = section.settings[submenu_image_title_setting_handle] %}
+              {% assign submenu_image_color = section.settings[submenu_image_color_setting_handle] %}
+              {% assign submenu_image_link = section.settings[submenu_image_link_setting_handle] %}
+
+              <li class="nav__item inline-block">
+                <a href="{{ link.url }}">{{ link.title }}</a>
+                
+                {% if link.links != blank %}
                   <div class="nav-content">
-                    <div class="sub-content-container" style="display: flex;">
-                      {% if section.settings[submenu_image_setting_handle] != blank %}
+                    <div class="sub-content-container">
+                      {% if submenu_image != blank %}
                         <div class="submenu-image">
-                          <img src="{{ section.settings[submenu_image_setting_handle] | img_url: 'original'}}" />
+                          {% if submenu_image_link != blank %}
+                            <a href="{{ submenu_image_link }}">
+                          {% endif %}
+
+                          <img src="{{ submenu_image | img_url: '300x' }}" />
+                          {% if submenu_image_title != blank %}
+                            <span class="submenu-image__title f--heading font-size--xxl color--{{ submenu_image_color }}-text">
+                              {{ submenu_image_title }}
+                            </span>
+                          {% endif %}
+
+                          {% if submenu_image_link != blank %}
+                            </a>
+                          {% endif %} 
                         </div>
                       {% endif %}
 
@@ -40,7 +62,7 @@
                       {% for sublink in link.links %}
                         {% capture subsublinks_left_col_html %}
                           {% for subsublink in sublink.links %}
-                            {% if forloop.index >= 5 %}
+                            {% if forloop.index >= 6 %}
                               {% break %}
                             {% endif %}
                             <li style="width: auto !important; display: block;"><a href="{{subsublink.url}}" style="display: inline-block;">{{subsublink.title}}</a></li>
@@ -49,7 +71,7 @@
 
                         {% capture subsublinks_right_col_html %}
                           {% for subsublink in sublink.links  %}
-                            {% if forloop.index < 5 %}
+                            {% if forloop.index < 6 %}
                               {% continue %}
                             {% endif %}
                             <li style="width: auto !important; display: block;"><a href="{{subsublink.url}}" style="display: inline-block;">{{subsublink.title}}</a></li>

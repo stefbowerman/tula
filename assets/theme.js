@@ -1052,10 +1052,12 @@ slate.Sections.prototype = $.extend({}, slate.Sections.prototype, {
     this.instances.push(instance);
   },
 
-  _getInstanceForEvent(evt) {
-    var id = (evt.detail && evt.detail.sectionId || evt.originalEvent.detail.sectionId);
-    
-    return slate.utils.findInstance(this.instances, 'id', id);
+  _getSectionIdForEvent(evt) {
+    return (evt.detail && evt.detail.sectionId || evt.originalEvent.detail.sectionId);
+  },
+
+  _getInstanceForEvent(evt) {    
+    return slate.utils.findInstance(this.instances, 'id', this._getSectionIdForEvent(evt));
   },
 
   _onSectionLoad: function(evt) {
@@ -1081,7 +1083,7 @@ slate.Sections.prototype = $.extend({}, slate.Sections.prototype, {
       instance.onUnload(evt);
     }
 
-    this.instances = slate.utils.removeInstance(this.instances, 'id', evt.detail.sectionId);
+    this.instances = slate.utils.removeInstance(this.instances, 'id', this._getSectionIdForEvent(evt));
   },
 
   _onSelect: function(evt) {
