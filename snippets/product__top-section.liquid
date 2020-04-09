@@ -1,3 +1,9 @@
+{% comment %} bis visible on page load {% endcomment %}
+{% assign bis_visible = false %}
+{% if current_variant.available == false and bis_button_enabled %}
+  {% assign bis_visible = true %}
+{% endif %}
+
 <div class="{% if product.images.size > 1 %}lg--up--seven-eighths{% endif %} mx--auto">
   <div class="grid">
     <div class="grid__item md--up--one-half">
@@ -136,13 +142,18 @@
               </div>
               {% endif %}
 
+              {% capture btn_classes %}
+              font-size--ml btn border--none btn--add-to-cart color-scheme--{{ section_color }} {% if enable_payment_button %}bg--transparent color--{{ section_color }}-text border--{{ section_color }}-text hv--{{ section_color }}-accent hv--border--{{ section_color }}-accent {% else %}border--none bg--{{ section_color }}-text color--{{ section_color }}-text--overlay {{ global__hover_bg }}{% endif %} p1 full--w block
+              {% endcapture %}
+
               <div class="add-to-cart-container mt3 {% unless current_variant.available %}hide-pay-buttons{% endunless %}  {% if enable_payment_button %}cta-content--pay-buttons{% endif %}" data-add-to-cart-container>
                 <button
-                        class="font-size--ml btn border--none btn--add-to-cart color-scheme--{{ section_color }} {% if enable_payment_button %}bg--transparent color--{{ section_color }}-text border--{{ section_color }}-text hv--{{ section_color }}-accent hv--border--{{ section_color }}-accent {% else %}border--none bg--{{ section_color }}-text color--{{ section_color }}-text--overlay {{ global__hover_bg }}{% endif %} p1 full--w block"
+                        class="{{ btn_classes }}"
                         type="submit"
                         name="add"
                         id="AddToCart--{{ section_id }}"
                         data-add-to-cart
+                        {% if bis_visible %}style="display: none"{% endif %}
                         {% unless current_variant.available %}disabled="disabled"{% endunless %}>
                   <span data-add-to-cart-text>
                     {% if current_variant.available %}
@@ -152,10 +163,16 @@
                     {% endif %}
                   </span>
                 </button>
+
+                {% if bis_button_enabled %}
+                  <button id="BIS_trigger" class="{{ btn_classes }} md--font-size--m" {% unless bis_visible %} style="display: none"{% endunless %} data-back-in-stock>
+                    {{ bis_button_text | default: "Notify me when restocked" }}
+                  </button>
+                {% endif %}                
+
                 {% if enable_payment_button %}
                 <div class="mt2 payment-button-wrapper font-size--ml color--{{ section_color }}">{{ form | payment_button }}</div>
                 {% endif %}
-                
               </div>
 
               {% endform %}

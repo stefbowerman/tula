@@ -46,6 +46,8 @@
     {%- assign show_quantity = section.settings.show_quantity -%}
     {%- assign enable_payment_button = section.settings.enable_payment_button -%}
     {%- assign show_share_links = section.settings.show_share_buttons -%}
+    {%- assign bis_button_enabled = section.settings.bis_button_enabled -%}
+    {%- assign bis_button_text = section.settings.bis_button_text -%}
 
     {%- assign description_under_add_to_cart = section.settings.description_under_add_to_cart -%}
 
@@ -59,7 +61,6 @@
       {% assign feature_product = false %}
       {% assign section_id = section.id %}
       {% include 'product__top-section' %}
-      
     </div>
 
     {% unless product == empty %}
@@ -159,6 +160,23 @@
 "id": "next-prev-section",
 "label": "Show next previous section",
 "default": true
+},
+{
+  "type":      "header",
+  "content":   "Back In Stock"
+},
+{
+  "type": "checkbox",
+  "id": "bis_button_enabled",
+  "label": "Enable back in stock button",
+  "info": "Button will show for sold out products / variants.  Disable this if you remove the Back in Stock app.",
+  "default": true
+},
+{
+  "type": "text",
+  "id": "bis_button_text",
+  "label": "Button Text",
+  "default": "Notify me when restocked"
 },
 {
 "type":      "header",

@@ -2210,7 +2210,8 @@ theme.Product = (function() {
     productThumbnailHolder: "[data-product-thumbnails]",
     singleOptionSelector: "[data-single-option-selector]",
     mobileFlickity: "[data-mobile-flickity]",
-    productDescription: "[data-product-description]"
+    productDescription: "[data-product-description]",
+    backInStock: "[data-back-in-stock]"
   };
 
   /**
@@ -2505,26 +2506,49 @@ theme.Product = (function() {
      */
     updateAddToCartState: function(evt) {
       var variant = evt.variant;
+      var $priceWrapper = $(selectors.priceWrapper, this.$container);
+      var $atc = $(selectors.addToCart, this.$container);
+      var $atcText = $(selectors.addToCartText, this.$container);
+      var $bisBtn = $(selectors.backInStock, this.$container);
 
       if (variant) {
-        $(selectors.priceWrapper, this.$container).removeClass("invisible");
-      } else {
-        $(selectors.addToCart, this.$container).prop("disabled", true);
-        $(selectors.addToCartText, this.$container).html(
+        $priceWrapper.removeClass("invisible");
+
+        if (variant.available) {
+          $atc.prop("disabled", false);
+          $atcText.html(
+            theme.strings.addToCart
+          );
+        }
+        else {
+          $atc.prop("disabled", true);
+          $atcText.html(theme.strings.soldOut);          
+        }
+      }
+      // no variant found
+      else {
+        $atc.prop("disabled", true);
+        $atcText.html(
           theme.strings.unavailable
         );
-        $(selectors.priceWrapper, this.$container).addClass("invisible");
-        return;
+        $priceWrapper.addClass("invisible");
       }
 
-      if (variant.available) {
-        $(selectors.addToCart, this.$container).prop("disabled", false);
-        $(selectors.addToCartText, this.$container).html(
-          theme.strings.addToCart
-        );
-      } else {
-        $(selectors.addToCart, this.$container).prop("disabled", true);
-        $(selectors.addToCartText, this.$container).html(theme.strings.soldOut);
+      // If we have the back in stock button, things get a little more complicated
+      if($bisBtn.length) {
+        if(variant && !variant.available) {
+          $bisBtn.show();
+          $atc.hide();
+
+          $bisBtn.attr('data-variant-id', variant.id);
+        }
+        else {
+          $bisBtn.hide();
+          $atc.show();
+        }
+      }
+      else {
+        $atc.show();
       }
     },
 
