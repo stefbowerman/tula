@@ -9,3 +9,6 @@ The following pages utilize the CMS page schema and renderer.  Any time changes 
 - `page-cms-arid-room.liquid`
 - `page-cms-tulita.liquid`
 - `page-cms-care-guide.liquid`
+- `page-cms-hello-welcome.liquid`
+- `page-cms-projects.liquid`
+- `page-cms-plants-design.liquid`
