@@ -64,7 +64,7 @@
     </div>
 
     <div class="grid__item md--up--one-half">
-      <div class="product-des-right sm--pb2 sm--text-align--center {% unless description_under_add_to_cart %}wd--pt3 md--up--pl3 wd--pl4 {% endunless %} ">
+      <div class="sm--pb2 sm--text-align--center {% unless description_under_add_to_cart %}wd--pt3 md--up--pl3 wd--pl4 {% endunless %} ">
         <div class="px2 mt0 md--up--pt0 lg--up--pl31 lg--up--pr0">
 
           {%- if feature_product -%}
@@ -97,7 +97,7 @@
               {% form 'product', product %}
               {% unless product.has_only_default_variant %}
               {% for option in product.options_with_values %}
-              <div class="selector-wrapper js mt2 font-size--m">
+              <div class="selector-wrapper js mt20 font-size--m">
                 {% unless hide_drop_down_labels %}
                 <label class="block" for="SingleOptionSelector-{{ forloop.index0 }}">
                   {{ option.name }}
@@ -146,7 +146,7 @@
               font-size--ml btn border--none btn--add-to-cart color-scheme--{{ section_color }} {% if enable_payment_button %}bg--transparent color--{{ section_color }}-text border--{{ section_color }}-text hv--{{ section_color }}-accent hv--border--{{ section_color }}-accent {% else %}border--none bg--{{ section_color }}-text color--{{ section_color }}-text--overlay {{ global__hover_bg }}{% endif %} p1 full--w block
               {% endcapture %}
 
-              <div class="add-to-cart-container mt3 {% unless current_variant.available %}hide-pay-buttons{% endunless %}  {% if enable_payment_button %}cta-content--pay-buttons{% endif %}" data-add-to-cart-container>
+              <div class="add-to-cart-container mt20 {% unless current_variant.available %}hide-pay-buttons{% endunless %}  {% if enable_payment_button %}cta-content--pay-buttons{% endif %}" data-add-to-cart-container>
                 <button
                         class="{{ btn_classes }}"
                         type="submit"
@@ -171,7 +171,7 @@
                 {% endif %}                
 
                 {% if enable_payment_button %}
-                <div class="mt2 payment-button-wrapper font-size--ml color--{{ section_color }}">{{ form | payment_button }}</div>
+                <div class="mt20 payment-button-wrapper font-size--ml color--{{ section_color }}">{{ form | payment_button }}</div>
                 {% endif %}
               </div>
 
@@ -180,7 +180,7 @@
           </div>
           
         </div>
-        <div class="px2 mt1 md--up--pt0 lg--up--pl31 lg--up--pr0">
+        <div class="px2 mt20 md--up--pt0 lg--up--pl31 lg--up--pr0">
           {% if description_under_add_to_cart %}
           {% if product.description != empty or product.description != '' %}
           <div class="mt1 rte font-size--xxll bold-font" data-product-description>

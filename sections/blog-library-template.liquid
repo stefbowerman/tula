@@ -42,19 +42,14 @@
 
             {% if first_letters_array.size > 1 %}
               <div class="mt3 lg--up--mt0 lg--up--flex">
-                <div class="f--heading font-size--xxxl lg--up--font-size--xxxxl">
-                  <a href="#" class="library-filter-link" data-letter="">All</a>
-                  {% for letter in first_letters_array %}
-                    <a href="#" class="library-filter-link" data-letter="{{ letter }}">{{ letter }}</a>
-                  {% endfor %}
-                </div>
+                {% include 'library-blog-navigation', letters_array: first_letters_array %}
               </div>
             {% endif %}
           </div>
         </div>
       </div>
 
-      <div class="grid mt3 lg--up--mt4">
+      <div class="grid mt3 lg--up--mt31">
         <div class="grid__item pt1">
           {{ grid_html }}
         </div>

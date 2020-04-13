@@ -605,3 +605,7 @@
   line-height: 34px;
 }
 
+#global-header .main-nav .menu .sub-content-container .sub-content.links li + li {
+  padding-top: 2px;
+}
+

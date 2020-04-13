@@ -71,19 +71,19 @@
 
   </section>
   
-{%- assign section_color = section.settings.description_color_scheme -%}
-{%- include 'global-variables' -%}
+  {%- assign section_color = section.settings.description_color_scheme -%}
+  {%- include 'global-variables' -%}
 
-  	{% if product.description contains '<!-- split -->' %}
-   	{% assign prod =  product.description | split :'<!-- split -->'  %}
+	{% if product.description contains '<!-- split -->' %}
+ 	  {% assign prod =  product.description | split :'<!-- split -->'  %}
     {% if prod[2] != null %}
-  <div class="splited-description max-site-width md--up--px2 lg--up--px3 sm--px30 color--{{ section_color }}-text bg--{{ section_color }}-background ">
-      <div class="lg--up--seven-eighths mx--auto">
-        
-        {{prod[2]}}
-        
-    </div></div>
-      {% endif %}{% endif %}
+      <div class="splited-description max-site-width md--up--px2 lg--up--px3 sm--px30 color--{{ section_color }}-text bg--{{ section_color }}-background ">
+        <div class="lg--up--seven-eighths mx--auto">
+          {{ prod[2] }}
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
   
   {% if section_color ==  section.settings.description_color_scheme %}
   {% assign description_padding = 'pb4 lg-up--pb5 lg-up--pt3' %}

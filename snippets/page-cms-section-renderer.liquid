@@ -68,40 +68,8 @@
             </div>
           </div>
         {% elsif block.type == "text_grid" %}
-          {% assign grid_item_count = 0 %}
-          {% for i in (1..3) %}
-            {% assign richtext_setting_handle = 'richtext_' | append: i %}
-            {% assign richtext = block.settings[richtext_setting_handle] %}
-            {% if richtext != blank %}
-              {% assign grid_item_count = grid_item_count | plus: 1 %}
-            {% endif %}
-          {% endfor %}
-
-          {%- case grid_item_count -%}
-            {%- when 1 -%}
-               {%- assign block_class = 'lg--up--three-quarters font-size--ml line-height--5 lg--up--font-size--xl lg--up--line-height--6' -%}
-            {%- when 2 -%}
-              {%- assign block_class = 'lg--up--one-half' -%}
-            {%- when 3 -%}
-              {%- assign block_class = 'lg--up--one-third' -%}
-          {%- endcase -%}          
-
-          {%- capture grid_items -%}
-            {% for i in (1..3) %}
-              {% assign richtext_setting_handle = 'richtext_' | append: i %}
-              {% assign richtext = block.settings[richtext_setting_handle] %}
-              {% if richtext != blank %}
-                <div class="grid__item mt2 lg--up--mt0 {% if grid_item_count > 1 %}{{ global__basic_font_size }}{% endif %} {{ block_class }} ">
-                  {{ richtext }}
-                </div>
-              {% endif %}
-            {% endfor %}
-          {%- endcapture -%}
-
-           <div class="grid">
-            <div class="grid__item lg--up--one-quarter">
-              <div class="pb3 pt2 lg--up--px0 md--up--py0">
-
+            <div class="grid">
+              <div class="grid__item lg--up--two-fifths">
                 {% if block.settings.title  %}
                   <h2 class="{{ global__heading_font_size }} m0">{{ block.settings.title }}</h2>
                 {% endif %}
@@ -111,20 +79,14 @@
                     {{ block.settings.cta_text }}
                   </a>
                 {% endif %}
-
               </div>
-            </div>
-
-            {% if grid_items != blank %}
-              <div class="grid__item lg--up--three-quarters">
-                <div class="px2 lg--up--px0 lg--up--py2">
-                  <div class="grid mtn2 lg--up--mt0">
-                    {{ grid_items }}
-                  </div>
+              <div class="grid__item lg--up--three-fifths mt3 lg--up--mt0">
+                <div class="rte {{ global__basic_font_size }}">
+                  {% comment %} Used to have block settings 1->3 which got dropped, hence the one "_1" setting {% endcomment %}
+                  {{ block.settings['richtext_1'] }}
                 </div>
               </div>
-            {% endif %}
-
+            </div>
           </div>
         {% elsif block.type == "image_video_grid" %}
           <div class="grid grid-masonry sm--mln1">

@@ -944,7 +944,34 @@ slate.utils = {
    */
   defaultTo: function(value, defaultValue) {
     return value == null || value !== value ? defaultValue : value;
-  }
+  },
+
+  /**
+   * Constructs an object of key / value pairs out of the parameters of the query string
+   *
+   * @return {Object}
+   */
+  getQueryParams: function() {
+    var queryString = location.search && location.search.substr(1) || '';
+    var queryParams = {};
+
+    queryString
+      .split('&')
+      .filter(function (element) {
+        return element.length;
+      })
+      .forEach(function (paramValue) {
+        var splitted = paramValue.split('=');
+
+        if (splitted.length > 1) {
+          queryParams[splitted[0]] = splitted[1];
+        } else {
+          queryParams[splitted[0]] = true;
+        }
+      });
+
+    return queryParams;
+  },
 };
 
 theme.text_truncate = function(str, length, ending) {
@@ -3474,14 +3501,8 @@ theme.Blog = (function() {
   return Blog;
 })();
 
-/**
- * Blog Library section Script
- * ------------------------------------------------------------------------------
- *
- * @namespace Blog
- */
-
-theme.BlogLibrary = (function() {
+// Re-usable library nav
+var BlogLibraryNavigation = (function() {
   var selectors = {
     alphaGrid: '[data-alpha-grid]',
     alphaGridItem: '.grid__item[data-alpha]',
@@ -3492,18 +3513,16 @@ theme.BlogLibrary = (function() {
     linkActive: 'is-active'
   };
 
-  /**
-   * Blog Libraru section constructor. Runs on page load as well as Theme Editor
-   * `section:load` events.
-   * @param {string} container - selector for the section container DOM element
-   */
-  function BlogLibrary(container) {
+  function BlogLibraryNavigation(container, options) {
+    var defaults = {
+      onLetterLinkClick: $.noop
+    };
+    
     this.$container = $(container);
     this.$alphaGridItems = $(selectors.alphaGridItem, this.$container);
     this.$alphaGrid = $(selectors.alphaGrid, this.$container);
     this.$letterLinks = $(selectors.letterLinks, this.$container);
-
-    this.currentlyFilteredByLetter = null;
+    this.settings = $.extend({}, defaults, options);
 
     // Do Sorting
     this.$alphaGridItems.detach();
@@ -3525,24 +3544,69 @@ theme.BlogLibrary = (function() {
     this.$alphaGrid.append(this.$alphaGridItems);
 
     // Events
-    this.$letterLinks.on('click', this.onLetterLinkClick.bind(this))
+    this.$letterLinks.on('click', this.onLetterLinkClick.bind(this));    
+  }
+
+  BlogLibraryNavigation.prototype = $.extend({}, BlogLibraryNavigation.prototype, {  
+    onLetterLinkClick: function(e) {
+      var $link = $(e.currentTarget);
+      this.settings.onLetterLinkClick(e, $link.data('letter'));
+    },
+    updateForActiveLetter: function(letter) {
+      this.$letterLinks.removeClass(classes.linkActive);
+      this.$letterLinks.filter('[data-letter="'+letter+'"]').addClass(classes.linkActive);
+    }
+  });
+
+  return BlogLibraryNavigation
+})();
+
+/**
+ * Blog Library section Script
+ * ------------------------------------------------------------------------------
+ *
+ * @namespace Blog
+ */
+
+theme.BlogLibrary = (function() {
+  var selectors = {
+    alphaGrid: '[data-alpha-grid]',
+    alphaGridItem: '.grid__item[data-alpha]'
+  };
+
+  /**
+   * Blog Library section constructor. Runs on page load as well as Theme Editor
+   * `section:load` events.
+   * @param {string} container - selector for the section container DOM element
+   */
+  function BlogLibrary(container) {
+    this.$container = $(container);
+    this.$alphaGridItems = $(selectors.alphaGridItem, this.$container);
+    this.$alphaGrid = $(selectors.alphaGrid, this.$container);
+
+    this.currentlyFilteredByLetter = null;
+
+    this.blogLibraryNavigation = new BlogLibraryNavigation(container, {
+      onLetterLinkClick: this.onLetterLinkClick.bind(this)
+    });
+
+    var filterLetter = slate.utils.getQueryParams()['filter'];
+
+    if (filterLetter) {
+      this.$alphaGridItems.hide();
+      this.filterByLetter(filterLetter);
+    }
   }
 
   BlogLibrary.prototype = $.extend({}, BlogLibrary.prototype, {
-    onLetterLinkClick: function(e) {
+    onLetterLinkClick: function(e, letter) {
       e.preventDefault();
-
-      var $link = $(e.currentTarget)
-
-      this.filterByLetter($link.data('letter'));
-
-      this.$letterLinks.removeClass(classes.linkActive);
-      $link.addClass(classes.linkActive);
+      this.filterByLetter(letter);
     },
 
     filterByLetter: function(letter) {
       this.$alphaGrid.fadeOut(200, function() {
-        if(typeof letter === "undefined") {
+        if(typeof letter === "undefined" || letter === '') {
           this.$alphaGridItems.show();
         }
         else {
@@ -3556,6 +3620,7 @@ theme.BlogLibrary = (function() {
       }.bind(this))
 
       this.currentlyFilteredByLetter = letter;
+      this.blogLibraryNavigation.updateForActiveLetter(letter);      
     }
   });
 
@@ -3581,6 +3646,26 @@ theme.flickityOnly = (function() {
   }
 
   return flickityOnly;
+})();
+
+/**
+ * Article section Script
+ * ------------------------------------------------------------------------------
+ *
+ * @namespace Article
+ */
+
+theme.Article = (function() {
+  /**
+   * Article section constructor. Runs on page load as well as Theme Editor
+   * `section:load` events.
+   * @param {string} container - selector for the section container DOM element
+   */
+  function Article(container) {
+    this.blogLibraryNavigation = new BlogLibraryNavigation(container); // This only exists for some articles.  Need it because it alpha sorts the letters
+  }
+
+  return Article;
 })();
 
 
@@ -3724,6 +3809,7 @@ $(document).ready(function() {
   sections.register("blog", theme.Blog);
   sections.register("flickity-only", theme.flickityOnly);
   sections.register("blog-library", theme.BlogLibrary);
+  sections.register("article", theme.Article);
 
   // Common a11y fixes
   slate.a11y.pageLinkFocus($(window.location.hash));
