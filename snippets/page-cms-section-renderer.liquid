@@ -25,7 +25,7 @@
 
 <section class="page sm--p2 {{ global__section_with_padding_class }} color--{{ section_color }}-text bg--{{ section_color }}-background" data-section-id="{{ section.id }}" data-fade-in="{{ fade_in }}" data-section-type="cms">
   <div class="max-site-width px2 lg--up--px3">
-    <div class="mx--auto lg--up--seven-eighths mb5">
+    <div class="mx--auto lg--up--seven-eighths mb3">
       <div class="grid">
         <div class="grid__item lg--up--two-fifths">
           <h1 class="{{ global__heading_font_size }} m0">{{ page.title }}</h1>
@@ -39,7 +39,7 @@
     </div>
 
     {% for block in section.blocks %}
-      <div class="mx--auto lg--up--seven-eighths {% unless forloop.last %} mb5{% endunless %}" {{ block.shopify_attributes }}>
+      <div class="mx--auto lg--up--seven-eighths{% unless forloop.last %} mb3{% endunless %}" {{ block.shopify_attributes }}>
         {% if block.type == "heading" %}
           <div class="rich-text rich-text--{{ block.id }} {{ block.settings.text_align }}">
             <div class="grid">
@@ -68,23 +68,22 @@
             </div>
           </div>
         {% elsif block.type == "text_grid" %}
-            <div class="grid">
-              <div class="grid__item lg--up--two-fifths">
-                {% if block.settings.title  %}
-                  <h2 class="{{ global__heading_font_size }} m0">{{ block.settings.title }}</h2>
-                {% endif %}
+          <div class="grid">
+            <div class="grid__item lg--up--two-fifths">
+              {% if block.settings.title  %}
+                <h2 class="{{ global__heading_font_size }} m0">{{ block.settings.title }}</h2>
+              {% endif %}
 
-                {% if block.settings.cta_url %}
-                  <a class="inline-block {{ global__homepage_more_link }} {{ global__basic_font_size }} {{ global__link_underline }} {{ global__hover_underline }} " href="{{ section.settings.cta_url }}" >
-                    {{ block.settings.cta_text }}
-                  </a>
-                {% endif %}
-              </div>
-              <div class="grid__item lg--up--three-fifths mt3 lg--up--mt0">
-                <div class="rte {{ global__basic_font_size }}">
-                  {% comment %} Used to have block settings 1->3 which got dropped, hence the one "_1" setting {% endcomment %}
-                  {{ block.settings['richtext_1'] }}
-                </div>
+              {% if block.settings.cta_url %}
+                <a class="inline-block {{ global__homepage_more_link }} {{ global__basic_font_size }} {{ global__link_underline }} {{ global__hover_underline }} " href="{{ section.settings.cta_url }}" >
+                  {{ block.settings.cta_text }}
+                </a>
+              {% endif %}
+            </div>
+            <div class="grid__item lg--up--three-fifths mt3 lg--up--mt0">
+              <div class="rte {{ global__basic_font_size }}">
+                {% comment %} Used to have block settings 1->3 which got dropped, hence the one "_1" setting {% endcomment %}
+                {{ block.settings['richtext_1'] }}
               </div>
             </div>
           </div>
