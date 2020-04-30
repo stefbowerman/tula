@@ -66,7 +66,7 @@
 
   <header class="site-header {% if section.settings.show_banner and template.name == 'index'  %}{%- if sticky_header and section.settings.show_announcement == false %}lg--up--fixed{% else %}absolute1{% endif %} top--0 left--0{% endif %} full--w {% if section.settings.show_announcement %}{% if section.settings.home_page_only == false or template.name == 'index' %}has-announcement{% endif %}{% endif %}" data-site-header>
     <div class="header__main">
-      <div class="max-site-width px2 lg--up--px31">
+      <div class="max-site-width outer-container">
         <div class="relative1 mob-close">
           <a class="header__close fixed md--dn--p2 lg-up--full--w text-align--right top--0 md--dn--text-align--center md--dn--left--0 right--0 p4 font-size--m pointer color--active-text hv--active-accent" data-close-header tabindex="0">
             <div class="bar1"></div>
@@ -76,7 +76,7 @@
       </div>
 
       {% capture announcement_bar_class %}
-        block full--w bg--{{ section.settings.announcement_color }}-background color--{{ section.settings.announcement_color }}-text px30  py1  font-size--m text-align--left hv--{{ section.settings.announcement_color }}-accent
+        block full--w bg--{{ section.settings.announcement_color }}-background color--{{ section.settings.announcement_color }}-text  py1  font-size--m text-align--left hv--{{ section.settings.announcement_color }}-accent
       {% endcapture %}
 
       {% capture announcement_bar_ticker_items %}
@@ -98,95 +98,92 @@
       {% endif %}
       
       <div class="announcement-bar announcement-bar--link {{ announcement_bar_class }}">
-        <div class="announcement-bar__content">
-          {% if section.settings.show_announcement %}
-            {% if section.settings.home_page_only == false or template.name == 'index' %}
-              <div class="announcement-bar__item announcement-bar__item--message {% unless show_announcement_message_on_mobile %}md--dn--hide{% endunless %}">
-                {% if section.settings.link == blank %}
-                  {{ section.settings.text | escape }}
-                {% else %}
-                  <a href="{{ section.settings.link }}">{{ section.settings.text | escape }}</a>
-                {% endif %}
-              </div>
-            {% endif %}
-          {% endif %}
-
-          {% if announcement_bar_ticker_items != blank %}
-            <div class="announcement-bar__item announcement-bar__item--ticker">
-              <div class="ticker" data-ticker data-speed="0.45" data-pausable="true">
-                <div class="ticker-content">
-                  {{ announcement_bar_ticker_items }}
-                </div>
-              </div>
-            </div>
-          {% endif %}
-
-          <div class="announcement-bar__item announcement-bar__item--menu">
-            <ul class="top-nav flex justify--left flex--wrap">
-              {% for link in linklists[section.settings.top_linklist].links %}
-                <li><a href="{{ link.url }}">{{ link.title }}</a></li>
-              {% endfor %}
-              <li class="cart-icon">
-                <a href="/cart" id="CartLink" {% if settings.ajax_cart_method == "modal" %}data-active-header-trigger data-active-target="cart" {% endif %}  tabindex="0"  data-top-level-item  aria-haspopup="true">
-                  {% if section.settings.show_cart_icon %}
-                    <span class="cart__icon">{% include 'svg' | icon: 'icon-cart' %}</span>
+        <div class="outer-container">
+          <div class="announcement-bar__content">
+            {% if section.settings.show_announcement %}
+              {% if section.settings.home_page_only == false or template.name == 'index' %}
+                <div class="announcement-bar__item announcement-bar__item--message {% unless show_announcement_message_on_mobile %}md--dn--hide{% endunless %}">
+                  {% if section.settings.link == blank %}
+                    {{ section.settings.text | escape }}
                   {% else %}
-                    {{ 'layout.cart.title' | t }}
+                    <a href="{{ section.settings.link }}">{{ section.settings.text | escape }}</a>
                   {% endif %}
-                  {% unless section.settings.show_cart_icon %}({% endunless %}<span id="CartCount">{{ cart.item_count }}</span>{% unless section.settings.show_cart_icon %}){% endunless %}
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-
-
-
-
-
-        <div class="grid" style="display: none !important">
-          {% if section.settings.show_announcement %}     
-            {% if section.settings.home_page_only == false or template.name == 'index' %}
-              {% if section.settings.link == blank %}
-                <div class="announcement-bar grid__item md--up--one-half">
-              {% else %}
-                <a href="{{ section.settings.link }}" class="grid__item md--up--one-half font-size--m">
-              {% endif %}
-                <p class="m0 announcement-bar__message">{{ section.settings.text | escape }}</p>
-              {% if section.settings.link == blank %}
                 </div>
-              {% else %}
-                </a>
               {% endif %}
             {% endif %}
-          {% endif %}
-          <div class="grid__item md--up--one-half">
-            <ul class="top-nav md--hide right-right-link flex justify--left flex--wrap  list--reset">
-              {% for link in linklists[section.settings.top_linklist].links %}
-                <li><a href="{{link.url}}" class="px2  font-size--m md--dn--px1">{{link.title}}</a></li>
-              {% endfor %}
-              <li class="cart-icon">
-                <a href="/cart" id="CartLink" class="t--header-navigation header__link {{ header_underline_link }} font-size--m bg--transparent inline-block pointer m0 px2" {% if settings.ajax_cart_method == "modal" %}data-active-header-trigger data-active-target="cart" {% endif %}  tabindex="0"  data-top-level-item  aria-haspopup="true">
-                  <div class="header__link-wrapper">
+
+            {% if announcement_bar_ticker_items != blank %}
+              <div class="announcement-bar__item announcement-bar__item--ticker">
+                <div class="ticker" data-ticker data-speed="0.45" data-pausable="true">
+                  <div class="ticker-content">
+                    {{ announcement_bar_ticker_items }}
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+
+            <div class="announcement-bar__item announcement-bar__item--menu">
+              <ul class="top-nav flex justify--left flex--wrap">
+                {% for link in linklists[section.settings.top_linklist].links %}
+                  <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+                {% endfor %}
+                <li class="cart-icon">
+                  <a href="/cart" id="CartLink" {% if settings.ajax_cart_method == "modal" %}data-active-header-trigger data-active-target="cart" {% endif %}  tabindex="0"  data-top-level-item  aria-haspopup="true">
                     {% if section.settings.show_cart_icon %}
-                    <span class="cart__icon">{% include 'svg' | icon: 'icon-cart' %}</span>
+                      <span class="cart__icon">{% include 'svg' | icon: 'icon-cart' %}</span>
                     {% else %}
-                    {{ 'layout.cart.title' | t }}
+                      {{ 'layout.cart.title' | t }}
                     {% endif %}
                     {% unless section.settings.show_cart_icon %}({% endunless %}<span id="CartCount">{{ cart.item_count }}</span>{% unless section.settings.show_cart_icon %}){% endunless %}
-                  </div>
-                </a>
-              </li>
-            </ul>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div><!-- END .grid -->
+          {% comment %}
+          <div class="grid" style="display: none !important">
+            {% if section.settings.show_announcement %}     
+              {% if section.settings.home_page_only == false or template.name == 'index' %}
+                {% if section.settings.link == blank %}
+                  <div class="announcement-bar grid__item md--up--one-half">
+                {% else %}
+                  <a href="{{ section.settings.link }}" class="grid__item md--up--one-half font-size--m">
+                {% endif %}
+                  <p class="m0 announcement-bar__message">{{ section.settings.text | escape }}</p>
+                {% if section.settings.link == blank %}
+                  </div>
+                {% else %}
+                  </a>
+                {% endif %}
+              {% endif %}
+            {% endif %}
+            <div class="grid__item md--up--one-half">
+              <ul class="top-nav md--hide right-right-link flex justify--left flex--wrap  list--reset">
+                {% for link in linklists[section.settings.top_linklist].links %}
+                  <li><a href="{{link.url}}" class="px2  font-size--m md--dn--px1">{{link.title}}</a></li>
+                {% endfor %}
+                <li class="cart-icon">
+                  <a href="/cart" id="CartLink" class="t--header-navigation header__link {{ header_underline_link }} font-size--m bg--transparent inline-block pointer m0 px2" {% if settings.ajax_cart_method == "modal" %}data-active-header-trigger data-active-target="cart" {% endif %}  tabindex="0"  data-top-level-item  aria-haspopup="true">
+                    <div class="header__link-wrapper">
+                      {% if section.settings.show_cart_icon %}
+                      <span class="cart__icon">{% include 'svg' | icon: 'icon-cart' %}</span>
+                      {% else %}
+                      {{ 'layout.cart.title' | t }}
+                      {% endif %}
+                      {% unless section.settings.show_cart_icon %}({% endunless %}<span id="CartCount">{{ cart.item_count }}</span>{% unless section.settings.show_cart_icon %}){% endunless %}
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div><!-- END .grid -->
+          {% endcomment %}
+        </div>
       </div><!-- END .announcement-bar -->
-
-
 
       <div class="header__shifter full--w"></div>
       <div class="header-table-wrapper">
-        <div class="header-table flex md--dn--items--center items--start justify--between full--w px2 max-site-width lg--up--px31  lg--up--relative sm--px30">
+        <div class="header-table outer-container flex md--dn--items--center items--start justify--between full--w max-site-width  lg--up--relative">
           <div class="header-table__bookend align--middle text-align--center md--dn--text-align--left lg--up--hide md--dn--flex--1-basis-0">
             <div class="cart-icon">
               <a href="/cart" id="CartLink" class="t--header-navigation header__link {{ header_underline_link }} font-size--xl bg--transparent inline-block pointer m0 px2" {% if settings.ajax_cart_method == "modal" %}data-active-header-trigger data-active-target="cart" {% endif %}  tabindex="0"  data-top-level-item  aria-haspopup="true">

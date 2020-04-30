@@ -5,7 +5,7 @@
 {%- assign font_size = global__basic_font_size -%}
 
 <section class="{% if section.settings.show_on_desktop and section.settings.show_on_mobile %}{% elsif section.settings.show_on_desktop %} sm--hide {% elsif section.settings.show_on_mobile %} md--up--hide {% endif %} cascade sm--p2 {{ global__section_with_padding_class }} color--{{ section_color }}-text bg--{{ section_color }}-background" data-section-type="cascade" data-section-id="{{ section.id }}" data-fade-in="{{ fade_in }}" data-first-item="{{ section.settings.first_item }}">
-  <div class="max-site-width px2 lg--up--px31 sm--text-align--center">
+  <div class="max-site-width outer-container">
     <div class="cascading-content">
       <div class="items overflow--hidden">
         <div class="item-sizer"></div>

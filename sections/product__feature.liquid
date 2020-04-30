@@ -9,13 +9,13 @@
 {%- assign enable_payment_button = section.settings.enable_payment_button -%}
 {%- assign section_id = section.id -%}
 
-<section class="product-feature sm--py2  {{ global__section_with_padding_class }} color--{{ section_color }}-text bg--{{ section_color }}-background" data-section-id="{{ section.id }}" data-section-type="product" itemscope itemtype="http://schema.org/Product">
+<section class="product-feature sm--py2 {{ global__section_with_padding_class }} color--{{ section_color }}-text bg--{{ section_color }}-background" data-section-id="{{ section.id }}" data-section-type="product" itemscope itemtype="http://schema.org/Product">
   <meta itemprop="name" content="{{ product.title }}">
   <meta itemprop="url" content="{{ shop.url }}{{ product.url }}">
   <meta itemprop="image" content="{{ featured_image | img_url: '800x' }}">
   <meta itemprop="description" content="{{ product.description | strip_html | escape }}">
 
-  <div class="max-site-width md--up--px2 lg--up--px3">
+  <div class="max-site-width outer-container">
     {% if product == empty %}
       {% include 'product__onboarding' %}
     {% else %}
@@ -30,7 +30,6 @@
       {{ product | json }}
     </script>
   {% endunless %}
-
 </section>
 
 {% schema %}

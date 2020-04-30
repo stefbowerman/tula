@@ -22,7 +22,7 @@
 
 {% if section.blocks.size > 0 %}
 <section class="grid-gallery test {% if section.settings.grid_width ==  'one-quarter' %} four_video_image--blocks {% elsif section.settings.grid_width == 'one-half' %} two_video_image--blocks {% elsif section.settings.grid_width == 'one-sixth' %} sixth_video_image--blocks {% elsif section.settings.grid_width == 'one-eighth' %} eighth_video_image--blocks {% endif %} {% if section.settings.show_on_desktop and section.settings.show_on_mobile %}{% elsif section.settings.show_on_desktop %} sm--hide {% elsif section.settings.show_on_mobile %} md--up--hide {% endif %} md--py0 {% if section.blocks.size == 6 %} six_video_image--blocks {% elsif section.blocks.size == 8 %} eight_video_image--blocks {% endif %} image-with-text {{ global__section_with_padding_class }} color--{{ text_color_overlay }}-text bg--{{ section_color }}-background sm--pb0 sm--pt1" data-section-id="{{ section.id }}">
-  <div class="max-site-width px2 lg--up--px31 sm--px1 grid-wrap">
+  <div class="max-site-width outer-masonry-container">
     <div class="grid grid-masonry sm--mln1">
 
       <div class="grid-sizer grid-sizer-{{ section.id }}"></div>

@@ -336,6 +336,7 @@ $breakpoint-has-push: ($medium-up, $large-up);
 /*================ Sizing Variables ================*/
 $width-site: 1820px;
 $gutter: 30px;
+$site-outer-gutter: $gutter;
 
 /*================ Z-Index ================*/
 $z-index-dropdown: 2;
@@ -348,12 +349,12 @@ $svg-select-icon: #{'{{ "ico-select.svg" | asset_url }}'};
 
 
 
-  /* Bass CSS Variables */
+/* Bass CSS Variables */
 
-  /* Widths
-  ========================================================================== */
+/* Widths
+========================================================================== */
 
-  $width-1: 24rem !default;
+$width-1: 24rem !default;
 $width-2: 32rem !default;
 $width-3: 48rem !default;
 $width-4: 64rem !default;
@@ -2943,6 +2944,11 @@ Spacing
     padding-right: $space-5;
   }
 
+  .#{$i}px-gutter {
+    padding-left: $gutter;
+    padding-right: $gutter;
+  }
+
 }
 
 @include padding('');
@@ -2950,6 +2956,27 @@ Spacing
 @each $breakpoint in $breakpoint-has-widths {
   @include media-query($breakpoint) {
     @include padding('#{$breakpoint}--');
+  }
+}
+
+// Anti outer gutter
+
+@mixin flush-container() {
+  margin-left: -$site-outer-gutter;
+  margin-right: -$site-outer-gutter;
+}
+
+@mixin create-flush-container($i) {
+  .#{$i}flush-container {
+    @include flush-container;
+  }
+}
+
+@include create-flush-container('');
+
+@each $breakpoint in $breakpoint-has-widths {
+  @include media-query($breakpoint) {
+    @include create-flush-container('#{$breakpoint}--');
   }
 }
 
@@ -4262,9 +4289,24 @@ html {
 .max-site-width {
   @include clearfix;
   /*   max-width: $width-site; */
-  max-width:100%;
+  max-width: 100%;
   margin-left: auto;
   margin-right: auto;
+}
+
+// Outer container to enforce consistent horizontal outer margins on the site
+.outer-container {
+  padding-left: $site-outer-gutter;
+  padding-right: $site-outer-gutter;
+}
+
+.outer-masonry-container {
+  @extend .outer-container;
+
+  @include media-query($medium-down) {
+    padding-left: $site-outer-gutter - 20px;
+    padding-right: $site-outer-gutter - 20px;
+  }
 }
 
 
@@ -5784,7 +5826,13 @@ footer{clear:both;}
   width: 100%;display:none;
   font-weight: normal;
   margin: 5px 0 20px;}
-#AddToCartForm--product{max-width: 85%;}
+
+#AddToCartForm--product{
+  @include media-query($medium-up) {
+    max-width: 85%;
+  }
+}
+
 .product-flickity__slides {    display: inline-block; text-align:center;
   width: 100%;
   .resp-img-wrapper1{display:none;}
@@ -5816,8 +5864,10 @@ footer{clear:both;}
     z-index: 10;}
 
 @include media-query($medium-up) {
-  .collection-cascade{
-    .collection-listing:nth-child(4n+1){clear:both;}
+  .collection-cascade {
+    .collection-listing:nth-child(4n+1){
+      clear: both;
+    }
   }
 }
 
@@ -5950,8 +6000,7 @@ footer{
 
     // Make it go flush on mobile
     &.announcement-bar__item--ticker {
-      margin-left: -#{$space-30};
-      margin-right: -#{$space-30};
+      @include flush-container;
     }
   }
 
@@ -6706,14 +6755,6 @@ footer{
       @media(max-width:767px){margin-top:0;}
     }
   }
-}
-
-
-@media(max-width:767px){
-  .featured-product{padding-bottom:0!important;}
-  .newsletter{padding-bottom:0!important;padding-top:0!important;}
-  .section-instagram{padding-top:0!important;}
-  .index-map-section{padding-top:0!important;}
 }
 
 

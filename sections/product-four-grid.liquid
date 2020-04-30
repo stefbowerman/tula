@@ -22,7 +22,7 @@
 
 {% if section.blocks.size > 0 %}
 <section class="{% if section.settings.show_on_desktop and section.settings.show_on_mobile %}{% elsif section.settings.show_on_desktop %} sm--hide {% elsif section.settings.show_on_mobile %} md--up--hide {% endif %} md--py0 {% if section.settings.grid_width == 'one-sixth' %} six_video_image--blocks {% elsif section.settings.grid_width == 'one-eighth' %} eight_video_image--blocks {% endif %} image-with-text {{ global__section_with_padding_class }} color--{{ section_color }}-text md--up--color--{{ text_color_overlay }}-text bg--{{ section_color }}-background" data-section-type="newsletter" data-section-id="{{ section.id }} sm--pb0 sm--pt1">
-  <div class="max-site-width px2 lg--up--px31  sm--px1">
+  <div class="max-site-width outer-masonry-container">
     <div class="grid grid-masonry sm--mln1">
       <div class="grid-sizer" style="width:25%"></div>
       {% for block in section.blocks %}

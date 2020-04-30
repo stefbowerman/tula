@@ -57,7 +57,7 @@
     <meta itemprop="image" content="{{ featured_image | img_url: '600x600' }}">
     <meta itemprop="description" content="{{ product.description | strip_html | escape }}">
 
-    <div class="max-site-width md--up--px2 lg--up--px3">
+    <div class="max-site-width">
       {% assign feature_product = false %}
       {% assign section_id = section.id %}
       {% include 'product__top-section' %}
@@ -77,7 +77,7 @@
 	{% if product.description contains '<!-- split -->' %}
  	  {% assign prod =  product.description | split :'<!-- split -->'  %}
     {% if prod[2] != null %}
-      <div class="splited-description max-site-width md--up--px2 lg--up--px3 sm--px30 color--{{ section_color }}-text bg--{{ section_color }}-background ">
+      <div class="splited-description max-site-width outer-container color--{{ section_color }}-text bg--{{ section_color }}-background ">
         <div class="lg--up--seven-eighths mx--auto">
           {{ prod[2] }}
         </div>
@@ -96,7 +96,7 @@
       {% assign section_color = section.settings.description_color_scheme %}
       {% include 'global-variables' %}
       <div class="product__description {{ description_padding }} color--{{ section_color }}-text bg--{{ section_color }}-background">
-        <div class="max-site-width px2 lg--up--px3">
+        <div class="max-site-width outer-container">
           <div class="rte mx--auto {{ global__basic_font_size }} {% unless section.settings.enable_split_description %}max-width--3{% endunless %} sm--text-align--left" id="productDescription" {% if section.settings.enable_split_description %}data-split="true"{% endif %} data-fade-in="{{ fade_in }}" data-product-description>
             {{ product.description }}
           </div>

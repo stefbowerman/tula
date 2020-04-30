@@ -30,7 +30,7 @@
   {% endcapture %}
 
   <section class="blog {{ global__section_with_padding_class }} color--{{ section_color }}-meta bg--{{ section_color }}-background" data-section-type="blog-library" data-section-id="{{ section.id }}" data-fade-in="{{ fade_in }}">
-    <div class="max-site-width px2 lg--up--px3">
+    <div class="max-site-width outer-container">
 
       {% assign first_letters_array = first_letters | split: ' ' | uniq | sort %}
 
