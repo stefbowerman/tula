@@ -43,30 +43,56 @@
   {%- assign sold_out = false -%}
 {%- endif -%}
 
+{%- comment -%}
+  Check if the product is available for local pickup
+{%- endcomment -%}
+{% assign local = false %}
+{% assign local_pickup = false %}
+
+{% for tag in product.tags %}
+  {% assign tag_compact = tag | handle | replace: '-', '' %}
+  {% if tag_compact == 'local' %}
+    {% assign local = true %}
+  {% elsif tag_compact == 'localpickup' %}
+    {% assign local_pickup = true %}
+  {% endif %}
+{% endfor %}
+
+
+
 <a href="{{ product.url | within: collection }}" class="product-grid-item  sm--text-align--center md--up--text-align--left relative ">
   {% unless product.featured_image == blank %}
+    {%- assign ratio = product.featured_image.aspect_ratio -%}
+    {%- assign force_crop = false -%}
+    {%- if ratio < 0.5 -%}
+      {%- assign force_crop = true -%}
+      {%- assign ratio = 1 -%}
+    {%- endif -%}
+    {% capture img_id %}ProductImage-{{ product.featured_image.id }}{% endcapture %}
+    {% capture wrapper_id %}ProductImageWrapper-{{ product.featured_image.id }}{% endcapture %}
+    {%- assign img_url = product.featured_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
+
     <div class="relative">
-      {%- assign ratio = product.featured_image.aspect_ratio -%}
-      {%- assign force_crop = false -%}
-      {%- if ratio < 0.5 -%}
-        {%- assign force_crop = true -%}
-        {%- assign ratio = 1 -%}
-      {%- endif -%}
-      {% capture img_id %}ProductImage-{{ product.featured_image.id }}{% endcapture %}
-      {% capture wrapper_id %}ProductImageWrapper-{{ product.featured_image.id }}{% endcapture %}
-      {%- assign img_url = product.featured_image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' -%}
       <div id="{{ wrapper_id }}" class="resp-img-wrapper1 {% if force_crop %}force-crop{% endif %} js">
         {% if settings.products_show_badges %}
-          {% if on_sale or sold_out %}
-            <div class="absolute top--0 right--0 pt2 pr2 z2">
-              {% if on_sale and sold_out != true %}
-                <div class="product-grid-on-sale p1 font-size--s bg--{{ section_color }}-accent color--{{ section_color }}-accent--overlay">{{ 'products.product.on_sale' | t }}</div>
-              {% endif %}
-              {% if sold_out %}
-                <div class="{% if on_sale %}mt1{% endif %} product-grid-on-sale p1 font-size--s bg--{{ section_color }}-text color--{{ section_color }}-text--overlay">{{ 'products.product.sold_out' | t }}</div>
-              {% endif %}
-            </div>
-          {% endif %}
+          <div class="absolute top--0 right--0 pt2 pr2 z2 text-align--center">
+            {% if local or local_pickup %}
+              <div class="p1 mb1 font-size--s bg--{{ section_color }}-text color--{{ section_color }}-text--overlay">
+                {% comment %} Pickup only is more specific so show that first (in case both tags are present..) {% endcomment %}
+                {% if local_pickup %}
+                  Pickup Only
+                {% else %}
+                  Pickup & Delivery Only
+                {% endif %}
+              </div>
+            {% endif %}
+
+            {% if sold_out %}
+              <div class="p1 font-size--s bg--{{ section_color }}-text color--{{ section_color }}-text--overlay">{{ 'products.product.sold_out' | t }}</div>
+            {% elsif on_sale %}
+              <div class="p1 font-size--s bg--{{ section_color }}-accent color--{{ section_color }}-accent--overlay">{{ 'products.product.on_sale' | t }}</div>
+            {% endif %}
+          </div>
         {% endif %}
         <div style="padding-top:{{ 1 | divided_by: ratio | times: 100}}%;">
           <img id="{{ img_id }}"
@@ -103,7 +129,9 @@
       
     </div>
   {% endunless %}
+
   <div class="color--{{ section_color }}-text mt1 {{ global__basic_font_size }}">{{ product.title }}</div>
+
   <p class="{% if on_sale %}color--{{ section_color }}-accent{% else %}color--{{ section_color }}-meta{% endif %} m0 {{ global__basic_font_size }}">
     {% if sold_out %}
       <span class="sold-out color--{{ section_color }}-meta {% if on_sale %}mr1{% endif %}">{{ 'products.product.sold_out' | t }}</span>

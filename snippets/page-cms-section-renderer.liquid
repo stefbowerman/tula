@@ -117,17 +117,10 @@
               {% capture grid_item_classes %}
                 grid__item
                 grid-item
-                {% if section.blocks.size == 4 %}
-                  sm--one-half md--one-half
-                {% endif %}
-                {% if section.blocks.size == 2 %}
-                  md--dn--one-half
-                {% endif %}
-                {% if section.blocks.size == 8 %}
-                  sm--one-whole md--one-quarter
-                {% endif %}
                 mb2 
-                sm--mb1 
+                sm--mb1
+                sm--one-whole
+                md--one-half
                 lg--up--{{ block.settings.grid_width }}
                 sm--pl1
                 custom-img-video-grid

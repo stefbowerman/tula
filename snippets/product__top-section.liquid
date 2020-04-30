@@ -4,7 +4,7 @@
   {% assign bis_visible = true %}
 {% endif %}
 
-<div class="{% if product.images.size > 1 %}lg--up--seven-eighths{% endif %} mx--auto">
+<div class="lg--up--seven-eighths mx--auto">
   <div class="grid">
     <div class="grid__item md--up--one-half">
       <div class="product__images relative md--up--text-align--left font-size--0">
@@ -14,7 +14,7 @@
 
         {% if featured_image != blank %}
         {% assign feature_image_class = 'sm--one-whole md--up--one-whole' %}
-        {% if product.images.size == 1 or feature_product == true %}
+        {% if feature_product == true %}
         {% assign feature_image_class = 'one-whole px2 md--up--px0 md--up--one-whole wd--seven-eighths' %}
         {% endif %}
         {% if feature_product %}
@@ -183,7 +183,7 @@
         <div class="px2 mt20 md--up--pt0 lg--up--pl31 lg--up--pr0">
           {% if description_under_add_to_cart %}
           {% if product.description != empty or product.description != '' %}
-          <div class="mt1 rte font-size--xxll bold-font" data-product-description>
+          <div class="mt1 rte font-size--xxll bold-font sm--text-align--left" data-product-description>
             {% if product.description contains '<!-- split -->' %}
             {{ product.description | split: '<!-- split -->' | first }}
             <div class="accordion_wrapper pt2" id="accordion_wrapper">
@@ -198,7 +198,7 @@
           {% endif %}
 
           {% if show_share_links %}
-          <div {% unless enable_payment_button %}class="mt3"{% endunless %}>
+          <div {% unless enable_payment_button %}class="mt3 sm--text-align--left"{% endunless %}>
             {% include 'page-share' %}
           </div>
           {% endif %}

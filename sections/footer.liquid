@@ -22,48 +22,37 @@
             <div class="grid__item font-size--ml {{ footer_grid_width }} lg-up--mb0 sm--text-left">
 
               {% if block.type == 'menus' %}
+                <div class="grid">
+                  {% if block.settings.main_linklist  != blank %}
+                  {% assign link_list = block.settings.main_linklist %}
+                  {% include 'footer__linklist' %}
+                  {% endif %}
+                  {% if block.settings.secondary_linklist  != blank %}
+                  {% assign link_list = block.settings.secondary_linklist %}
+                  {% include 'footer__linklist' %}
+                  {% endif %}
+                  {% if section.settings.enable_social_links %}
+                  <div class="grid__item social_icons sm--hide">
+                    {%- assign social_accounts = 'Facebook, Twitter, Pinterest, Instagram, Snapchat, Tumblr, YouTube, Vimeo, RSS,' | split: ', ' -%}
+                    <ul class="list--reset p0 m0 mxn1 text-align--center sm--text-left">
+                      {% for social in social_accounts %}
+                      {%- assign social_handle = social | handleize -%}
+                      {% capture social_link %}social_{{ social_handle }}_link{% endcapture %}
+                      {% capture social_icon %}icon-{{ social_handle }}{% endcapture %}
 
-              {% assign single_linklist = false %}
-
-              {% if block.settings.main_linklist == blank and block.settings.secondary_linklist != blank %}
-              {% assign single_linklist = true %}
-              {% endif %}
-
-              {% if block.settings.main_linklist != blank and block.settings.secondary_linklist == blank %}
-              {% assign single_linklist = true %}
-              {% endif %}
-
-              <div class="grid">
-                {% if block.settings.main_linklist  != blank %}
-                {% assign link_list = block.settings.main_linklist %}
-                {% include 'footer__linklist' %}
-                {% endif %}
-                {% if block.settings.secondary_linklist  != blank %}
-                {% assign link_list = block.settings.secondary_linklist %}
-                {% include 'footer__linklist' %}
-                {% endif %}
-                {% if section.settings.enable_social_links %}
-                <div class="grid__item social_icons sm--hide">
-                  {%- assign social_accounts = 'Facebook, Twitter, Pinterest, Instagram, Snapchat, Tumblr, YouTube, Vimeo, RSS,' | split: ', ' -%}
-                  <ul class="list--reset p0 m0 mxn1 text-align--center sm--text-left">
-                    {% for social in social_accounts %}
-                    {%- assign social_handle = social | handleize -%}
-                    {% capture social_link %}social_{{ social_handle }}_link{% endcapture %}
-                    {% capture social_icon %}icon-{{ social_handle }}{% endcapture %}
-
-                    {% if settings[social_link] != blank %}
-                    <li class="inline-block">
-                      <a class="color--{{ section_color }}-text px1 font-size--xxs mb1 block" href="{{ settings[social_link] }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: social }}">
-                        {% include social_icon %}
-                        <span class="icon-fallback-text">{{ social }}</span>
-                      </a>
-                    </li>
-                    {% endif %}
-                    {% endfor %}
-                  </ul>
+                      {% if settings[social_link] != blank %}
+                      <li class="inline-block">
+                        <a class="color--{{ section_color }}-text px1 font-size--xxs mb1 block" href="{{ settings[social_link] }}" title="{{ 'layout.footer.social_platform' | t: name: shop.name, platform: social }}">
+                          {% include social_icon %}
+                          <span class="icon-fallback-text">{{ social }}</span>
+                        </a>
+                      </li>
+                      {% endif %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                  {% endif %}
                 </div>
-                {% endif %}
-              </div>
               {% endif %}
 
               {% if block.type == 'richtext' %}
