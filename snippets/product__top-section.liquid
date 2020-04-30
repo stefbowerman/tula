@@ -11,53 +11,52 @@
 
         {% assign product_thumbnail_grid = 'md--up--one-whole' %}
 
-
         {% if featured_image != blank %}
-        {% assign feature_image_class = 'sm--one-whole md--up--one-whole' %}
-        {% if feature_product == true %}
-        {% assign feature_image_class = 'one-whole px2 md--up--px0 md--up--one-whole wd--seven-eighths' %}
-        {% endif %}
-        {% if feature_product %}
-        <a href="{{ product.url }}">
+          {% assign feature_image_class = 'sm--one-whole md--up--one-whole' %}
+          {% if feature_product == true %}
+            {% assign feature_image_class = 'one-whole px2 md--up--px0 md--up--one-whole wd--seven-eighths' %}
           {% endif %}
-           <div class="product_slider product__feature-image sm--px1 {{ feature_image_class }} {{ product_feature_image_grid }} inline-block mb2">
-            {% capture img_id %}ProductImage-{{ featured_image.id }}{% endcapture %}
-            {% capture wrapper_id %}ProductImageWrapper-{{ featured_image.id }}{% endcapture %}
-            
-             {%- for image in product.images -%}
-             {% assign img_url = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
-           
-            
-            <div id="{{ wrapper_id }}" class="custom-featured-img resp-img-wrapper js">
-               {% if image.alt contains 'youtube' %}
-              
-              <div class="product-video"><iframe src="{{image.alt}}"></iframe></div>
-               {% else %}              
-              <div style="padding-top:{{ 1 | divided_by: image.aspect_ratio | times: 100}}%;"  data-feature-product-wrapper>
-                <img
-                     id="ProductPhotoImg"
-                     class="resp-img product-single__photo lazyload {{ img_id_class }}"
-                     src="{{ image | img_url: '300x300' }}"
-                     data-src="{{ img_url }}"
-                     data-widths="[180, 360, 590, 720, 900, 1080, 1296, 1512, 1728, 2048]"
-                     data-aspectratio="{{ image.aspect_ratio }}"
-                     data-sizes="auto"
-                     data-image-id="{{ image.id }}"
-                     alt="{{ image.alt | escape }}"
-                     data-product-featured-image>                
-            </div>
-                       
-              {% endif %}            
-             
-            
-          </div>
-            
-         {%- endfor -%}
-         
-          </div>
           {% if feature_product %}
-        </a>
-        {% endif %}
+            <a href="{{ product.url }}">
+              {% endif %}
+               <div class="product_slider product__feature-image sm--px1 {{ feature_image_class }} {{ product_feature_image_grid }} inline-block mb2">
+                {% capture img_id %}ProductImage-{{ featured_image.id }}{% endcapture %}
+                {% capture wrapper_id %}ProductImageWrapper-{{ featured_image.id }}{% endcapture %}
+                
+                 {%- for image in product.images -%}
+                 {% assign img_url = image | img_url: '1x1' | replace: '_1x1.', '_{width}x.' %}
+               
+                
+                <div id="{{ wrapper_id }}" class="custom-featured-img resp-img-wrapper js">
+                   {% if image.alt contains 'youtube' %}
+                  
+                  <div class="product-video"><iframe src="{{image.alt}}"></iframe></div>
+                   {% else %}              
+                  <div style="padding-top:{{ 1 | divided_by: image.aspect_ratio | times: 100}}%;"  data-feature-product-wrapper>
+                    <img
+                         id="ProductPhotoImg"
+                         class="resp-img product-single__photo lazyload {{ img_id_class }}"
+                         src="{{ image | img_url: '300x300' }}"
+                         data-src="{{ img_url }}"
+                         data-widths="[180, 360, 590, 720, 900, 1080, 1296, 1512, 1728, 2048]"
+                         data-aspectratio="{{ image.aspect_ratio }}"
+                         data-sizes="auto"
+                         data-image-id="{{ image.id }}"
+                         alt="{{ image.alt | escape }}"
+                         data-product-featured-image>                
+                </div>
+                           
+                  {% endif %}            
+                 
+                
+              </div>
+                
+             {%- endfor -%}
+             
+              </div>
+              {% if feature_product %}
+            </a>
+          {% endif %}
           
         {% endif %}
       </div>
@@ -183,7 +182,7 @@
         <div class="px2 mt20 md--up--pt0 lg--up--pl31 lg--up--pr0">
           {% if description_under_add_to_cart %}
           {% if product.description != empty or product.description != '' %}
-          <div class="mt1 rte font-size--xxll bold-font sm--text-align--left" data-product-description>
+          <div class="mt1 rte font-size--xxll sm--text-align--left" data-product-description>
             {% if product.description contains '<!-- split -->' %}
             {{ product.description | split: '<!-- split -->' | first }}
             <div class="accordion_wrapper pt2" id="accordion_wrapper">
