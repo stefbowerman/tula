@@ -21,20 +21,22 @@
     <div class="lg--up--grid">
       <div class="lg--up--grid__item lg--up--one-quarter">
         <div class="featured-collection__info pb2 lg--up--px0">
-
-          {% if section.settings.selected_collection and section.settings.selected_collection != '' %}
-            {% if section.settings.title == blank %}
-              <h2 class="{{ global__heading_font_size }}">{{ collections[section.settings.selected_collection].title }}</h2>
+          
+          <h2 class="{{ global__heading_font_size }} f--{{ section.settings.title_font }}">
+            {% if section.settings.selected_collection and section.settings.selected_collection != '' %}
+              {% if section.settings.title == blank %}
+                {{ collections[section.settings.selected_collection].title }}
+              {% else %}
+                {{ section.settings.title | escape }}
+              {% endif %}
             {% else %}
-              <h2 class="{{ global__heading_font_size }}">{{ section.settings.title | escape }}</h2>
+              {% if section.settings.title == blank %}
+                {{ 'homepage.onboarding.collection_title' | t }}
+              {% else %}
+                {{ section.settings.title | escape }}
+              {% endif %}
             {% endif %}
-          {% else %}
-            {% if section.settings.title == blank %}
-              <h2 class="{{ global__heading_font_size }}">{{ 'homepage.onboarding.collection_title' | t }}</h2>
-            {% else %}
-              <h2 class="{{ global__heading_font_size }}">{{ section.settings.title }}</h2>
-            {% endif %}
-          {% endif %}
+          </h2>
 
           {% if section.settings.subheading != blank %}
             <div class="{{ global__basic_font_size }}">
@@ -43,7 +45,7 @@
           {% endif %}
 
           {% if section.settings.show_collection_link %}
-          <a class="{{ global__link_underline }} {{ global__hover_underline }} {{ global__homepage_more_link }} {{ global__basic_font_size }}" href="{{ collection.url }}" >
+          <a class="underline {{ global__link_underline }} {{ global__hover_underline }} {{ global__homepage_more_link }} {{ global__basic_font_size }}" href="{{ collection.url }}" >
             {{ 'collections.general.all_of_collection' | t: collection:  collection.title }}
           </a>
           {% endif %}
@@ -89,6 +91,16 @@
         "label": "Heading",
         "default": "Featured collection"
       },
+      {
+        "type": "select",
+        "id": "title_font",
+        "label": "Heading font",
+        "options": [
+          { "value": "default", "label": "Default"},
+          { "value": "infini", "label": "Infini"}
+        ],
+        "default":   "default"
+      },      
       {
         "id": "collection",
         "type": "collection",

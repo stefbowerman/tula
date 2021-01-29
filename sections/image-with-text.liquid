@@ -30,7 +30,7 @@
   {%- assign placeholder = true -%}
 {%- endif -%}
 
-<section class="image-with-text  {{ global__section_with_padding_class }} color--{{ section_color }}-text md--up--color--{{ text_color_overlay }}-text bg--{{ section_color }}-background" data-section-type="newsletter" data-section-id="{{ section.id }}">
+<section class="image-with-text  {{ global__section_with_padding_class }} color--{{ text_color_overlay }}-text bg--{{ section_color }}-background" data-section-type="newsletter" data-section-id="{{ section.id }}">
   <div class="max-site-width outer-container">
     <div class="image-with-text__container relative">
       <div class="image-with-text__image">
@@ -68,12 +68,21 @@
       </div>
       <div class="image-with-text__content md--up--absolute md--up--full md--up--top--0 md--up--left--0 md--up--p4 wd--p51 z1 sm--text-align--center  sm--absolute sm--full sm--top--0 sm--left--0 sm--p1">
         {% assign content_position = content_position | split: ' ' %}
-        <div class="md--up--table md--dn--table md--up--full">
+        <div class="md--up--table md--dn--table full">
           <div class="md--up--table-cell md--dn--table-cell md--up--{{ content_position[0] }} md--dn--{{ content_position[0] }} md--up--{{ content_position[1] }} md--dn--{{ content_position[1] }} ">
-            <div class="inline-block md--up--{{ text_align }} md--up--one-third">
+            <div class="inline-block md--up--{{ text_align }}" style="max-width: 1300px;">
               <div class="mt3 four-fifths md--up--m0 md--up--one-whole sm--one-whole">
                 {% if heading != blank %}
-                  <h2 class="{{ global__heading_font_size }} m0">{{ heading }}</h2>
+                  <h2 class="
+                    {% if section.settings.section_heading_size == 'default' %}
+                      {{ global__heading_font_size }}
+                    {% elsif section.settings.section_heading_size == 'huge' %}
+                      {{ global__huge_heading_font_size }}
+                    {% endif %}
+                    m0 {{ section.settings.section_heading_font | prepend: 'f--' }}
+                  ">
+                    {{ heading }}
+                  </h2>
                 {% endif %}
                 {% if text != blank %}
                   <div class="richtext {{ global__basic_font_size }} mt2">
@@ -82,7 +91,7 @@
                 {% endif %}
 
                 {% if cta_url != blank %}
-                  <a class="mt1 inline-block {{ global__basic_font_size }} {{ global__link_underline }}  {{ global__hover_underline }} md--up--color--{{ text_color_overlay }}-text lg--up--border-bottom--{{ text_color_overlay }}-text md--up--hv--{{ hover_color_overlay }}-primary md--up--hv--border-bottom--{{ hover_color_overlay }}-primary md--up--inline-block" href="{{ cta_url }}" target="_blank" >
+                  <a class="mt1 inline-block {{ global__basic_font_size }} {{ global__link_underline }}  {{ global__hover_underline }} color--{{ text_color_overlay }}-text border-bottom--{{ text_color_overlay }}-text md--up--hv--{{ hover_color_overlay }}-primary md--up--hv--border-bottom--{{ hover_color_overlay }}-primary md--up--inline-block" href="{{ cta_url }}" target="_blank" >
                     {{ cta_text }}
                   </a>
                 {% endif %}
@@ -210,6 +219,26 @@
          { "value": "white", "label": "White"}
        ]
     },
+    {
+       "type": "select",
+       "id": "section_heading_font",
+       "label": "Heading font",
+       "options": [
+         { "value": "default", "label": "Default"},
+         { "value": "infini", "label": "Infini"}
+       ],
+       "default":   "default"
+    },
+    {
+       "type": "select",
+       "id": "section_heading_size",
+       "label": "Heading size",
+       "options": [
+         { "value": "default", "label": "Default"},
+         { "value": "huge", "label": "Huge"}
+       ],
+       "default":   "default"
+    },    
     {
       "type":      "header",
       "content":   "Colors"

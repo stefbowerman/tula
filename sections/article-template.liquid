@@ -42,7 +42,7 @@
 <section class="article {{ global__section_with_padding_class }} color--{{ section_color }}-text bg--{{ section_color }}-background" role="article" itemscope itemtype="http://schema.org/Article" data-section-id="{{ section.id }}" data-section-type="article">
   <div class="max-site-width outer-container">
 
-    {% if blog.template_suffix == "library" %}
+    {% if blog.template_suffix == "library" and blog.handle contains "library" %}
       {% assign first_letters = '' %}
       {% paginate blog.articles by 500 %}
         {% for _article in blog.articles %}

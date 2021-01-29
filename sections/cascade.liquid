@@ -4,7 +4,7 @@
 {%- assign font_size = 'font-size--sm md--up--font-size--m line-height--3' -%}
 {%- assign font_size = global__basic_font_size -%}
 
-<section class="{% if section.settings.show_on_desktop and section.settings.show_on_mobile %}{% elsif section.settings.show_on_desktop %} sm--hide {% elsif section.settings.show_on_mobile %} md--up--hide {% endif %} cascade sm--p2 {{ global__section_with_padding_class }} color--{{ section_color }}-text bg--{{ section_color }}-background" data-section-type="cascade" data-section-id="{{ section.id }}" data-fade-in="{{ fade_in }}" data-first-item="{{ section.settings.first_item }}">
+<section class="{% if section.settings.show_on_desktop and section.settings.show_on_mobile %}{% elsif section.settings.show_on_desktop %} sm--hide {% elsif section.settings.show_on_mobile %} md--up--hide {% endif %} cascade sm--px2 sm--pt2 {{ global__section_with_padding_class }} color--{{ section_color }}-text bg--{{ section_color }}-background" data-section-type="cascade" data-section-id="{{ section.id }}" data-fade-in="{{ fade_in }}" data-first-item="{{ section.settings.first_item }}">
   <div class="max-site-width outer-container">
     <div class="cascading-content">
       <div class="items overflow--hidden">
@@ -276,28 +276,37 @@
             ============================================================================== *
             {% endcomment %}
             {% if block.type == 'rich_text' or block.type == 'heading' or block.type == 'text' %}
-            <div class="rich-text rich-text--{{ block.id }} {{ block.settings.text_align}}">
+            <div class="rich-text rich-text--{{ block.id }} {{ block.settings.text_align }}">
               <div class="grid">
-                <div class="seven-eighths md--up--grid__item sm--one-whole wd--two-thirds sm--text-align--center">
-                  {% if block.settings.heading != blank   %}
-                  {% if block_width_mobile == 'full' %}
-                  {% assign heading_class = heading_fontsize__mobile_full %}
-                  {% else %}
-                  {% assign heading_class = heading_fontsize__mobile_half %}
+                <div class="seven-eighths md--up--grid__item sm--one-whole wd--two-thirds">
+                  {% if block.settings.heading != blank %}
+                    {% if block_width_mobile == 'full' %}
+                      {% assign heading_class = heading_fontsize__mobile_full %}
+                    {% else %}
+                      {% assign heading_class = heading_fontsize__mobile_half %}
+                    {% endif %}
+
+                    {% if block.settings.font_size == 'large' %}
+                      {% if block_width_mobile == 'full' %}
+                        {% assign heading_class = 'f--heading font-size--xxxl line-height--8 pm--font-size--xxxxxl pm--line-height--11 wd--font-size--xxxxxxl wd--line-height--13' %}
+                      {% else %}
+                        {% assign heading_class = 'f--heading font-size--xxl line-height--7 pm--font-size--xxxxl pm--line-height--11 wd--font-size--xxxxxxl wd--line-height--13' %}
+                      {% endif %}
+                    {% elsif block.settings.font_size == 'extra_large' %}
+                      {% assign heading_class = 'f--heading font-size--xxxxl line-height--9 pm--font-size--xxxxl pm--line-height--12 wd--font-size--xxxxxxxl wd--line-height--14' %}
+                    {% endif %}
+
+                    {% if block.settings.heading_font == 'infini' %}
+                      {% assign heading_class = heading_class | append: ' f--infini' %}
+                    {% endif %}
+
+                    <h2 class="m0 {{ heading_class }}">
+                      {{ block.settings.heading }}
+                    </h2>
                   {% endif %}
-                  {% if block.type == 'heading' and block.settings.font_size == 'large' %}
-                  {% if block_width_mobile == 'full' %}
-                  {% assign heading_class = 'f--heading font-size--xxxl line-height--8 pm--font-size--xxxxxl pm--line-height--11 wd--font-size--xxxxxxl wd--line-height--13' %}
-                  {% else %}
-                  {% assign heading_class = 'f--heading font-size--xxl line-height--7 pm--font-size--xxxxl pm--line-height--11 wd--font-size--xxxxxxl wd--line-height--13' %}
-                  {% endif %}
-                  {% endif %}
-                  <h2 class=" m0 {{ heading_class }}">
-                    {{ block.settings.heading }}
-                  </h2>
-                  {% endif %}
+
                   {% if block.settings.rich_text != blank  %}
-                  <div class="richtext {{ font_size }} {% if block.settings.heading != blank %}mt2{% endif %}">
+                  <div class="richtext {{ font_size }} {% if block.settings.heading != blank %}mt2{% endif %} md--two-thirds lg--one-half wd--one-half">
                     {{ block.settings.rich_text }}
                   </div>
                   {% endif %}
@@ -679,6 +688,16 @@
 "default": "Heading or impact text goes here."
 },
 {
+  "type": "select",
+  "id": "heading_font",
+  "label": "Heading font",
+  "options": [
+    { "value": "default", "label": "Default"},
+    { "value": "infini", "label": "Infini"}
+  ],
+  "default":   "default"
+},
+{
 "type": "select",
 "id": "text_align",
 "label": "Text alignment",
@@ -710,6 +729,10 @@
 {
 "value": "large",
 "label": "Large"
+},
+{
+"value": "extra_large",
+"label": "Extra Large"
 }
 ],
 "default":   "default"
@@ -751,6 +774,36 @@
 "type": "text",
 "label": "Heading",
 "default": "Heading or impact text goes here."
+},
+{
+  "type": "select",
+  "id": "heading_font",
+  "label": "Heading font",
+  "options": [
+    { "value": "default", "label": "Default"},
+    { "value": "infini", "label": "Infini"}
+  ],
+  "default":   "default"
+},
+{
+"type": "select",
+"id": "font_size",
+"label": "Font size",
+"options": [
+{
+"value": "default",
+"label": "Default"
+},
+{
+"value": "large",
+"label": "Large"
+},
+{
+"value": "extra_large",
+"label": "Extra Large"
+}
+],
+"default":   "default"
 },
 {
 "type": "header",

@@ -40,7 +40,8 @@
           <div class="lg--up--self--end">
             <h1 class="f--heading font-size--xxxl line-height-6 lg--up--font-size--xxxxl m0 pb1">{{ blog.title }}</h1>
 
-            {% if first_letters_array.size > 1 %}
+            {% comment %} Only show on the plant library blog.  This section/template is being reused for another blog {% endcomment %}
+            {% if first_letters_array.size > 1 and blog.handle contains 'library' %}
               <div class="mt3 lg--up--mt0 lg--up--flex">
                 {% include 'library-blog-navigation', letters_array: first_letters_array %}
               </div>

@@ -276,7 +276,31 @@ $list-and-grid-align: {{ settings.list_and_grid_align }};
 
 $font-size-base: 16px;
 
+// Add Infini font
+@font-face {
+  font-family: "Infini";
+    src: url("{{ 'Infini-Regular.woff' | asset_url }}") format('woff'),
+         url("{{ 'Infini-Regular.woff2' | asset_url }}") format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
 
+// I don't think we need this one
+// @font-face {
+//   font-family: "Infini";
+//     src: url("{{ 'Infini-Italic.woff' | asset_url }}") format('woff'),
+//          url("{{ 'Infini-Italic.woff2' | asset_url }}") format('woff2');
+//   font-weight: normal;
+//   font-style: italic;
+// }
+
+@font-face {
+  font-family: "Infini";
+    src: url("{{ 'Infini-Bold.woff' | asset_url }}") format('woff'),
+         url("{{ 'Infini-Bold.woff2' | asset_url }}") format('woff2');
+  font-weight: bold;
+  font-style: normal;
+}
 
 
 
@@ -426,6 +450,9 @@ $line-height-10: 3rem !default;
 $line-height-11: 3.25rem !default;
 $line-height-12: 3.5rem !default;
 $line-height-13: 3.75rem !default;
+$line-height-14: 4rem !default;
+$line-height-15: 4.5rem !default;
+$line-height-16: 5rem !default;
 $letter-spacing: 1 !default;
 $caps-letter-spacing: 0.1em !default;
 $bold-font-weight: bold !default;
@@ -3031,7 +3058,6 @@ h6 {
   font-style: $heading-font-style;
 }
 
-
 .f--main {
   font-family:{{settings.type_main_a_font}};
   font-weight: $main-font-weight;
@@ -3042,6 +3068,10 @@ h6 {
   font-family:{{settings.type_main_a_font}};
   font-weight: $accent-font-weight;
   text-transform: $accent-text-transform;
+}
+
+.f--infini {
+  font-family: 'Infini';
 }
 
 
@@ -3059,6 +3089,8 @@ h6 {
 /* Typography
 ========================================================================== */
 
+$font-size--xxxxxxxxl: 5rem;
+$font-size--xxxxxxxl: 3.75rem;
 $font-size--xxxxxxl: 3.5rem;
 $font-size--xxxxxl: 3rem;
 $font-size--xxxxl: 2.5rem;
@@ -3122,7 +3154,8 @@ h6,
 .h6 { @extend %h6; }
 
 @mixin font-sizes($i) {
-
+  .#{$i}font-size--xxxxxxxxl { font-size: $font-size--xxxxxxxxl; }
+  .#{$i}font-size--xxxxxxxl { font-size: $font-size--xxxxxxxl; }
   .#{$i}font-size--xxxxxxl { font-size: $font-size--xxxxxxl; }
   .#{$i}font-size--xxxxxl { font-size: $font-size--xxxxxl; }
   .#{$i}font-size--xxxxl { font-size: $font-size--xxxxl; }
@@ -3155,6 +3188,9 @@ h6,
   .#{$i}line-height--11 { line-height: $line-height-11; }
   .#{$i}line-height--12 { line-height: $line-height-12; }
   .#{$i}line-height--13 { line-height: $line-height-13; }
+  .#{$i}line-height--14 { line-height: $line-height-14; }
+  .#{$i}line-height--15 { line-height: $line-height-15; }
+  .#{$i}line-height--16 { line-height: $line-height-16; }
 }
 
 @include font-sizes('');
@@ -3177,6 +3213,8 @@ h6,
 /* Basscss Typography */
 
 .font-family-inherit { font-family: inherit; }
+.font-family-default {}
+.font-family-infini { font-family: 'Infini'; }
 .font-size-inherit { font-size: inherit; }
 .text-decoration-none { text-decoration: none; }
 .bold { font-weight: $bold-font-weight; /* Fallback value:  bold */ }
@@ -5559,7 +5597,7 @@ $full_dt: percentage($full_dt / $container_dt);
 
 .item--last {
   padding-top: 40px;
-  padding-bottom: 30px;
+  padding-bottom: 10px;
 }
 
 .item--heading {
