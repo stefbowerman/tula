@@ -2,6 +2,17 @@
 <!--[if IE 9]> <html class="ie9 no-js supports-no-cookies" lang="{{ shop.locale }}"> <![endif]-->
 <!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js supports-no-cookies" lang="{{ shop.locale }}"> <!--<![endif]-->
 <head>
+  
+<!-- Global site tag (gtag.js) - Google Ads: 610923885 -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-610923885"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'AW-610923885');
+</script>
+  
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -36,6 +47,8 @@
   {% endif %}
 
   {% include 'social-meta-tags' %}
+  {% include 'personizely' %}
+  
 
   {{ content_for_header }}
   {{ 'theme.scss.css' | asset_url | stylesheet_tag }}
@@ -73,7 +86,10 @@
 
   {% include 'storepickup' %}
 
+
+{% render 'digismoothie-candyrack' %}
 </head>
+
 
 <body id="{{ page_title | handle }}" class="template-{{ template.name | handle }} {% if template.suffix != nil %}template-{{ template.name | handle }}-{{ template.suffix | handle }}{% endif %}">
 
@@ -195,5 +211,13 @@
     });
   </script>
     
+<script>window.KlarnaThemeGlobals={};{%case template.name%} {%when"product"%} window.KlarnaThemeGlobals.data_purchase_amount={{product.first_available_variant.price}};window.KlarnaThemeGlobals.productVariants={{product.variants|json}};window.KlarnaThemeGlobals.documentCopy=document.cloneNode(true);{%when"cart"%} window.KlarnaThemeGlobals.data_purchase_amount={{cart.total_price}};window.KlarnaThemeGlobals.documentCopy=document.cloneNode(true);{%endcase%}</script>
+
+
+
+
+<!-- Back in Stock helper snippet -->
+{% render 'back-in-stock-helper' %}
+<!-- End Back in Stock helper snippet -->
 </body>
 </html>
