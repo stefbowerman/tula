@@ -109,6 +109,14 @@ var Handlebars=function(){var e=function(){"use strict";function t(e){this.strin
 
 !function(t,e){"object"==typeof exports&&"object"==typeof module?module.exports=e():"function"==typeof define&&define.amd?define("scrollMonitor",[],e):"object"==typeof exports?exports.scrollMonitor=e():t.scrollMonitor=e()}(this,function(){return function(t){function e(o){if(i[o])return i[o].exports;var s=i[o]={exports:{},id:o,loaded:!1};return t[o].call(s.exports,s,s.exports,e),s.loaded=!0,s.exports}var i={};return e.m=t,e.c=i,e.p="",e(0)}([function(t,e,i){"use strict";var o=i(1),s=o.isInBrowser,n=i(2),r=new n(s?document.body:null);r.setStateFromDOM(null),r.listenToDOM(),s&&(window.scrollMonitor=r),t.exports=r},function(t,e){"use strict";e.VISIBILITYCHANGE="visibilityChange",e.ENTERVIEWPORT="enterViewport",e.FULLYENTERVIEWPORT="fullyEnterViewport",e.EXITVIEWPORT="exitViewport",e.PARTIALLYEXITVIEWPORT="partiallyExitViewport",e.LOCATIONCHANGE="locationChange",e.STATECHANGE="stateChange",e.eventTypes=[e.VISIBILITYCHANGE,e.ENTERVIEWPORT,e.FULLYENTERVIEWPORT,e.EXITVIEWPORT,e.PARTIALLYEXITVIEWPORT,e.LOCATIONCHANGE,e.STATECHANGE],e.isOnServer="undefined"==typeof window,e.isInBrowser=!e.isOnServer,e.defaultOffsets={top:0,bottom:0}},function(t,e,i){"use strict";function o(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}function s(t){return c?0:t===document.body?window.innerHeight||document.documentElement.clientHeight:t.clientHeight}function n(t){return c?0:t===document.body?Math.max(document.body.scrollHeight,document.documentElement.scrollHeight,document.body.offsetHeight,document.documentElement.offsetHeight,document.documentElement.clientHeight):t.scrollHeight}function r(t){return c?0:t===document.body?window.pageYOffset||document.documentElement&&document.documentElement.scrollTop||document.body.scrollTop:t.scrollTop}var h=i(1),c=h.isOnServer,a=h.isInBrowser,l=h.eventTypes,p=i(3),u=!1;if(a)try{var w=Object.defineProperty({},"passive",{get:function(){u=!0}});window.addEventListener("test",null,w)}catch(t){}var d=!!u&&{capture:!1,passive:!0},f=function(){function t(e,i){function h(){if(a.viewportTop=r(e),a.viewportBottom=a.viewportTop+a.viewportHeight,a.documentHeight=n(e),a.documentHeight!==p){for(u=a.watchers.length;u--;)a.watchers[u].recalculateLocation();p=a.documentHeight}}function c(){for(w=a.watchers.length;w--;)a.watchers[w].update();for(w=a.watchers.length;w--;)a.watchers[w].triggerCallbacks()}o(this,t);var a=this;this.item=e,this.watchers=[],this.viewportTop=null,this.viewportBottom=null,this.documentHeight=n(e),this.viewportHeight=s(e),this.DOMListener=function(){t.prototype.DOMListener.apply(a,arguments)},this.eventTypes=l,i&&(this.containerWatcher=i.create(e));var p,u,w;this.update=function(){h(),c()},this.recalculateLocations=function(){this.documentHeight=0,this.update()}}return t.prototype.listenToDOM=function(){a&&(window.addEventListener?(this.item===document.body?window.addEventListener("scroll",this.DOMListener,d):this.item.addEventListener("scroll",this.DOMListener,d),window.addEventListener("resize",this.DOMListener)):(this.item===document.body?window.attachEvent("onscroll",this.DOMListener):this.item.attachEvent("onscroll",this.DOMListener),window.attachEvent("onresize",this.DOMListener)),this.destroy=function(){window.addEventListener?(this.item===document.body?(window.removeEventListener("scroll",this.DOMListener,d),this.containerWatcher.destroy()):this.item.removeEventListener("scroll",this.DOMListener,d),window.removeEventListener("resize",this.DOMListener)):(this.item===document.body?(window.detachEvent("onscroll",this.DOMListener),this.containerWatcher.destroy()):this.item.detachEvent("onscroll",this.DOMListener),window.detachEvent("onresize",this.DOMListener))})},t.prototype.destroy=function(){},t.prototype.DOMListener=function(t){this.setStateFromDOM(t)},t.prototype.setStateFromDOM=function(t){var e=r(this.item),i=s(this.item),o=n(this.item);this.setState(e,i,o,t)},t.prototype.setState=function(t,e,i,o){var s=e!==this.viewportHeight||i!==this.contentHeight;if(this.latestEvent=o,this.viewportTop=t,this.viewportHeight=e,this.viewportBottom=t+e,this.contentHeight=i,s)for(var n=this.watchers.length;n--;)this.watchers[n].recalculateLocation();this.updateAndTriggerWatchers(o)},t.prototype.updateAndTriggerWatchers=function(t){for(var e=this.watchers.length;e--;)this.watchers[e].update();for(e=this.watchers.length;e--;)this.watchers[e].triggerCallbacks(t)},t.prototype.createCustomContainer=function(){return new t},t.prototype.createContainer=function(e){"string"==typeof e?e=document.querySelector(e):e&&e.length>0&&(e=e[0]);var i=new t(e,this);return i.setStateFromDOM(),i.listenToDOM(),i},t.prototype.create=function(t,e){"string"==typeof t?t=document.querySelector(t):t&&t.length>0&&(t=t[0]);var i=new p(this,t,e);return this.watchers.push(i),i},t.prototype.beget=function(t,e){return this.create(t,e)},t}();t.exports=f},function(t,e,i){"use strict";function o(t,e,i){function o(t,e){if(0!==t.length)for(E=t.length;E--;)y=t[E],y.callback.call(s,e,s),y.isOne&&t.splice(E,1)}var s=this;this.watchItem=e,this.container=t,i?i===+i?this.offsets={top:i,bottom:i}:this.offsets={top:i.top||w.top,bottom:i.bottom||w.bottom}:this.offsets=w,this.callbacks={};for(var d=0,f=u.length;d<f;d++)s.callbacks[u[d]]=[];this.locked=!1;var m,v,b,I,E,y;this.triggerCallbacks=function(t){switch(this.isInViewport&&!m&&o(this.callbacks[r],t),this.isFullyInViewport&&!v&&o(this.callbacks[h],t),this.isAboveViewport!==b&&this.isBelowViewport!==I&&(o(this.callbacks[n],t),v||this.isFullyInViewport||(o(this.callbacks[h],t),o(this.callbacks[a],t)),m||this.isInViewport||(o(this.callbacks[r],t),o(this.callbacks[c],t))),!this.isFullyInViewport&&v&&o(this.callbacks[a],t),!this.isInViewport&&m&&o(this.callbacks[c],t),this.isInViewport!==m&&o(this.callbacks[n],t),!0){case m!==this.isInViewport:case v!==this.isFullyInViewport:case b!==this.isAboveViewport:case I!==this.isBelowViewport:o(this.callbacks[p],t)}m=this.isInViewport,v=this.isFullyInViewport,b=this.isAboveViewport,I=this.isBelowViewport},this.recalculateLocation=function(){if(!this.locked){var t=this.top,e=this.bottom;if(this.watchItem.nodeName){var i=this.watchItem.style.display;"none"===i&&(this.watchItem.style.display="");for(var s=0,n=this.container;n.containerWatcher;)s+=n.containerWatcher.top-n.containerWatcher.container.viewportTop,n=n.containerWatcher.container;var r=this.watchItem.getBoundingClientRect();this.top=r.top+this.container.viewportTop-s,this.bottom=r.bottom+this.container.viewportTop-s,"none"===i&&(this.watchItem.style.display=i)}else this.watchItem===+this.watchItem?this.watchItem>0?this.top=this.bottom=this.watchItem:this.top=this.bottom=this.container.documentHeight-this.watchItem:(this.top=this.watchItem.top,this.bottom=this.watchItem.bottom);this.top-=this.offsets.top,this.bottom+=this.offsets.bottom,this.height=this.bottom-this.top,void 0===t&&void 0===e||this.top===t&&this.bottom===e||o(this.callbacks[l],null)}},this.recalculateLocation(),this.update(),m=this.isInViewport,v=this.isFullyInViewport,b=this.isAboveViewport,I=this.isBelowViewport}var s=i(1),n=s.VISIBILITYCHANGE,r=s.ENTERVIEWPORT,h=s.FULLYENTERVIEWPORT,c=s.EXITVIEWPORT,a=s.PARTIALLYEXITVIEWPORT,l=s.LOCATIONCHANGE,p=s.STATECHANGE,u=s.eventTypes,w=s.defaultOffsets;o.prototype={on:function(t,e,i){switch(!0){case t===n&&!this.isInViewport&&this.isAboveViewport:case t===r&&this.isInViewport:case t===h&&this.isFullyInViewport:case t===c&&this.isAboveViewport&&!this.isInViewport:case t===a&&this.isInViewport&&this.isAboveViewport:if(e.call(this,this.container.latestEvent,this),i)return}if(!this.callbacks[t])throw new Error("Tried to add a scroll monitor listener of type "+t+". Your options are: "+u.join(", "));this.callbacks[t].push({callback:e,isOne:i||!1})},off:function(t,e){if(!this.callbacks[t])throw new Error("Tried to remove a scroll monitor listener of type "+t+". Your options are: "+u.join(", "));for(var i,o=0;i=this.callbacks[t][o];o++)if(i.callback===e){this.callbacks[t].splice(o,1);break}},one:function(t,e){this.on(t,e,!0)},recalculateSize:function(){this.height=this.watchItem.offsetHeight+this.offsets.top+this.offsets.bottom,this.bottom=this.top+this.height},update:function(){this.isAboveViewport=this.top<this.container.viewportTop,this.isBelowViewport=this.bottom>this.container.viewportBottom,this.isInViewport=this.top<this.container.viewportBottom&&this.bottom>this.container.viewportTop,this.isFullyInViewport=this.top>=this.container.viewportTop&&this.bottom<=this.container.viewportBottom||this.isAboveViewport&&this.isBelowViewport},destroy:function(){var t=this.container.watchers.indexOf(this),e=this;this.container.watchers.splice(t,1);for(var i=0,o=u.length;i<o;i++)e.callbacks[u[i]].length=0},lock:function(){this.locked=!0},unlock:function(){this.locked=!1}};for(var d=function(t){return function(e,i){this.on.call(this,t,e,i)}},f=0,m=u.length;f<m;f++){var v=u[f];o.prototype[v]=d(v)}t.exports=o}])});
 //# sourceMappingURL=scrollMonitor.js.map
+ 
+/**
+ * MARQUEE 3000 MARQUEE 3000 MARQUEE 3000 MARQUEE 3000 MARQUEE 3000
+ * http://github.com/ezekielaquino/marquee3000
+ * Marquees for the new millennium v1.0
+ * MIT License
+ */
+!function(t,e){"function"==typeof define&&define.amd?define([],e):"object"==typeof exports?module.exports=e():t.Marquee3k=e()}(this,function(){"use strict";let t=0;class e{constructor(t,e){this.element=t,this.selector=e.selector,this.speed=t.dataset.speed||.25,this.pausable=t.dataset.pausable,this.reverse=t.dataset.reverse,this.paused=!1,this.parent=t.parentElement,this.parentProps=this.parent.getBoundingClientRect(),this.content=t.children[0],this.innerContent=this.content.innerHTML,this.wrapStyles="",this.offset=0,this._setupWrapper(),this._setupContent(),this._setupEvents(),this.wrapper.appendChild(this.content),this.element.appendChild(this.wrapper)}_setupWrapper(){this.wrapper=document.createElement("div"),this.wrapper.classList.add("marquee3k__wrapper"),this.wrapper.style.whiteSpace="nowrap"}_setupContent(){this.content.classList.add(`${this.selector}__copy`),this.content.style.display="inline-block",this.contentWidth=this.content.offsetWidth,this.requiredReps=this.contentWidth>this.parentProps.width?2:Math.ceil((this.parentProps.width-this.contentWidth)/this.contentWidth)+1;for(let t=0;t<this.requiredReps;t++)this._createClone();this.reverse&&(this.offset=-1*this.contentWidth),this.element.classList.add("is-init")}_setupEvents(){this.element.addEventListener("mouseenter",()=>{this.pausable&&(this.paused=!0)}),this.element.addEventListener("mouseleave",()=>{this.pausable&&(this.paused=!1)})}_createClone(){const t=this.content.cloneNode(!0);t.style.display="inline-block",t.classList.add(`${this.selector}__copy`),this.wrapper.appendChild(t)}animate(){if(!this.paused){const t=this.reverse?this.offset<0:this.offset>-1*this.contentWidth,e=this.reverse?-1:1,s=this.reverse?-1*this.contentWidth:0;t?this.offset-=this.speed*e:this.offset=s,this.wrapper.style.whiteSpace="nowrap",this.wrapper.style.transform=`translate(${this.offset}px, 0) translateZ(0)`}}_refresh(){this.contentWidth=this.content.offsetWidth}repopulate(t,e){if(this.contentWidth=this.content.offsetWidth,e){const e=Math.ceil(t/this.contentWidth)+1;for(let t=0;t<e;t++)this._createClone()}}static refresh(t){MARQUEES[t]._refresh()}static pause(t){MARQUEES[t].paused=!0}static play(t){MARQUEES[t].paused=!1}static toggle(t){MARQUEES[t].paused=!MARQUEES[t].paused}static refreshAll(){for(let t=0;t<MARQUEES.length;t++)MARQUEES[t]._refresh()}static pauseAll(){for(let t=0;t<MARQUEES.length;t++)MARQUEES[t].paused=!0}static playAll(){for(let t=0;t<MARQUEES.length;t++)MARQUEES[t].paused=!1}static toggleAll(){for(let t=0;t<MARQUEES.length;t++)MARQUEES[t].paused=!MARQUEES[t].paused}static init(s={selector:"marquee3k"}){t&&window.cancelAnimationFrame(t),window.MARQUEES=[];const i=Array.from(document.querySelectorAll(`.${s.selector}`));let n,r=window.innerWidth;for(let t=0;t<i.length;t++){const n=i[t],r=new e(n,s);MARQUEES.push(r)}!function e(){for(let t=0;t<MARQUEES.length;t++)MARQUEES[t].animate();t=window.requestAnimationFrame(e)}(),window.addEventListener("resize",()=>{clearTimeout(n),n=setTimeout(()=>{const t=r<window.innerWidth,e=window.innerWidth-r;for(let s=0;s<MARQUEES.length;s++)MARQUEES[s].repopulate(e,t);r=this.innerWidth},250)})}}return e});
 
 /*================ Slate ================*/
 /**
@@ -936,7 +944,34 @@ slate.utils = {
    */
   defaultTo: function(value, defaultValue) {
     return value == null || value !== value ? defaultValue : value;
-  }
+  },
+
+  /**
+   * Constructs an object of key / value pairs out of the parameters of the query string
+   *
+   * @return {Object}
+   */
+  getQueryParams: function() {
+    var queryString = location.search && location.search.substr(1) || '';
+    var queryParams = {};
+
+    queryString
+      .split('&')
+      .filter(function (element) {
+        return element.length;
+      })
+      .forEach(function (paramValue) {
+        var splitted = paramValue.split('=');
+
+        if (splitted.length > 1) {
+          queryParams[splitted[0]] = splitted[1];
+        } else {
+          queryParams[splitted[0]] = true;
+        }
+      });
+
+    return queryParams;
+  },
 };
 
 theme.text_truncate = function(str, length, ending) {
@@ -1044,20 +1079,28 @@ slate.Sections.prototype = $.extend({}, slate.Sections.prototype, {
     this.instances.push(instance);
   },
 
+  _getSectionIdForEvent(evt) {
+    return (evt.detail && evt.detail.sectionId || evt.originalEvent.detail.sectionId);
+  },
+
+  _getInstanceForEvent(evt) {    
+    return slate.utils.findInstance(this.instances, 'id', this._getSectionIdForEvent(evt));
+  },
+
   _onSectionLoad: function(evt) {
     var container = $('[data-section-id]', evt.target)[0];
     if (container) {
       this._createInstance(container);
     }
 
-    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+    var instance = this._getInstanceForEvent(evt);
     if (instance && typeof instance.onSectionLoad === 'function') {
       instance.onSectionLoad(evt);
     }
   },
 
   _onSectionUnload: function(evt) {
-    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+    var instance = this._getInstanceForEvent(evt);
 
     if (!instance) {
       return;
@@ -1067,11 +1110,11 @@ slate.Sections.prototype = $.extend({}, slate.Sections.prototype, {
       instance.onUnload(evt);
     }
 
-    this.instances = slate.utils.removeInstance(this.instances, 'id', evt.detail.sectionId);
+    this.instances = slate.utils.removeInstance(this.instances, 'id', this._getSectionIdForEvent(evt));
   },
 
   _onSelect: function(evt) {
-    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+    var instance = this._getInstanceForEvent(evt);
 
     if (instance && typeof instance.onSelect === 'function') {
       instance.onSelect(evt);
@@ -1079,7 +1122,7 @@ slate.Sections.prototype = $.extend({}, slate.Sections.prototype, {
   },
 
   _onDeselect: function(evt) {
-    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+    var instance = this._getInstanceForEvent(evt);
 
     if (instance && typeof instance.onDeselect === 'function') {
       instance.onDeselect(evt);
@@ -1087,7 +1130,7 @@ slate.Sections.prototype = $.extend({}, slate.Sections.prototype, {
   },
 
   _onReorder: function(evt) {
-    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+    var instance = this._getInstanceForEvent(evt);
 
     if (instance && typeof instance.onReorder === 'function') {
       instance.onReorder(evt);
@@ -1095,7 +1138,7 @@ slate.Sections.prototype = $.extend({}, slate.Sections.prototype, {
   },
 
   _onBlockSelect: function(evt) {
-    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+    var instance = this._getInstanceForEvent(evt);
 
     if (instance && typeof instance.onBlockSelect === 'function') {
       instance.onBlockSelect(evt);
@@ -1103,7 +1146,7 @@ slate.Sections.prototype = $.extend({}, slate.Sections.prototype, {
   },
 
   _onBlockDeselect: function(evt) {
-    var instance = slate.utils.findInstance(this.instances, 'id', evt.detail.sectionId);
+    var instance = this._getInstanceForEvent(evt);
 
     if (instance && typeof instance.onBlockDeselect === 'function') {
       instance.onBlockDeselect(evt);
@@ -1584,7 +1627,7 @@ theme.Header = (function() {
     this.template = this.$container.attr("data-template");
     this.$header = $("[data-site-header]", this.$container);
     this.$headerPlaceholder = $("[data-header-placeholder]", this.$container);
-
+    this.$announcementBar = $(".announcement-bar", this.$container);
 
     if (this.$container.attr("data-sticky-header")
         && !(this.$container.attr("data-sticky-header-with-banner-and-announcement")) 
@@ -1670,14 +1713,18 @@ theme.Header = (function() {
         400
       );
     });
+
+    // Kick off the marquee
+    if (Marquee3k) {
+      Marquee3k.init({
+        selector: 'ticker'
+      });   
+    }
   }
 
   Header.prototype = $.extend({}, Header.prototype, {
     accessibleNav: function() {
-      var $activeHeaderTrigger = $(
-          "[data-active-header-trigger]",
-          this.$container
-        ),
+      var $activeHeaderTrigger = $("[data-active-header-trigger]",this.$container),
         $header = $("[data-site-header]", this.$container),
         $headerActive = $("[data-header-active]", this.$container),
         $headerActiveOverlay = $("[data-header-overlay]", this.$container),
@@ -2190,7 +2237,8 @@ theme.Product = (function() {
     productThumbnailHolder: "[data-product-thumbnails]",
     singleOptionSelector: "[data-single-option-selector]",
     mobileFlickity: "[data-mobile-flickity]",
-    productDescription: "[data-product-description]"
+    productDescription: "[data-product-description]",
+    backInStock: "[data-back-in-stock]"
   };
 
   /**
@@ -2485,26 +2533,49 @@ theme.Product = (function() {
      */
     updateAddToCartState: function(evt) {
       var variant = evt.variant;
+      var $priceWrapper = $(selectors.priceWrapper, this.$container);
+      var $atc = $(selectors.addToCart, this.$container);
+      var $atcText = $(selectors.addToCartText, this.$container);
+      var $bisBtn = $(selectors.backInStock, this.$container);
 
       if (variant) {
-        $(selectors.priceWrapper, this.$container).removeClass("invisible");
-      } else {
-        $(selectors.addToCart, this.$container).prop("disabled", true);
-        $(selectors.addToCartText, this.$container).html(
+        $priceWrapper.removeClass("invisible");
+
+        if (variant.available) {
+          $atc.prop("disabled", false);
+          $atcText.html(
+            theme.strings.addToCart
+          );
+        }
+        else {
+          $atc.prop("disabled", true);
+          $atcText.html(theme.strings.soldOut);          
+        }
+      }
+      // no variant found
+      else {
+        $atc.prop("disabled", true);
+        $atcText.html(
           theme.strings.unavailable
         );
-        $(selectors.priceWrapper, this.$container).addClass("invisible");
-        return;
+        $priceWrapper.addClass("invisible");
       }
 
-      if (variant.available) {
-        $(selectors.addToCart, this.$container).prop("disabled", false);
-        $(selectors.addToCartText, this.$container).html(
-          theme.strings.addToCart
-        );
-      } else {
-        $(selectors.addToCart, this.$container).prop("disabled", true);
-        $(selectors.addToCartText, this.$container).html(theme.strings.soldOut);
+      // If we have the back in stock button, things get a little more complicated
+      if($bisBtn.length) {
+        if(variant && !variant.available) {
+          $bisBtn.show();
+          $atc.hide();
+
+          $bisBtn.attr('data-variant-id', variant.id);
+        }
+        else {
+          $bisBtn.hide();
+          $atc.show();
+        }
+      }
+      else {
+        $atc.show();
       }
     },
 
@@ -2701,8 +2772,10 @@ theme.Instagram = (function() {
         url: url,
         type: "get",
         dataType: "jsonp",
-        success: function(data) {
-          var username = data.data[0].user.username;
+        success: function(resp) {
+          var data = resp.data;
+          var username = data[0].user.username;
+
           if (_showTitle) {
             _this.$container.find(".instagram-title").html(username);
           }
@@ -2712,15 +2785,18 @@ theme.Instagram = (function() {
             _this.$container.find(".instagram-link").attr("href", url);
           }
 
-          for (var i = 0; i < count; i++) {
-            var thumb = data.data[i].images.thumbnail;
-            var lowres = data.data[i].images.low_resolution;
-            var highres = data.data[i].images.standard_resolution;
-            var permalink = data.data[i].link;
+          var limit = data.length < count ? data.length : count;
+
+          for (var i = 0; i < limit; i++) {
+            var d = data[i]
+            var thumb = d.images.thumbnail;
+            var lowres = d.images.low_resolution;
+            var highres = d.images.standard_resolution;
+            var permalink = d.link;
             var gramItem = $(_postsHolder).find(".gram-item-blank");
             var caption = "";
-            if (data.data[i].caption) {
-              caption = data.data[i].caption.text;
+            if (d.caption) {
+              caption = d.caption.text;
               caption = theme.text_truncate(caption);
             }
             gramItem = gramItem.clone();
@@ -3425,14 +3501,8 @@ theme.Blog = (function() {
   return Blog;
 })();
 
-/**
- * Blog Library section Script
- * ------------------------------------------------------------------------------
- *
- * @namespace Blog
- */
-
-theme.BlogLibrary = (function() {
+// Re-usable library nav
+var BlogLibraryNavigation = (function() {
   var selectors = {
     alphaGrid: '[data-alpha-grid]',
     alphaGridItem: '.grid__item[data-alpha]',
@@ -3443,18 +3513,16 @@ theme.BlogLibrary = (function() {
     linkActive: 'is-active'
   };
 
-  /**
-   * Blog Libraru section constructor. Runs on page load as well as Theme Editor
-   * `section:load` events.
-   * @param {string} container - selector for the section container DOM element
-   */
-  function BlogLibrary(container) {
+  function BlogLibraryNavigation(container, options) {
+    var defaults = {
+      onLetterLinkClick: $.noop
+    };
+    
     this.$container = $(container);
     this.$alphaGridItems = $(selectors.alphaGridItem, this.$container);
     this.$alphaGrid = $(selectors.alphaGrid, this.$container);
     this.$letterLinks = $(selectors.letterLinks, this.$container);
-
-    this.currentlyFilteredByLetter = null;
+    this.settings = $.extend({}, defaults, options);
 
     // Do Sorting
     this.$alphaGridItems.detach();
@@ -3476,24 +3544,69 @@ theme.BlogLibrary = (function() {
     this.$alphaGrid.append(this.$alphaGridItems);
 
     // Events
-    this.$letterLinks.on('click', this.onLetterLinkClick.bind(this))
+    this.$letterLinks.on('click', this.onLetterLinkClick.bind(this));    
+  }
+
+  BlogLibraryNavigation.prototype = $.extend({}, BlogLibraryNavigation.prototype, {  
+    onLetterLinkClick: function(e) {
+      var $link = $(e.currentTarget);
+      this.settings.onLetterLinkClick(e, $link.data('letter'));
+    },
+    updateForActiveLetter: function(letter) {
+      this.$letterLinks.removeClass(classes.linkActive);
+      this.$letterLinks.filter('[data-letter="'+letter+'"]').addClass(classes.linkActive);
+    }
+  });
+
+  return BlogLibraryNavigation
+})();
+
+/**
+ * Blog Library section Script
+ * ------------------------------------------------------------------------------
+ *
+ * @namespace Blog
+ */
+
+theme.BlogLibrary = (function() {
+  var selectors = {
+    alphaGrid: '[data-alpha-grid]',
+    alphaGridItem: '.grid__item[data-alpha]'
+  };
+
+  /**
+   * Blog Library section constructor. Runs on page load as well as Theme Editor
+   * `section:load` events.
+   * @param {string} container - selector for the section container DOM element
+   */
+  function BlogLibrary(container) {
+    this.$container = $(container);
+    this.$alphaGridItems = $(selectors.alphaGridItem, this.$container);
+    this.$alphaGrid = $(selectors.alphaGrid, this.$container);
+
+    this.currentlyFilteredByLetter = null;
+
+    this.blogLibraryNavigation = new BlogLibraryNavigation(container, {
+      onLetterLinkClick: this.onLetterLinkClick.bind(this)
+    });
+
+    var filterLetter = slate.utils.getQueryParams()['filter'];
+
+    if (filterLetter) {
+      this.$alphaGridItems.hide();
+      this.filterByLetter(filterLetter);
+    }
   }
 
   BlogLibrary.prototype = $.extend({}, BlogLibrary.prototype, {
-    onLetterLinkClick: function(e) {
+    onLetterLinkClick: function(e, letter) {
       e.preventDefault();
-
-      var $link = $(e.currentTarget)
-
-      this.filterByLetter($link.data('letter'));
-
-      this.$letterLinks.removeClass(classes.linkActive);
-      $link.addClass(classes.linkActive);
+      this.filterByLetter(letter);
     },
 
     filterByLetter: function(letter) {
       this.$alphaGrid.fadeOut(200, function() {
-        if(typeof letter === "undefined") {
+        if(typeof letter === "undefined" || letter === '') {
           this.$alphaGridItems.show();
         }
         else {
@@ -3507,6 +3620,7 @@ theme.BlogLibrary = (function() {
       }.bind(this))
 
       this.currentlyFilteredByLetter = letter;
+      this.blogLibraryNavigation.updateForActiveLetter(letter);      
     }
   });
 
@@ -3532,6 +3646,26 @@ theme.flickityOnly = (function() {
   }
 
   return flickityOnly;
+})();
+
+/**
+ * Article section Script
+ * ------------------------------------------------------------------------------
+ *
+ * @namespace Article
+ */
+
+theme.Article = (function() {
+  /**
+   * Article section constructor. Runs on page load as well as Theme Editor
+   * `section:load` events.
+   * @param {string} container - selector for the section container DOM element
+   */
+  function Article(container) {
+    this.blogLibraryNavigation = new BlogLibraryNavigation(container); // This only exists for some articles.  Need it because it alpha sorts the letters
+  }
+
+  return Article;
 })();
 
 
@@ -3675,6 +3809,7 @@ $(document).ready(function() {
   sections.register("blog", theme.Blog);
   sections.register("flickity-only", theme.flickityOnly);
   sections.register("blog-library", theme.BlogLibrary);
+  sections.register("article", theme.Article);
 
   // Common a11y fixes
   slate.a11y.pageLinkFocus($(window.location.hash));

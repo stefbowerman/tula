@@ -1,7 +1,7 @@
 {%- assign section_color = section.settings.color_scheme -%}
 {%- include 'global-variables' -%}
 <section class="page {{ global__section_with_padding_class }} color--{{ section_color }}-text bg--{{ section_color }}-background">
-  <div class="max-site-width px2 lg--up--px3">
+  <div class="max-site-width outer-container">
   {% if template.suffix == 'contact' %}
     {% include 'page__contact-template' %}
   {% else %}

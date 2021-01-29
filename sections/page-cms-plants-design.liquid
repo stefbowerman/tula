@@ -1,0 +1,801 @@
+{% include 'page-cms-section-renderer', section: section %}
+
+{% schema %}
+{
+  "name": "Page - Plants / Design",
+  "settings": [],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading with text",
+      "settings": [
+        {
+          "id": "title",
+          "type": "text",
+          "label": "Heading",
+          "default": "Heading text goes here"
+        },
+        {
+          "type": "header",
+          "content": "Content"
+        },
+        {
+          "id": "rich_text",
+          "type": "richtext",
+          "label": "Text",
+          "default": "<p>Use this text to share information about your brand with your customers. Describe a product, share announcements, or welcome customers to your store.</p>"
+        },
+        {
+          "type": "header",
+          "content": "Call to Action",
+          "info": "Optional"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "Label",
+          "default": "Shop now"
+        },
+        {
+          "type": "header",
+          "content": "Design"
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "label": "Text alignment",
+          "options": [
+            { "value": "text-align--left", "label": "Left" },
+            { "value": "text-align--center", "label": "Center" },
+            { "value": "text-align--right", "label": "Right" }
+          ],
+          "default": "text-align--left"
+        }     
+      ]
+    },
+    {
+      "type": "text_grid",
+      "name": "Text Grid",
+      "settings": [
+        {
+          "id": "title",
+          "type": "text",
+          "label": "Heading",
+          "default": "Title"
+        },
+        {
+          "type": "header",
+          "content": "Call to Action",
+          "info": "Optional"
+        },
+        {
+          "type": "url",
+          "id": "cta_url",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "cta_text",
+          "label": "Label"
+        },
+        {
+          "id": "richtext_1",
+          "type": "richtext",
+          "label": "Text Box"
+        }
+      ]
+    },
+    {
+      "type": "image_video_grid",
+      "name": "Image / Video Grid",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Text overlay"
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "Content position",
+          "options": [
+            {
+              "value": "text-align--left align--top",
+              "label": "Top Left"
+            },
+            {
+              "value": "text-align--center align--top",
+              "label": "Top Center"
+            },
+            {
+              "value": "text-align--right align--top",
+              "label": "Top Right"
+            },
+            {
+              "value": "text-align--left align--middle",
+              "label": "Middle Left"
+            },
+            {
+              "value": "text-align--center align--middle",
+              "label": "Middle Center"
+            },
+            {
+              "value": "text-align--right align--middle",
+              "label": "Middle Right"
+            },
+            {
+              "value": "text-align--left align--bottom",
+              "label": "Bottom Left"
+            },
+            {
+              "value": "text-align--center align--bottom",
+              "label": "Bottom Center"
+            },
+            {
+              "value": "text-align--right align--bottom",
+              "label": "Bottom Right"
+            }
+          ],
+          "default":   "text-align--left align--middle"
+        },
+        {
+          "type": "select",
+          "id": "text_color",
+          "label": "Text color",
+          "options": [
+            { "value": "primary", "label": "Primary text"},
+            { "value": "secondary", "label": "Secondary text"},
+            { "value": "tertiary", "label": "Tertiary text"},
+            { "value": "white", "label": "White"}
+          ]
+        },        
+        {
+          "type":      "header",
+          "content":   "No. of grids"
+        },
+        {
+          "type": "select",
+          "id": "grid_width",
+          "label": "No. of grids",
+          "options": [
+            { "value": "one-whole", "label": "1"},
+            { "value": "one-half", "label": "2"},
+            { "value": "one-quarter", "label": "4"},
+            { "value": "one-sixth", "label": "6"},
+            { "value": "one-eighth", "label": "8"}  
+          ]
+        },
+        {
+          "type": "select",
+          "id": "grid_sizer",
+          "label": "Grid Sizer for desktop",
+          "options": [
+            { "value": "12.5%", "label": "12.5% for 8 no of grids"},
+            { "value": "16.66667%", "label": "16.66667% for 6 no of grids"},
+            { "value": "25%", "label": "25% for 4 no of grids"},
+            { "value": "50%", "label": "50% for 2 no of grids"},
+            { "value": "100%", "label": "100% for 1 no of grids"}
+          ]
+        },
+        {
+          "type": "select",
+          "id": "grid_sizer_ipad",
+          "label": "Grid Sizer for ipad",
+          "options": [
+            { "value": "12.5%", "label": "12.5% for 8 no of grids"},
+            { "value": "16.66667%", "label": "16.66667% for 6 no of grids"},
+            { "value": "33.333%", "label": "33.33% for 3 no of grids"},
+            { "value": "25%", "label": "25% for 4 no of grids"},
+            { "value": "50%", "label": "50% for 2 no of grids"},
+            { "value": "100%", "label": "100% for 1 no of grids"}
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Item #1"
+        },
+        {
+          "type": "image_picker",
+          "id": "item_1_image",
+          "label": "Image"
+        },
+        {
+          "type": "html",
+          "id": "item_1_embed",
+          "label": "Video embed code"
+        },
+        {
+          "type": "radio",
+          "id": "item_1_type",
+          "label": "Item Type",
+          "options": [
+            { "value": "image", "label": "Image"},
+            { "value": "video", "label": "Video"}
+          ],
+          "default": "image"
+        },
+        {
+          "type": "text",
+          "id": "item_1_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "item_1_text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "item_1_cta_url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "item_1_enable_new_tab",
+          "label": "Open in new tab",
+          "default": false
+        },    
+        {
+          "type": "text",
+          "id": "item_1_cta_text",
+          "label": "Button text"
+        },
+        {
+          "type": "header",
+          "content": "Item #2"
+        },
+        {
+          "type": "image_picker",
+          "id": "item_2_image",
+          "label": "Image"
+        },
+        {
+          "type": "html",
+          "id": "item_2_embed",
+          "label": "Video embed code"
+        },
+        {
+          "type": "radio",
+          "id": "item_2_type",
+          "label": "Item Type",
+          "options": [
+            { "value": "image", "label": "Image"},
+            { "value": "video", "label": "Video"}
+          ],
+          "default": "image"
+        },
+        {
+          "type": "text",
+          "id": "item_2_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "item_2_text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "item_2_cta_url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "item_2_enable_new_tab",
+          "label": "Open in new tab",
+          "default": false
+        },    
+        {
+          "type": "text",
+          "id": "item_2_cta_text",
+          "label": "Button text"
+        },
+        {
+          "type": "header",
+          "content": "Item #3"
+        },
+        {
+          "type": "image_picker",
+          "id": "item_3_image",
+          "label": "Image"
+        },
+        {
+          "type": "html",
+          "id": "item_3_embed",
+          "label": "Video embed code"
+        },
+        {
+          "type": "radio",
+          "id": "item_3_type",
+          "label": "Item Type",
+          "options": [
+            { "value": "image", "label": "Image"},
+            { "value": "video", "label": "Video"}
+          ],
+          "default": "image"
+        },
+        {
+          "type": "text",
+          "id": "item_3_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "item_3_text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "item_3_cta_url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "item_3_enable_new_tab",
+          "label": "Open in new tab",
+          "default": false
+        },    
+        {
+          "type": "text",
+          "id": "item_3_cta_text",
+          "label": "Button text"
+        },
+        {
+          "type": "header",
+          "content": "Item #4"
+        },
+        {
+          "type": "image_picker",
+          "id": "item_4_image",
+          "label": "Image"
+        },
+        {
+          "type": "html",
+          "id": "item_4_embed",
+          "label": "Video embed code"
+        },
+        {
+          "type": "radio",
+          "id": "item_4_type",
+          "label": "Item Type",
+          "options": [
+            { "value": "image", "label": "Image"},
+            { "value": "video", "label": "Video"}
+          ],
+          "default": "image"
+        },
+        {
+          "type": "text",
+          "id": "item_4_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "item_4_text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "item_4_cta_url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "item_4_enable_new_tab",
+          "label": "Open in new tab",
+          "default": false
+        },    
+        {
+          "type": "text",
+          "id": "item_4_cta_text",
+          "label": "Button text"
+        },
+        {
+          "type": "header",
+          "content": "Item #5"
+        },
+        {
+          "type": "image_picker",
+          "id": "item_5_image",
+          "label": "Image"
+        },
+        {
+          "type": "html",
+          "id": "item_5_embed",
+          "label": "Video embed code"
+        },
+        {
+          "type": "radio",
+          "id": "item_5_type",
+          "label": "Item Type",
+          "options": [
+            { "value": "image", "label": "Image"},
+            { "value": "video", "label": "Video"}
+          ],
+          "default": "image"
+        },
+        {
+          "type": "text",
+          "id": "item_5_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "item_5_text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "item_5_cta_url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "item_5_enable_new_tab",
+          "label": "Open in new tab",
+          "default": false
+        },    
+        {
+          "type": "text",
+          "id": "item_5_cta_text",
+          "label": "Button text"
+        },
+        {
+          "type": "header",
+          "content": "Item #6"
+        },
+        {
+          "type": "image_picker",
+          "id": "item_6_image",
+          "label": "Image"
+        },
+        {
+          "type": "html",
+          "id": "item_6_embed",
+          "label": "Video embed code"
+        },
+        {
+          "type": "radio",
+          "id": "item_6_type",
+          "label": "Item Type",
+          "options": [
+            { "value": "image", "label": "Image"},
+            { "value": "video", "label": "Video"}
+          ],
+          "default": "image"
+        },
+        {
+          "type": "text",
+          "id": "item_6_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "item_6_text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "item_6_cta_url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "item_6_enable_new_tab",
+          "label": "Open in new tab",
+          "default": false
+        },    
+        {
+          "type": "text",
+          "id": "item_6_cta_text",
+          "label": "Button text"
+        },
+        {
+          "type": "header",
+          "content": "Item #7"
+        },
+        {
+          "type": "image_picker",
+          "id": "item_7_image",
+          "label": "Image"
+        },
+        {
+          "type": "html",
+          "id": "item_7_embed",
+          "label": "Video embed code"
+        },
+        {
+          "type": "radio",
+          "id": "item_7_type",
+          "label": "Item Type",
+          "options": [
+            { "value": "image", "label": "Image"},
+            { "value": "video", "label": "Video"}
+          ],
+          "default": "image"
+        },
+        {
+          "type": "text",
+          "id": "item_7_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "item_7_text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "item_7_cta_url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "item_7_enable_new_tab",
+          "label": "Open in new tab",
+          "default": false
+        },    
+        {
+          "type": "text",
+          "id": "item_7_cta_text",
+          "label": "Button text"
+        },
+        {
+          "type": "header",
+          "content": "Item #8"
+        },
+        {
+          "type": "image_picker",
+          "id": "item_8_image",
+          "label": "Image"
+        },
+        {
+          "type": "html",
+          "id": "item_8_embed",
+          "label": "Video embed code"
+        },
+        {
+          "type": "radio",
+          "id": "item_8_type",
+          "label": "Item Type",
+          "options": [
+            { "value": "image", "label": "Image"},
+            { "value": "video", "label": "Video"}
+          ],
+          "default": "image"
+        },
+        {
+          "type": "text",
+          "id": "item_8_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "item_8_text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "item_8_cta_url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "item_8_enable_new_tab",
+          "label": "Open in new tab",
+          "default": false
+        },    
+        {
+          "type": "text",
+          "id": "item_8_cta_text",
+          "label": "Button text"
+        },
+        {
+          "type": "header",
+          "content": "Item #9"
+        },
+        {
+          "type": "image_picker",
+          "id": "item_9_image",
+          "label": "Image"
+        },
+        {
+          "type": "html",
+          "id": "item_9_embed",
+          "label": "Video embed code"
+        },
+        {
+          "type": "radio",
+          "id": "item_9_type",
+          "label": "Item Type",
+          "options": [
+            { "value": "image", "label": "Image"},
+            { "value": "video", "label": "Video"}
+          ],
+          "default": "image"
+        },
+        {
+          "type": "text",
+          "id": "item_9_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "item_9_text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "item_9_cta_url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "item_9_enable_new_tab",
+          "label": "Open in new tab",
+          "default": false
+        },    
+        {
+          "type": "text",
+          "id": "item_9_cta_text",
+          "label": "Button text"
+        },
+        {
+          "type": "header",
+          "content": "Item #10"
+        },
+        {
+          "type": "image_picker",
+          "id": "item_10_image",
+          "label": "Image"
+        },
+        {
+          "type": "html",
+          "id": "item_10_embed",
+          "label": "Video embed code"
+        },
+        {
+          "type": "radio",
+          "id": "item_10_type",
+          "label": "Item Type",
+          "options": [
+            { "value": "image", "label": "Image"},
+            { "value": "video", "label": "Video"}
+          ],
+          "default": "image"
+        },
+        {
+          "type": "text",
+          "id": "item_10_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "item_10_text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "item_10_cta_url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "item_10_enable_new_tab",
+          "label": "Open in new tab",
+          "default": false
+        },    
+        {
+          "type": "text",
+          "id": "item_10_cta_text",
+          "label": "Button text"
+        },
+        {
+          "type": "header",
+          "content": "Item #11"
+        },
+        {
+          "type": "image_picker",
+          "id": "item_11_image",
+          "label": "Image"
+        },
+        {
+          "type": "html",
+          "id": "item_11_embed",
+          "label": "Video embed code"
+        },
+        {
+          "type": "radio",
+          "id": "item_11_type",
+          "label": "Item Type",
+          "options": [
+            { "value": "image", "label": "Image"},
+            { "value": "video", "label": "Video"}
+          ],
+          "default": "image"
+        },
+        {
+          "type": "text",
+          "id": "item_11_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "item_11_text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "item_11_cta_url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "item_11_enable_new_tab",
+          "label": "Open in new tab",
+          "default": false
+        },    
+        {
+          "type": "text",
+          "id": "item_11_cta_text",
+          "label": "Button text"
+        },
+        {
+          "type": "header",
+          "content": "Item #12"
+        },
+        {
+          "type": "image_picker",
+          "id": "item_12_image",
+          "label": "Image"
+        },
+        {
+          "type": "html",
+          "id": "item_12_embed",
+          "label": "Video embed code"
+        },
+        {
+          "type": "radio",
+          "id": "item_12_type",
+          "label": "Item Type",
+          "options": [
+            { "value": "image", "label": "Image"},
+            { "value": "video", "label": "Video"}
+          ],
+          "default": "image"
+        },
+        {
+          "type": "text",
+          "id": "item_12_heading",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "item_12_text",
+          "label": "Text"
+        },
+        {
+          "type": "url",
+          "id": "item_12_cta_url",
+          "label": "Link"
+        },
+        {
+          "type": "checkbox",
+          "id": "item_12_enable_new_tab",
+          "label": "Open in new tab",
+          "default": false
+        },    
+        {
+          "type": "text",
+          "id": "item_12_cta_text",
+          "label": "Button text"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

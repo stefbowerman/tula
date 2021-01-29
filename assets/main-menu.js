@@ -30,12 +30,6 @@
       Aldrich.client.width = $window.width();
       Aldrich.client.height = $window.height();
 
-      var throttledResize = _.throttle(Aldrich.resizeHandler, 50);
-      $window.resize(throttledResize);
-      $window.load(Aldrich.resizeHandler);
-      // var throttledScroll = _.throttle(Aldrich.scrollHandler, 50);
-      // $window.scroll(Aldrich.scrollHandler);
-
       if (location.hash.length) {
         $doc.imagesLoaded( function() {
           setTimeout(function(){

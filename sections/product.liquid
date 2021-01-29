@@ -46,6 +46,8 @@
     {%- assign show_quantity = section.settings.show_quantity -%}
     {%- assign enable_payment_button = section.settings.enable_payment_button -%}
     {%- assign show_share_links = section.settings.show_share_buttons -%}
+    {%- assign bis_button_enabled = section.settings.bis_button_enabled -%}
+    {%- assign bis_button_text = section.settings.bis_button_text -%}
 
     {%- assign description_under_add_to_cart = section.settings.description_under_add_to_cart -%}
 
@@ -55,61 +57,60 @@
     <meta itemprop="image" content="{{ featured_image | img_url: '600x600' }}">
     <meta itemprop="description" content="{{ product.description | strip_html | escape }}">
 
-    <div class="max-site-width md--up--px2 lg--up--px3">
+    <div class="max-site-width">
       {% assign feature_product = false %}
       {% assign section_id = section.id %}
       {% include 'product__top-section' %}
-      
     </div>
 
     {% unless product == empty %}
-    <script type="application/json" data-product-json>
+      <script type="application/json" data-product-json>
         {{ product | json }}
-    </script>
+      </script>
     {% endunless %}
 
   </section>
   
-{%- assign section_color = section.settings.description_color_scheme -%}
-{%- include 'global-variables' -%}
+  {%- assign section_color = section.settings.description_color_scheme -%}
+  {%- include 'global-variables' -%}
 
-  	{% if product.description contains '<!-- split -->' %}
-   	{% assign prod =  product.description | split :'<!-- split -->'  %}
+	{% if product.description contains '<!-- split -->' %}
+ 	  {% assign prod =  product.description | split :'<!-- split -->'  %}
     {% if prod[2] != null %}
-  <div class="splited-description max-site-width md--up--px2 lg--up--px3 sm--px30 color--{{ section_color }}-text bg--{{ section_color }}-background ">
-      <div class="lg--up--seven-eighths mx--auto">
-        
-        {{prod[2]}}
-        
-    </div></div>
-      {% endif %}{% endif %}
+      <div class="splited-description max-site-width outer-container color--{{ section_color }}-text bg--{{ section_color }}-background ">
+        <div class="lg--up--seven-eighths mx--auto">
+          {{ prod[2] }}
+        </div>
+      </div>
+    {% endif %}
+  {% endif %}
   
   {% if section_color ==  section.settings.description_color_scheme %}
-  {% assign description_padding = 'pb4 lg-up--pb5 lg-up--pt3' %}
+    {% assign description_padding = 'pb4 lg-up--pb5 lg-up--pt3' %}
   {% else %}
-  {% assign description_padding = global__section_with_padding_class %}
+    {% assign description_padding = global__section_with_padding_class %}
   {% endif %}
 
   {% unless description_under_add_to_cart %}
-  {% if product.description != empty or product.description != '' %}
-  {% assign section_color = section.settings.description_color_scheme %}
-  {% include 'global-variables' %}
-  <div class="product__description {{ description_padding }} color--{{ section_color }}-text bg--{{ section_color }}-background">
-    <div class="max-site-width px2 lg--up--px3">
-      <div class="rte mx--auto {{ global__basic_font_size }} {% unless section.settings.enable_split_description %}max-width--3{% endunless %}" id="productDescription" {% if section.settings.enable_split_description %}data-split="true"{% endif %} data-fade-in="{{ fade_in }}" data-product-description>
-        {{ product.description }}
+    {% if product.description != empty or product.description != '' %}
+      {% assign section_color = section.settings.description_color_scheme %}
+      {% include 'global-variables' %}
+      <div class="product__description {{ description_padding }} color--{{ section_color }}-text bg--{{ section_color }}-background">
+        <div class="max-site-width outer-container">
+          <div class="rte mx--auto {{ global__basic_font_size }} {% unless section.settings.enable_split_description %}max-width--3{% endunless %} sm--text-align--left" id="productDescription" {% if section.settings.enable_split_description %}data-split="true"{% endif %} data-fade-in="{{ fade_in }}" data-product-description>
+            {{ product.description }}
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-  {% endif %}
+    {% endif %}
   {% endunless %}
 
   {% if section.settings.show_related_products %}
-  {% assign section_color = section.settings.related_products_color_scheme %}
-  {% include 'global-variables' %}
-  <div id="shopify-section-{{ section.id }}-related-products" class="shopify-section color--{{ section_color }}-text bg--{{ section_color }}-background" data-related-products>
-    {% include 'related-products' %}
-  </div>
+    {% assign section_color = section.settings.related_products_color_scheme %}
+    {% include 'global-variables' %}
+    <div id="shopify-section-{{ section.id }}-related-products" class="shopify-section color--{{ section_color }}-text bg--{{ section_color }}-background" data-related-products>
+      {% include 'related-products' %}
+    </div>
   {% endif %}
   
   {% include 'next-prev-product' %}
@@ -159,6 +160,23 @@
 "id": "next-prev-section",
 "label": "Show next previous section",
 "default": true
+},
+{
+  "type":      "header",
+  "content":   "Back In Stock"
+},
+{
+  "type": "checkbox",
+  "id": "bis_button_enabled",
+  "label": "Enable back in stock button",
+  "info": "Button will show for sold out products / variants.  Disable this if you remove the Back in Stock app.",
+  "default": true
+},
+{
+  "type": "text",
+  "id": "bis_button_text",
+  "label": "Button Text",
+  "default": "Notify me when restocked"
 },
 {
 "type":      "header",

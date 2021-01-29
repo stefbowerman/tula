@@ -1,0 +1,25 @@
+{%- comment %}
+
+  Library Blog Navigation
+  ------------------------------------------------------------------------------
+
+  Usage:
+
+  {% include 'library-blog-navigation',
+              blog: { blog }
+              letters_array: { array }
+              selected_letter: { string }
+  %}
+
+{% endcomment -%}
+
+{% if letters_array.size > 1 %}
+  <div class="f--heading font-size--xxxl lg--up--font-size--xxxxl">
+    <div class="f--heading font-size--xxxl lg--up--font-size--xxxxl">
+      <a href="{{ blog.url }}" class="library-filter-link{% if selected_letter == blank %} is-active{% endif %}" data-letter="">All</a>
+      {% for letter in letters_array %}
+        <a href="{{ blog.url }}?filter={{ letter | escape }}" class="library-filter-link{% if letter == selected_letter %} is-active{% endif %}" data-letter="{{ letter }}">{{ letter }}</a>
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}

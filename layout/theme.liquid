@@ -71,6 +71,8 @@
   <!--[if (gt IE 9)|!(IE)]><!--><script src="{{ 'theme.js' | asset_url }}" defer="defer"></script><!--<![endif]-->
   <!--[if lt IE 9]><script src="{{ 'theme.js' | asset_url }}"></script><![endif]-->
 
+  {% include 'storepickup' %}
+
 </head>
 
 <body id="{{ page_title | handle }}" class="template-{{ template.name | handle }} {% if template.suffix != nil %}template-{{ template.name | handle }}-{{ template.suffix | handle }}{% endif %}">

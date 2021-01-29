@@ -2,7 +2,7 @@
 {%- include 'global-variables' -%}
 
 <section class="newsletter {{ global__section_with_padding_class }} color--{{ section_color }}-text bg--{{ section_color }}-background" data-section-type="newsletter" data-section-id="{{ section.id }}">
-  <div class="max-site-width px2 lg--up--px31 sm--px1 grid-wrap">
+  <div class="max-site-width outer-container">
     <div class="grid">
 
       <div class="grid__item lg--up--one-quarter">
@@ -15,13 +15,13 @@
         </div>
       </div>
       <div class="grid__item lg--up--one-quarter">
-        <div class="pb3  lg--up--p0">
-          {% if section.settings.text != blank %}
+        {% if section.settings.text != blank %}
+          <div class="pb2  lg--up--p0">
             <div class="line-height--3 {{ global__basic_font_size }}">
               {{ section.settings.text }}
             </div>
-          {% endif %}
-        </div>
+          </div>              
+        {% endif %}
       </div>
 
       <div class="grid__item lg--up--two-quarters">

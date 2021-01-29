@@ -3,10 +3,9 @@
 
 <section class="cart {{ global__section_with_padding_class }} ">
 
-  <div class="max-width--4 px2 lg--up--px3 mx--auto">
+  <div class="max-width--4 outer-container mx--auto">
 
     {% if cart.item_count > 0 %}
-
 
       <form action="/cart" method="post" novalidate>
 
@@ -71,7 +70,7 @@
 
                         {% if property_size > 0 %}
                           {% for p in item.properties %}
-                            {% unless p.last == blank %}
+                            {% unless p.last == blank or p.first == '_ZapietId' %}
                               {{ p.first }}:
                               {% if p.last contains '/uploads/' %}
                                 <a href="{{ p.last }}">{{ p.last | split: '/' | last }}</a>
@@ -151,6 +150,9 @@
                     {% endif %}
                   </div>
                 </div>
+
+                <div id="storePickupApp"></div>
+                
                 <div class="grid grid--half-gutter">
                   <div class="grid__item one-half">
                     <input type="submit" name="update" class="btn border--none p1 block full--w bg--transparent border--primary-text color--primary-text hv--border--primary-accent hv--primary-accent" value="{{ 'cart.general.update' | t }}">

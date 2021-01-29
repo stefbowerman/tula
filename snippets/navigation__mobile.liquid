@@ -13,7 +13,7 @@
     </a>
   </div> -->
   <div class="mobile-navigation-container absolute full--h overflow--hidden left--0 top--0 md--dn--text-align--left" data-mobile-navigation-container>
-    <div class="mobile-navigation__pane full--h full--vw left overflow--scroll py2 px30">
+    <div class="mobile-navigation__pane full--h full--vw left overflow--scroll pt2 pb5 px30">
 
       <ul class="mobile-navigation f--heading1 list--reset m0 font-size--xxl md--dn--font-size--xxl">
         {% for link in linklists[section.settings.main_linklist].links %}
@@ -50,33 +50,34 @@
 
       {% comment %}
       If customer accounts are enabled, provide login and create account links
-      {% endcomment %}
+
       {% if shop.customer_accounts_enabled %}
-      <ul class="mobile-navigation__third-level list--reset  t--header-navigation font-size--m mt4 color--secondary-text color--active-text hv--active-accent">
-        {% if customer %}
-        <li>
-          {% if customer.first_name != blank %}
-          {% capture first_name %}{{ customer.first_name }}{% endcapture %}
-          <a class="p1 block line-height--1 color--secondary-text color--active-text hv--active-accent" href="/account">{{ 'layout.customer.logged_in_as_html' | t: first_name: first_name }}</a>
+        <ul class="mobile-navigation__third-level list--reset  t--header-navigation font-size--m mt4 color--secondary-text color--active-text hv--active-accent">
+          {% if customer %}
+          <li>
+            {% if customer.first_name != blank %}
+            {% capture first_name %}{{ customer.first_name }}{% endcapture %}
+            <a class="p1 block line-height--1 color--secondary-text color--active-text hv--active-accent" href="/account">{{ 'layout.customer.logged_in_as_html' | t: first_name: first_name }}</a>
+            {% else %}
+            <a class="p1 block line-height--1 color--secondary-text color--active-text hv--active-accent" href="/account">{{ 'layout.customer.account' | t }}</a>
+            {% endif %}
+          </li>
+          <li>
+            <a class="p1 block line-height--1  color--secondary-text color--active-text hv--active-accent" href="/account/logout" {% if section.settings.show_search_sidebar == false %}data-mobile-active-last-item{% endif %}>{{ 'layout.customer.log_out' | t }}</a>
+          </li>
           {% else %}
-          <a class="p1 block line-height--1 color--secondary-text color--active-text hv--active-accent" href="/account">{{ 'layout.customer.account' | t }}</a>
+          <li>
+            <a class="p1 block line-height--1  color--secondary-text color--active-text hv--active-accent" href="/account/login">{{ 'layout.customer.log_in' | t  }}</a>
+          </li>
+          {% if shop.customer_accounts_optional %}
+          <li>
+            <a class="p1 block line-height--1  color--secondary-text color--active-text hv--active-accent" href="/account/register" {% if section.settings.show_search_sidebar == false %}data-mobile-active-last-item{% endif %}>{{ 'layout.customer.create_account' | t }}</a>
+          </li>
           {% endif %}
-        </li>
-        <li>
-          <a class="p1 block line-height--1  color--secondary-text color--active-text hv--active-accent" href="/account/logout" {% if section.settings.show_search_sidebar == false %}data-mobile-active-last-item{% endif %}>{{ 'layout.customer.log_out' | t }}</a>
-        </li>
-        {% else %}
-        <li>
-          <a class="p1 block line-height--1  color--secondary-text color--active-text hv--active-accent" href="/account/login">{{ 'layout.customer.log_in' | t  }}</a>
-        </li>
-        {% if shop.customer_accounts_optional %}
-        <li>
-          <a class="p1 block line-height--1  color--secondary-text color--active-text hv--active-accent" href="/account/register" {% if section.settings.show_search_sidebar == false %}data-mobile-active-last-item{% endif %}>{{ 'layout.customer.create_account' | t }}</a>
-        </li>
-        {% endif %}
-        {% endif %}
-      </ul>
+          {% endif %}
+        </ul>
       {% endif %}
+      {% endcomment %}
 
       {% if section.settings.show_search_sidebar %}
       <div class="max-width--2 px1 mt3">
@@ -94,7 +95,7 @@
 
     </div>
 
-    <div class="mobile-navigation__pane full--h full--vw left overflow--scroll relative pt2 px30">
+    <div class="mobile-navigation__pane full--h full--vw left overflow--scroll relative pt2 pb5 px30">
 
       <button class="mobile-navigation__previous hide btn border--none bg--transparent inline-block top--0 left--0 font-size--ml  color--secondary-text color--active-text hv--active-accent" data-mobile-nav-previous>
         {% include 'svg' | icon: 'icon-previous' %}
@@ -142,13 +143,13 @@
         {% assign last_list = false %}
         {% endif %}
 
-        <h4 class=" t--header-navigation mt1 mb1 inline-block">
+        <h4 class="t--header-navigation mt2">
           {% if link_all %}
-          <a href="{{ childlink.url }}" class=" color--secondary-text  color--active-text hv--active-accent">
-            {% endif %}
+            <a href="{{ childlink.url }}" class=" color--secondary-text  color--active-text hv--active-accent">
+          {% endif %}
             {{ childlink.title }}
-            {% if link_all %}
-          </a>
+          {% if link_all %}
+            </a>
           {% endif %}
         </h4>
 
