@@ -39,12 +39,34 @@
   {%- endunless -%}
 {%- endif -%}
 
-<section class="article {{ global__section_with_padding_class }} color--{{ section_color }}-text bg--{{ section_color }}-background" role="article" itemscope itemtype="http://schema.org/Article">
-  <div class="max-site-width px2 lg--up--px3">
+<section class="article {{ global__section_with_padding_class }} color--{{ section_color }}-text bg--{{ section_color }}-background" role="article" itemscope itemtype="http://schema.org/Article" data-section-id="{{ section.id }}" data-section-type="article">
+  <div class="max-site-width outer-container">
+
+    {% if blog.template_suffix == "library" %}
+      {% assign first_letters = '' %}
+      {% paginate blog.articles by 500 %}
+        {% for _article in blog.articles %}
+          {% assign first_letter = _article.title | downcase | slice: 0 %}
+          {% assign first_letters = first_letters | append: first_letter | append: ' ' %}
+        {% endfor %}
+      {% endpaginate %}
+
+      {% assign first_letters_array = first_letters | split: ' ' | uniq | sort %}
+
+      <div class="grid">
+        <div class="grid__item lg--up--one-third lg--up--text-align--right lg--up--sticky lg--up--top--0 py1"></div>
+        <div class="grid__item lg--up--two-thirds mb3">
+          <div class="lg--up--px5">
+            {% assign first_letter = article.title | downcase | slice: 0 %}
+            {% include 'library-blog-navigation', letters_array: first_letters_array, selected_letter: first_letter %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
 
     <div class="grid">
-      <div class="grid__item lg--up--one-third lg--up--text-align--right lg--up--sticky lg--up--top--0 py1">
-        <div class="lg--up--pl3 wd--pt3">
+      <div class="grid__item lg--up--one-third lg--up--text-align--right py1 article-sticky-image">
+        <div class="lg--up--pl3">
           <div class="pb2">
             {% unless article.image == blank %}
               {% capture img_id %}ProductImage-{{ article.image.id }}{% endcapture %}

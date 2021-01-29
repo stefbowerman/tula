@@ -11,11 +11,11 @@
 {%- endcase -%}
 
 <section class="richtext {{ global__section_with_padding_class }} color--{{ section_color }}-text bg--{{ section_color }}-background" data-section-type="richtext" data-section-id="{{ section.id }}">
-  <div class="max-site-width px2 lg--up--px31 sm--px1 grid-wrap">
+  <div class="max-site-width outer-container">
     <div class="grid">
 
       <div class="grid__item lg--up--one-quarter">
-        <div class="pb3 pt2  lg--up--px0 ">
+        <div class="pb3 pt2 lg--up--px0 ">
 
           {% if section.settings.title  %}
             <h2 class="{{ global__heading_font_size }} m0">{{ section.settings.title }}</h2>

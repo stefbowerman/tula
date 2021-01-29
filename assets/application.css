@@ -577,7 +577,7 @@
 
 .nav-content-container .sub-content-container {
   position: relative;
-  height: 240px;
+  height: 251px;
 }
 
 .nav-content-container .sub-content-container:before {
@@ -603,5 +603,9 @@
 #global-header .main-nav .menu .sub-content-container .sub-content.links li {
   font-size: 26px;
   line-height: 34px;
+}
+
+#global-header .main-nav .menu .sub-content-container .sub-content.links li + li {
+  padding-top: 2px;
 }
 
