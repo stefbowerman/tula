@@ -167,7 +167,12 @@
                   </button>
 
                   {% if bis_button_enabled %}
-                    <button id="BIS_trigger" class="{{ btn_classes }} md--font-size--m sm--font-size--l" {% unless bis_visible %} style="display: none"{% endunless %} data-back-in-stock>
+                    <button
+                      {% if bis_type == 'back_in_stock' %}id="BIS_trigger"{% endif %}
+                      class="{{ btn_classes }} md--font-size--m sm--font-size--l cr-ignore {% if bis_type == 'klaviyo' %}klaviyo-bis-trigger{% endif %}"
+                      {% unless bis_visible %} style="display: none"{% endunless %}
+                      data-back-in-stock
+                    >
                       {{ bis_button_text | default: "Notify me when restocked" }}
                     </button>
                   {% endif %}                

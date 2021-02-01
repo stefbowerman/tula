@@ -35,21 +35,22 @@
   </div>
 {% endcapture nextPrevProducts %}
 
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+{%- assign featured_image = current_variant.featured_image | default: product.featured_image -%}
+
+{%- assign hide_drop_down_labels = section.settings.hide_drop_down_labels -%}
+{%- assign show_quantity = section.settings.show_quantity -%}
+{%- assign enable_payment_button = section.settings.enable_payment_button -%}
+{%- assign show_share_links = section.settings.show_share_buttons -%}
+{%- assign bis_type = section.settings.bis_type %}
+{%- assign bis_button_enabled = section.settings.bis_button_enabled -%}
+{%- assign bis_button_text = section.settings.bis_button_text -%}
+
+{%- assign description_under_add_to_cart = section.settings.description_under_add_to_cart -%}
+
 <div class="product" data-section-id="{{ section.id }}" data-product-section-id="{{ section.id }}" data-section-type="product" data-enable-history-state="true" itemscope itemtype="http://schema.org/Product">
 
   <section class="color--{{ section_color }}-text bg--{{ section_color }}-background {{ global__section_with_padding_class }}">
-
-    {%- assign current_variant = product.selected_or_first_available_variant -%}
-    {%- assign featured_image = current_variant.featured_image | default: product.featured_image -%}
-
-    {%- assign hide_drop_down_labels = section.settings.hide_drop_down_labels -%}
-    {%- assign show_quantity = section.settings.show_quantity -%}
-    {%- assign enable_payment_button = section.settings.enable_payment_button -%}
-    {%- assign show_share_links = section.settings.show_share_buttons -%}
-    {%- assign bis_button_enabled = section.settings.bis_button_enabled -%}
-    {%- assign bis_button_text = section.settings.bis_button_text -%}
-
-    {%- assign description_under_add_to_cart = section.settings.description_under_add_to_cart -%}
 
     <meta itemprop="name" content="{{ product.title }}{% unless product.has_only_default_variant %} - {{ current_variant.title }}{% endunless %}">
     <meta itemprop="url" content="{{ shop.url }}{{ current_variant.url }}">
@@ -117,6 +118,41 @@
   
 </div>
 
+{% if bis_button_enabled %}
+  {% if bis_type == 'klaviyo' %}
+    <script src='https://a.klaviyo.com/media/js/onsite/onsite.js'></script>
+    <script>
+      var klaviyo = klaviyo || [];
+      klaviyo.init({
+        account: 'StWFUU',
+        platform: 'shopify'
+      });
+      klaviyo.enable('backinstock', { 
+        modal: {
+          headline: '{product_name}',
+          body_content: 'Register to receive a notification when this item comes back in stock.',
+          button_label: 'Notify me when available',
+          footer_content: '',
+          drop_background_color: '#888',
+          background_color: '#fcf9f0',
+          text_color: '#112f2c',
+          button_text_color: '#fcf9f0',
+          button_background_color: '#112f2c',
+          close_button_color: '#112f2c',
+          error_background_color: '#fcf9f0',
+          error_text_color: '#F00',
+          success_background_color: '#fcf9f0',
+          success_text_color: '#112f2c',
+          additional_styles: "@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');",
+          font_family: '"Poppins", sans-serif'
+        }
+      });
+    </script>  
+  {% elsif bis_type == 'back_in_stock' %}
+    {% render 'back-in-stock-helper' %}
+  {% endif %}
+{% endif %}
+
 {% schema %}
 {
 "name": "Product pages",
@@ -169,8 +205,17 @@
   "type": "checkbox",
   "id": "bis_button_enabled",
   "label": "Enable back in stock button",
-  "info": "Button will show for sold out products / variants.  Disable this if you remove the Back in Stock app.",
+  "info": "Button will show for sold out products / variants.",
   "default": true
+},
+{
+  "type": "select",
+  "id": "bis_type",
+  "label": "Back in Stock Type",
+  "options": [
+    { "value": "klaviyo", "label": "Klaviyo"},
+    { "value": "back_in_stock ", "label": "Back In Stock App" }
+  ]
 },
 {
   "type": "text",

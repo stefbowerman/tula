@@ -1,0 +1,86 @@
+/*
+   This CSS isn't included in the theme, it needs to be copied and pasted into the settings of the "Candy Rack" upsell app
+ */
+
+.Main-Window {
+  background-color: #fcf9f0;
+}
+
+.Product-Line {
+  background-color: transparent;
+}
+
+.Upsell-List {
+  margin-left: 0;
+  padding: 0 0.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+@media screen and (min-width: 768px) {
+  .Upsell-List {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+.Upsell-Item {
+  width: 50%;
+  border: none;
+  padding-top: 0 !important;
+}
+
+@media screen and (min-width: 768px) {
+  .Upsell-Item {
+    width: 33.333%
+  }
+}
+
+.Upsell-Item .Tree__line--horizontal {
+  display: none;
+}
+
+.Upsell-Item > div {
+  flex-direction: column;
+  align-items: flex-start;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.Offer-Info-Wrapper {
+  width: 100%;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0;
+}
+
+.Offer-Icon-Wrapper {
+  padding-right: 0;
+}
+
+.Offer-Icon {
+  height: auto;
+  width: 100%;
+}
+
+.Offer-Icon img {
+  height: auto;
+  width: 100%;
+}
+
+.Offer-Description {
+  margin-top: 10px;
+}
+
+.Offer-Description-Content {
+  display: none;
+}
+
+.Buy-Container {
+  padding-top: 0;
+}
+
+.Footer {
+  border: none;
+}
