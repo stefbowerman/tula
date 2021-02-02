@@ -85,13 +85,13 @@
                   </h2>
                 {% endif %}
                 {% if text != blank %}
-                  <div class="richtext {{ global__basic_font_size }} mt2">
+                  <div class="richtext {{ global__basic_font_size }} md--mt1 lg--up--mt2">
                     {{ text }}
                   </div>
                 {% endif %}
 
                 {% if cta_url != blank %}
-                  <a class="mt1 inline-block {{ global__basic_font_size }} {{ global__link_underline }}  {{ global__hover_underline }} color--{{ text_color_overlay }}-text border-bottom--{{ text_color_overlay }}-text md--up--hv--{{ hover_color_overlay }}-primary md--up--hv--border-bottom--{{ hover_color_overlay }}-primary md--up--inline-block" href="{{ cta_url }}" target="_blank" >
+                  <a class="md--up--mt1 inline-block {{ global__basic_font_size }} {{ global__link_underline }}  {{ global__hover_underline }} color--{{ text_color_overlay }}-text border-bottom--{{ text_color_overlay }}-text md--up--hv--{{ hover_color_overlay }}-primary md--up--hv--border-bottom--{{ hover_color_overlay }}-primary md--up--inline-block" href="{{ cta_url }}" target="_blank" >
                     {{ cta_text }}
                   </a>
                 {% endif %}
